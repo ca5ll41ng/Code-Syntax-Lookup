@@ -1,0 +1,45 @@
+---
+id: "python-en-function-smtplib-smtp-login"
+language: "python"
+lang: "en"
+category: "function"
+name: "SMTP.login"
+signature: "SMTP.login(user, password, *, initial_response_ok=True)"
+directive: "method"
+module: "smtplib"
+source_url: "https://docs.python.org/3/library/smtplib.html#smtplib.SMTP.login"
+license: "PSF"
+updated: "2026-10-01"
+---
+
+# SMTP.login
+
+Log in on an SMTP server that requires authentication. The arguments are the
+username and the password to authenticate with. If there has been no previous
+`EHLO` or `HELO` command this session, this method tries ESMTP `EHLO`
+first. This method will return normally if the authentication was successful, or
+may raise the following exceptions:
+
+`SMTPHeloError`
+   The server didn't reply properly to the `HELO` greeting.
+
+`SMTPAuthenticationError`
+   The server didn't accept the username/password combination.
+
+`SMTPNotSupportedError`
+   The `AUTH` command is not supported by the server.
+
+`SMTPException`
+   No suitable authentication method was found.
+
+Each of the authentication methods supported by `smtplib` are tried in
+turn if they are advertised as supported by the server.  See `auth`
+for a list of supported authentication methods.  *initial_response_ok* is
+passed through to `auth`.
+
+Optional keyword argument *initial_response_ok* specifies whether, for
+authentication methods that support it, an "initial response" as specified
+in RFC 4954 can be sent along with the `AUTH` command, rather than
+requiring a challenge/response.
+
+> *Changed in 3.5*: :exc:`SMTPNotSupportedError` may be raised, and the *initial_response_ok* parameter was added.

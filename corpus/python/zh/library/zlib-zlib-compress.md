@@ -1,0 +1,47 @@
+---
+id: "python-zh-function-zlib-compress"
+language: "python"
+lang: "zh"
+category: "function"
+name: "compress"
+signature: "compress(data, /, level=Z_DEFAULT_COMPRESSION, wbits=MAX_WBITS)"
+directive: "function"
+module: "zlib"
+source_url: "https://docs.python.org/zh-cn/3/library/zlib.html#zlib.compress"
+license: "PSF"
+updated: "2026-10-01"
+---
+
+# compress
+
+Compresses the bytes in *data*, returning a bytes object containing compressed data.
+*level* is an integer from `0` to `9` or `-1` controlling the level of compression;
+See `Z_BEST_SPEED` (`1`), `Z_BEST_COMPRESSION` (`9`),
+`Z_NO_COMPRESSION` (`0`), and the default,
+`Z_DEFAULT_COMPRESSION` (`-1`) for more information about these values.
+
+.. _compress-wbits:
+
+The *wbits* argument controls the size of the history buffer (or the
+"window size") used when compressing data, and whether a header and
+trailer is included in the output.  It can take several ranges of values,
+defaulting to `15` (`MAX_WBITS`):
+
+* +9 to +15: The base-two logarithm of the window size, which
+  therefore ranges between 512 and 32768.  Larger values produce
+  better compression at the expense of greater memory usage.  The
+  resulting output will include a zlib-specific header and trailer.
+
+* −9 to −15: Uses the absolute value of *wbits* as the
+  window size logarithm, while producing a raw output stream with no
+  header or trailing checksum.
+
+* +25 to +31 = 16 + (9 to 15): Uses the low 4 bits of the value as the
+  window size logarithm, while including a basic `gzip` header
+  and trailing checksum in the output.
+
+如果发生任何错误则将引发 :exc:`error` 异常。
+
+> *Changed in 3.6*: *level* can now be used as a keyword parameter.
+
+> *Changed in 3.11*: The *wbits* parameter is now available to set window bits and compression type.

@@ -1,0 +1,25 @@
+---
+id: "python-en-function-wsgiref-guess_scheme"
+language: "python"
+lang: "en"
+category: "function"
+name: "guess_scheme"
+signature: "guess_scheme(environ)"
+directive: "function"
+module: "wsgiref"
+source_url: "https://docs.python.org/3/library/wsgiref.html#wsgiref.guess_scheme"
+license: "PSF"
+updated: "2026-10-01"
+---
+
+# guess_scheme
+
+Return a guess for whether `wsgi.url_scheme` should be "http" or "https", by
+checking for a `HTTPS` environment variable in the *environ* dictionary.  The
+return value is a string.
+
+This function is useful when creating a gateway that wraps CGI or a CGI-like
+protocol such as FastCGI.  Typically, servers providing such protocols will
+include a `HTTPS` variable with a value of "1", "yes", or "on" when a request
+is received via SSL.  So, this function returns "https" if such a value is
+found, and "http" otherwise.

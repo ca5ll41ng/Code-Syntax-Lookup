@@ -1,0 +1,52 @@
+---
+id: "python-en-function-configparser-configparser-optionxform"
+language: "python"
+lang: "en"
+category: "function"
+name: "ConfigParser.optionxform"
+signature: "ConfigParser.optionxform(option)"
+directive: "method"
+module: "configparser"
+source_url: "https://docs.python.org/3/library/configparser.html#configparser.ConfigParser.optionxform"
+license: "PSF"
+updated: "2026-10-01"
+---
+
+# ConfigParser.optionxform
+
+This method transforms option names on every read, get, or set
+operation.  The default converts the name to lowercase.  This also
+means that when a configuration file gets written, all keys will be
+lowercase.  Override this method if that's unsuitable.
+For example:
+
+```python
+
+>>> config = """
+... [Section1]
+... Key = Value
+...
+... [Section2]
+... AnotherKey = Value
+... """
+>>> typical = configparser.ConfigParser()
+>>> typical.read_string(config)
+>>> list(typical['Section1'].keys())
+['key']
+>>> list(typical['Section2'].keys())
+['anotherkey']
+>>> custom = configparser.RawConfigParser()
+>>> custom.optionxform = lambda option: option
+>>> custom.read_string(config)
+>>> list(custom['Section1'].keys())
+['Key']
+>>> list(custom['Section2'].keys())
+['AnotherKey']
+```
+
+> **Note**
+>
+> The optionxform function transforms option names to a canonical form.
+> This should be an idempotent function: if the name is already in
+> canonical form, it should be returned unchanged.
+>

@@ -1,0 +1,29 @@
+---
+id: "python-en-function-webbrowser-register"
+language: "python"
+lang: "en"
+category: "function"
+name: "register"
+signature: "register(name, constructor, instance=None, *, preferred=False)"
+directive: "function"
+module: "webbrowser"
+source_url: "https://docs.python.org/3/library/webbrowser.html#webbrowser.register"
+license: "PSF"
+updated: "2026-10-01"
+---
+
+# register
+
+Register the browser type *name*.  Once a browser type is registered, the
+`get` function can return a controller for that browser type.  If
+*instance* is not provided, or is `None`, *constructor* will be called without
+parameters to create an instance when needed.  If *instance* is provided,
+*constructor* will never be called, and may be `None`.
+
+Setting *preferred* to `True` makes this browser a preferred result for
+a `get` call with no argument.  Otherwise, this entry point is only
+useful if you plan to either set the `BROWSER` variable or call
+`get` with a nonempty argument matching the name of a handler you
+declare.
+
+> *Changed in 3.7*: *preferred* keyword-only parameter was added.

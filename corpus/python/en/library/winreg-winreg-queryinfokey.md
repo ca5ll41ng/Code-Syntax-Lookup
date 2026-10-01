@@ -1,0 +1,38 @@
+---
+id: "python-en-function-winreg-queryinfokey"
+language: "python"
+lang: "en"
+category: "function"
+name: "QueryInfoKey"
+signature: "QueryInfoKey(key)"
+directive: "function"
+module: "winreg"
+source_url: "https://docs.python.org/3/library/winreg.html#winreg.QueryInfoKey"
+license: "PSF"
+updated: "2026-10-01"
+---
+
+# QueryInfoKey
+
+Returns information about a key, as a tuple.
+
+*key* is an already open key, or one of the predefined
+`HKEY_* constants`.
+
+The result is a tuple of 3 items:
+
++-------+---------------------------------------------+
+ Index  Meaning                                     
++=======+=============================================+
+ `0`  An integer giving the number of sub keys    
+        this key has.                               
++-------+---------------------------------------------+
+ `1`  An integer giving the number of values this 
+        key has.                                    
++-------+---------------------------------------------+
+ `2`  An integer giving when the key was last     
+        modified (if available) as 100's of         
+        nanoseconds since Jan 1, 1601.              
++-------+---------------------------------------------+
+
+audit-event:: winreg.QueryInfoKey key winreg.QueryInfoKey

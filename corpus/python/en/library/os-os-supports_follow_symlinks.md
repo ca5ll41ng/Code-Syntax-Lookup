@@ -1,0 +1,34 @@
+---
+id: "python-en-function-os-supports_follow_symlinks"
+language: "python"
+lang: "en"
+category: "function"
+name: "supports_follow_symlinks"
+directive: "data"
+module: "os"
+source_url: "https://docs.python.org/3/library/os.html#os.supports_follow_symlinks"
+license: "PSF"
+updated: "2026-10-01"
+---
+
+# supports_follow_symlinks
+
+A `set` object indicating which functions in the `os` module
+accept `False` for their *follow_symlinks* parameter on the local platform.
+Different platforms provide different features, and the underlying
+functionality Python uses to implement *follow_symlinks* is not available
+on all platforms Python supports.  For consistency's sake, functions that
+may support *follow_symlinks* always allow specifying the parameter, but
+will throw an exception if the functionality is used when it's not locally
+available.  (Specifying `True` for *follow_symlinks* is always supported
+on all platforms.)
+
+To check whether a particular function accepts `False` for its
+*follow_symlinks* parameter, use the `in` operator on
+`supports_follow_symlinks`.  As an example, this expression evaluates
+to `True` if you may specify `follow_symlinks=False` when calling
+`os.stat` on the local platform::
+
+    os.stat in os.supports_follow_symlinks
+
+> *Added in 3.3*

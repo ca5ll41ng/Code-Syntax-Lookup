@@ -1,0 +1,22 @@
+---
+id: "python-en-function-os-p_wait"
+language: "python"
+lang: "en"
+category: "function"
+name: "P_WAIT"
+directive: "data"
+module: "os"
+source_url: "https://docs.python.org/3/library/os.html#os.P_WAIT"
+license: "PSF"
+updated: "2026-10-01"
+---
+
+# P_WAIT
+
+Possible value for the *mode* parameter to the `spawn\*` family of
+functions.  If this is given as *mode*, the `spawn\*` functions will not
+return until the new process has run to completion and will return the exit code
+of the process the run is successful, or `-signal` if a signal kills the
+process.
+
+availability:: Unix, Windows.

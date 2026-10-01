@@ -1,0 +1,31 @@
+---
+id: "python-en-function-zoneinfo-zoneinfo-key"
+language: "python"
+lang: "en"
+category: "function"
+name: "ZoneInfo.key"
+directive: "attribute"
+module: "zoneinfo"
+source_url: "https://docs.python.org/3/library/zoneinfo.html#zoneinfo.ZoneInfo.key"
+license: "PSF"
+updated: "2026-10-01"
+---
+
+# ZoneInfo.key
+
+This is a read-only `attribute` that returns the value of `key`
+passed to the constructor, which should be a lookup key in the IANA time
+zone database (e.g. `America/New_York`, `Europe/Paris` or
+`Asia/Tokyo`).
+
+For zones constructed from file without specifying a `key` parameter,
+this will be set to `None`.
+
+> **Note**
+>
+> Although it is a somewhat common practice to expose these to end users,
+> these values are designed to be primary keys for representing the
+> relevant zones and not necessarily user-facing elements.  Projects like
+> CLDR (the Unicode Common Locale Data Repository) can be used to get
+> more user-friendly strings from these keys.
+>

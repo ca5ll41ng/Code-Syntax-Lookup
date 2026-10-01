@@ -1,0 +1,23 @@
+---
+id: "python-en-function-email-utils-parsedate"
+language: "python"
+lang: "en"
+category: "function"
+name: "parsedate"
+signature: "parsedate(date)"
+directive: "function"
+module: "email.utils"
+source_url: "https://docs.python.org/3/library/email.utils.html#email.utils.parsedate"
+license: "PSF"
+updated: "2026-10-01"
+---
+
+# parsedate
+
+Attempts to parse a date according to the rules in RFC 2822. however, some
+mailers don't follow that format as specified, so `parsedate` tries to
+guess correctly in such cases.  *date* is a string containing an RFC 2822
+date, such as  `"Mon, 20 Nov 1995 19:12:08 -0500"`.  If it succeeds in parsing
+the date, `parsedate` returns a 9-tuple that can be passed directly to
+`time.mktime`; otherwise `None` will be returned.  Note that indexes 6,
+7, and 8 of the result tuple are not usable.

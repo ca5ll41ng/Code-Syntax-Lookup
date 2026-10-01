@@ -1,0 +1,19 @@
+---
+id: "python-en-function-webbrowser-controller-open_new"
+language: "python"
+lang: "en"
+category: "function"
+name: "controller.open_new"
+signature: "controller.open_new(url)"
+directive: "method"
+module: "webbrowser"
+source_url: "https://docs.python.org/3/library/webbrowser.html#webbrowser.controller.open_new"
+license: "PSF"
+updated: "2026-10-01"
+---
+
+# controller.open_new
+
+Open *url* in a new window of the browser handled by this controller, if
+possible, otherwise, open *url* in the only browser window.  Alias
+`open_new`.

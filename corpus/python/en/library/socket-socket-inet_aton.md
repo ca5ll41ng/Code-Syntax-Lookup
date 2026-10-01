@@ -1,0 +1,31 @@
+---
+id: "python-en-function-socket-inet_aton"
+language: "python"
+lang: "en"
+category: "function"
+name: "inet_aton"
+signature: "inet_aton(ip_string)"
+directive: "function"
+module: "socket"
+source_url: "https://docs.python.org/3/library/socket.html#socket.inet_aton"
+license: "PSF"
+updated: "2026-10-01"
+---
+
+# inet_aton
+
+Convert an IPv4 address from dotted-quad string format (for example,
+'123.45.67.89') to 32-bit packed binary format, as a bytes object four characters in
+length.  This is useful when conversing with a program that uses the standard C
+library and needs objects of type :c`in_addr`, which is the C type
+for the 32-bit packed binary this function returns.
+
+`inet_aton` also accepts strings with less than three dots; see the
+Unix manual page `inet(3)` for details.
+
+If the IPv4 address string passed to this function is invalid,
+`OSError` will be raised. Note that exactly what is valid depends on
+the underlying C implementation of :c`inet_aton`.
+
+`inet_aton` does not support IPv6, and `inet_pton` should be used
+instead for IPv4/v6 dual stack support.

@@ -1,0 +1,31 @@
+---
+id: "python-en-function-datetime-datetime-timetuple"
+language: "python"
+lang: "en"
+category: "function"
+name: "datetime.timetuple"
+signature: "datetime.timetuple()"
+directive: "method"
+module: "datetime"
+source_url: "https://docs.python.org/3/library/datetime.html#datetime.timetuple"
+license: "PSF"
+updated: "2026-10-01"
+---
+
+# datetime.timetuple
+
+Return a `time.struct_time` such as returned by `time.localtime`.
+
+`d.timetuple()` is equivalent to::
+
+  time.struct_time((d.year, d.month, d.day,
+                    d.hour, d.minute, d.second,
+                    d.weekday(), yday, dst))
+
+where `yday = d.toordinal() - date(d.year, 1, 1).toordinal() + 1`
+is the day number within the current year starting with 1 for January
+1st. The `~time.struct_time.tm_isdst` flag of the result is set according to the
+`dst` method: `.tzinfo` is `None` or `dst` returns
+`None`, `tm_isdst` is set to `-1`; else if `dst` returns a
+non-zero value, `tm_isdst` is set to 1; else `tm_isdst` is
+set to 0.

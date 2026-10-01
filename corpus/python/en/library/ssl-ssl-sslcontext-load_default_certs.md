@@ -1,0 +1,29 @@
+---
+id: "python-en-function-ssl-sslcontext-load_default_certs"
+language: "python"
+lang: "en"
+category: "function"
+name: "SSLContext.load_default_certs"
+signature: "SSLContext.load_default_certs(purpose=Purpose.SERVER_AUTH)"
+directive: "method"
+module: "ssl"
+source_url: "https://docs.python.org/3/library/ssl.html#ssl.SSLContext.load_default_certs"
+license: "PSF"
+updated: "2026-10-01"
+---
+
+# SSLContext.load_default_certs
+
+Load a set of default "certification authority" (CA) certificates from
+default locations. On Windows it loads CA certs from the `CA` and
+`ROOT` system stores. On all systems it calls
+`SSLContext.set_default_verify_paths`. In the future the method may
+load CA certificates from other locations, too.
+
+The *purpose* flag specifies what kind of CA certificates are loaded. The
+default settings `Purpose.SERVER_AUTH` loads certificates, that are
+flagged and trusted for TLS web server authentication (client side
+sockets). `Purpose.CLIENT_AUTH` loads CA certificates for client
+certificate verification on the server side.
+
+> *Added in 3.4*

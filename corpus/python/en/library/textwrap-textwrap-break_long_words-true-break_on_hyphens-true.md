@@ -1,0 +1,36 @@
+---
+id: "python-en-function-textwrap-break_long_words-true-break_on_hyphens-true"
+language: "python"
+lang: "en"
+category: "function"
+name: "break_long_words=True, break_on_hyphens=True, \\"
+directive: "function"
+module: "textwrap"
+source_url: "https://docs.python.org/3/library/textwrap.html#textwrap.break_long_words=True, break_on_hyphens=True, \\"
+license: "PSF"
+updated: "2026-10-01"
+---
+
+# break_long_words=True, break_on_hyphens=True, \
+
+Collapse and truncate the given *text* to fit in the given *width*.
+
+First the whitespace in *text* is collapsed (all whitespace is replaced by
+single spaces).  If the result fits in the *width*, it is returned.
+Otherwise, enough words are dropped from the end so that the remaining words
+plus the *placeholder* fit within *width*::
+
+   >>> textwrap.shorten("Hello  world!", width=12)
+   'Hello world!'
+   >>> textwrap.shorten("Hello  world!", width=11)
+   'Hello [...]'
+   >>> textwrap.shorten("Hello world", width=10, placeholder="...")
+   'Hello...'
+
+Optional keyword arguments correspond to the instance attributes of
+`TextWrapper`, documented below.  Note that the whitespace is
+collapsed before the text is passed to the `TextWrapper` `fill`
+function, so changing the value of `.tabsize`, `.expand_tabs`,
+`.drop_whitespace`, and `.replace_whitespace` will have no effect.
+
+> *Added in 3.4*

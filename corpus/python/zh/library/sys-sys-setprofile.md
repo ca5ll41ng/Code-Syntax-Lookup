@@ -1,0 +1,61 @@
+---
+id: "python-zh-function-sys-setprofile"
+language: "python"
+lang: "zh"
+category: "function"
+name: "setprofile"
+signature: "setprofile(profilefunc)"
+directive: "function"
+module: "sys"
+source_url: "https://docs.python.org/zh-cn/3/library/sys.html#sys.setprofile"
+license: "PSF"
+updated: "2026-10-01"
+---
+
+# setprofile
+
+Set the system's profile function, which allows you to implement a Python source
+code profiler in Python.  See chapter `profile` for more information on the
+Python profiler.  The system's profile function is called similarly to the
+system's trace function (see `settrace`), but it is called with different events,
+for example it isn't called for each executed line of code (only on call and return,
+but the return event is reported even when an exception has been set). The function is
+thread-specific, but there is no way for the profiler to know about context switches between
+threads, so it does not make sense to use this in the presence of multiple threads. Also,
+its return value is not used, so it can simply return `None`.  Error in the profile
+function will cause itself unset.
+
+> **Note**
+>
+> The same tracing mechanism is used for `setprofile` as `settrace`.
+> To trace calls with `setprofile` inside a tracing function
+> (e.g. in a debugger breakpoint), see `call_tracing`.
+>
+
+Profile functions should have three arguments: *frame*, *event*, and
+*arg*. *frame* is the current stack frame.  *event* is a string: `'call'`,
+`'return'`, `'c_call'`, `'c_return'`, or `'c_exception'`. *arg* depends
+on the event type.
+
+这些事件具有以下含义：
+
+`'call'`
+   A function is called (or some other code block entered).  The
+   profile function is called; *arg* is `None`.
+
+`'return'`
+   A function (or other code block) is about to return.  The profile
+   function is called; *arg* is the value that will be returned, or `None`
+   if the event is caused by an exception being raised.
+
+`'c_call'`
+   A C function is about to be called.  This may be an extension function or
+   a built-in.  *arg* is the C function object.
+
+`'c_return'`
+   A C function has returned. *arg* is the C function object.
+
+`'c_exception'`
+   A C function has raised an exception.  *arg* is the C function object.
+
+audit-event:: sys.setprofile "" sys.setprofile

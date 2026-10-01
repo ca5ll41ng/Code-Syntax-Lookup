@@ -1,0 +1,183 @@
+---
+id: "python-zh-function-asyncio-stream-asyncio-stream"
+language: "python"
+lang: "zh"
+category: "function"
+name: "asyncio-stream"
+title: "Examples"
+directive: "module"
+module: "asyncio-stream"
+source_url: "https://docs.python.org/zh-cn/3/library/asyncio-stream.html#module-asyncio-stream"
+license: "PSF"
+updated: "2026-10-01"
+---
+
+# Examples
+
+**Examples**
+
+.. _asyncio-tcp-echo-client-streams:
+
+**TCP echo client using streams**
+
+使用 :func:`asyncio.open_connection` 函数的 TCP 回显客户端::
+
+    import asyncio
+
+    async def tcp_echo_client(message):
+        reader, writer = await asyncio.open_connection(
+            '127.0.0.1', 8888)
+
+        print(f'Send: {message!r}')
+        writer.write(message.encode())
+        await writer.drain()
+
+        data = await reader.read(100)
+        print(f'Received: {data.decode()!r}')
+
+        print('Close the connection')
+        writer.close()
+        await writer.wait_closed()
+
+    asyncio.run(tcp_echo_client('Hello World!'))
+
+> **Seealso**
+>
+> The `TCP echo client protocol`
+> example uses the low-level `loop.create_connection` method.
+>
+
+.. _asyncio-tcp-echo-server-streams:
+
+**TCP echo server using streams**
+
+TCP 回显服务器使用 :func:`asyncio.start_server` 函数::
+
+    import asyncio
+
+    async def handle_echo(reader, writer):
+        data = await reader.read(100)
+        message = data.decode()
+        addr = writer.get_extra_info('peername')
+
+        print(f"Received {message!r} from {addr!r}")
+
+        print(f"Send: {message!r}")
+        writer.write(data)
+        await writer.drain()
+
+        print("Close the connection")
+        writer.close()
+        await writer.wait_closed()
+
+    async def main():
+        server = await asyncio.start_server(
+            handle_echo, '127.0.0.1', 8888)
+
+        addrs = ', '.join(str(sock.getsockname()) for sock in server.sockets)
+        print(f'Serving on {addrs}')
+
+        async with server:
+            await server.serve_forever()
+
+    asyncio.run(main())
+
+> **Seealso**
+>
+> The `TCP echo server protocol`
+> example uses the `loop.create_server` method.
+>
+
+**Get HTTP headers**
+
+查询命令行传入 URL 的 HTTP 标头的简单示例::
+
+    import asyncio
+    import urllib.parse
+    import sys
+
+    async def print_http_headers(url):
+        url = urllib.parse.urlsplit(url)
+        if url.scheme == 'https':
+            reader, writer = await asyncio.open_connection(
+                url.hostname, 443, ssl=True)
+        else:
+            reader, writer = await asyncio.open_connection(
+                url.hostname, 80)
+
+        query = (
+            f"HEAD {url.path or '/'} HTTP/1.0\r\n"
+            f"Host: {url.hostname}\r\n"
+            f"\r\n"
+        )
+
+        writer.write(query.encode('latin-1'))
+        while True:
+            line = await reader.readline()
+            if not line:
+                break
+
+            line = line.decode('latin1').rstrip()
+            if line:
+                print(f'HTTP header> {line}')
+
+        # Ignore the body, close the socket
+        writer.close()
+        await writer.wait_closed()
+
+    url = sys.argv[1]
+    asyncio.run(print_http_headers(url))
+
+用法::
+
+    python example.py http://example.com/path/page.html
+
+或使用 HTTPS::
+
+    python example.py https://example.com/path/page.html
+
+.. _asyncio_example_create_connection-streams:
+
+**Register an open socket to wait for data using streams**
+
+Coroutine waiting until a socket receives data using the
+`open_connection` function::
+
+    import asyncio
+    import socket
+
+    async def wait_for_data():
+        # Get a reference to the current event loop because
+        # we want to access low-level APIs.
+        loop = asyncio.get_running_loop()
+
+        # Create a pair of connected sockets.
+        rsock, wsock = socket.socketpair()
+
+        # Register the open socket to wait for data.
+        reader, writer = await asyncio.open_connection(sock=rsock)
+
+        # Simulate the reception of data from the network
+        loop.call_soon(wsock.send, 'abc'.encode())
+
+        # Wait for data
+        data = await reader.read(100)
+
+        # Got data, we are done: close the socket
+        print("Received:", data.decode())
+        writer.close()
+        await writer.wait_closed()
+
+        # Close the second socket
+        wsock.close()
+
+    asyncio.run(wait_for_data())
+
+> **Seealso**
+>
+> The `register an open socket to wait for data using a protocol` example uses a low-level protocol and
+> the `loop.create_connection` method.
+>
+> The `watch a file descriptor for read events` example uses the low-level
+> `loop.add_reader` method to watch a file descriptor.
+>

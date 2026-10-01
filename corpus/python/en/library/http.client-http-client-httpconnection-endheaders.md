@@ -1,0 +1,38 @@
+---
+id: "python-en-function-http-client-httpconnection-endheaders"
+language: "python"
+lang: "en"
+category: "function"
+name: "HTTPConnection.endheaders"
+signature: "HTTPConnection.endheaders(message_body=None, *, encode_chunked=False)"
+directive: "method"
+module: "http.client"
+source_url: "https://docs.python.org/3/library/http.client.html#http.client.HTTPConnection.endheaders"
+license: "PSF"
+updated: "2026-10-01"
+---
+
+# HTTPConnection.endheaders
+
+Send a blank line to the server, signalling the end of the headers. The
+optional *message_body* argument can be used to pass a message body
+associated with the request.
+
+If *encode_chunked* is `True`, the result of each iteration of
+*message_body* will be chunk-encoded as specified in RFC 7230,
+Section 3.3.1.  How the data is encoded is dependent on the type of
+*message_body*.  If *message_body* implements the `buffer interface` the encoding will result in a single chunk.
+If *message_body* is a `collections.abc.Iterable`, each iteration
+of *message_body* will result in a chunk.  If *message_body* is a
+`file object`, each call to `.read()` will result in a chunk.
+The method automatically signals the end of the chunk-encoded data
+immediately after *message_body*.
+
+> **Note**
+>
+> yielded by an iterator body will be ignored by the chunk-encoder.
+> This is to avoid premature termination of the read of the request by
+> the target server due to malformed encoding.
+>
+
+> *Changed in 3.6*: Added chunked encoding support and the *encode_chunked* parameter.

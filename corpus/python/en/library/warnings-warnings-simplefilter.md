@@ -1,0 +1,20 @@
+---
+id: "python-en-function-warnings-simplefilter"
+language: "python"
+lang: "en"
+category: "function"
+name: "simplefilter"
+signature: "simplefilter(action, category=Warning, lineno=0, append=False)"
+directive: "function"
+module: "warnings"
+source_url: "https://docs.python.org/3/library/warnings.html#warnings.simplefilter"
+license: "PSF"
+updated: "2026-10-01"
+---
+
+# simplefilter
+
+Insert a simple entry into the list of `warnings filter specifications`.  The meaning of the function parameters is as for
+`filterwarnings`, but regular expressions are not needed as the filter
+inserted always matches any message in any module as long as the category and
+line number match.

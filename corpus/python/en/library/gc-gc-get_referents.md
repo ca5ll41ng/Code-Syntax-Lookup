@@ -1,0 +1,25 @@
+---
+id: "python-en-function-gc-get_referents"
+language: "python"
+lang: "en"
+category: "function"
+name: "get_referents"
+signature: "get_referents(*objs)"
+directive: "function"
+module: "gc"
+source_url: "https://docs.python.org/3/library/gc.html#gc.get_referents"
+license: "PSF"
+updated: "2026-10-01"
+---
+
+# get_referents
+
+Return a list of objects directly referred to by any of the arguments. The
+referents returned are those objects visited by the arguments' C-level
+:c`~PyTypeObject.tp_traverse` methods (if any), and may not be all objects actually
+directly reachable.  :c`~PyTypeObject.tp_traverse` methods are supported only by objects
+that support garbage collection, and are only required to visit objects that may
+be involved in a cycle.  So, for example, if an integer is directly reachable
+from an argument, that integer object may or may not appear in the result list.
+
+audit-event:: gc.get_referents objs gc.get_referents

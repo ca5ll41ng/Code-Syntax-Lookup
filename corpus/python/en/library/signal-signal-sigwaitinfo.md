@@ -1,0 +1,36 @@
+---
+id: "python-en-function-signal-sigwaitinfo"
+language: "python"
+lang: "en"
+category: "function"
+name: "sigwaitinfo"
+signature: "sigwaitinfo(sigset)"
+directive: "function"
+module: "signal"
+source_url: "https://docs.python.org/3/library/signal.html#signal.sigwaitinfo"
+license: "PSF"
+updated: "2026-10-01"
+---
+
+# sigwaitinfo
+
+Suspend execution of the calling thread until the delivery of one of the
+signals specified in the signal set *sigset*.  The function accepts the
+signal and removes it from the pending list of signals. If one of the
+signals in *sigset* is already pending for the calling thread, the function
+will return immediately with information about that signal. The signal
+handler is not called for the delivered signal. The function raises an
+`InterruptedError` if it is interrupted by a signal that is not in
+*sigset*.
+
+The return value is an object representing the data contained in the
+`siginfo_t` structure, namely: `si_signo`, `si_code`,
+`si_errno`, `si_pid`, `si_uid`, `si_status`, `si_band`.
+
+availability:: Unix.
+
+See also `pause`, `sigwait` and `sigtimedwait`.
+
+> *Added in 3.3*
+
+> *Changed in 3.5*: The function is now retried if interrupted by a signal not in *sigset* and the signal handler does not raise an exception (see :pep:`475` for the rationale).

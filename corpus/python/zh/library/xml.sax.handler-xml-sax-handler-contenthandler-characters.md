@@ -1,0 +1,35 @@
+---
+id: "python-zh-function-xml-sax-handler-contenthandler-characters"
+language: "python"
+lang: "zh"
+category: "function"
+name: "ContentHandler.characters"
+signature: "ContentHandler.characters(content)"
+directive: "method"
+module: "xml.sax.handler"
+source_url: "https://docs.python.org/zh-cn/3/library/xml.sax.handler.html#xml.sax.handler.ContentHandler.characters"
+license: "PSF"
+updated: "2026-10-01"
+---
+
+# ContentHandler.characters
+
+接收字符数据的通知。
+
+The Parser will call this method to report each chunk of character data. SAX
+parsers may return all contiguous character data in a single chunk, or they may
+split it into several chunks; however, all of the characters in any single event
+must come from the same external entity so that the Locator provides useful
+information.
+
+*content* may be a string or bytes instance; the `expat` reader module
+always produces strings.
+
+> **Note**
+>
+> The earlier SAX 1 interface provided by the Python XML Special Interest Group
+> used a more Java-like interface for this method.  Since most parsers used from
+> Python did not take advantage of the older interface, the simpler signature was
+> chosen to replace it.  To convert old code to the new interface, use *content*
+> instead of slicing content with the old *offset* and *length* parameters.
+>

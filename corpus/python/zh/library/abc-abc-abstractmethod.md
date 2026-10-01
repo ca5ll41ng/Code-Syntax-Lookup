@@ -1,0 +1,87 @@
+---
+id: "python-zh-function-abc-abstractmethod"
+language: "python"
+lang: "zh"
+category: "function"
+name: "abstractmethod"
+directive: "decorator"
+module: "abc"
+source_url: "https://docs.python.org/zh-cn/3/library/abc.html#abc.abstractmethod"
+license: "PSF"
+updated: "2026-10-01"
+---
+
+# abstractmethod
+
+用于声明抽象方法的装饰器。
+
+Using this decorator requires that the class's metaclass is `ABCMeta`
+or is derived from it.  A class that has a metaclass derived from
+`ABCMeta` cannot be instantiated unless all of its abstract methods
+and properties are overridden.  The abstract methods can be called using any
+of the normal 'super' call mechanisms.  `abstractmethod` may be used
+to declare abstract methods for properties and descriptors.
+
+Dynamically adding abstract methods to a class, or attempting to modify the
+abstraction status of a method or class once it is created, are only
+supported using the `update_abstractmethods` function.  The
+`abstractmethod` only affects subclasses derived using regular
+inheritance; "virtual subclasses" registered with the ABC's
+`~ABCMeta.register` method are not affected.
+
+When `abstractmethod` is applied in combination with other method
+descriptors, it should be applied as the innermost decorator, as shown in
+the following usage examples::
+
+   class C(ABC):
+       @abstractmethod
+       def my_abstract_method(self, arg1):
+           ...
+       @classmethod
+       @abstractmethod
+       def my_abstract_classmethod(cls, arg2):
+           ...
+       @staticmethod
+       @abstractmethod
+       def my_abstract_staticmethod(arg3):
+           ...
+
+       @property
+       @abstractmethod
+       def my_abstract_property(self):
+           ...
+       @my_abstract_property.setter
+       @abstractmethod
+       def my_abstract_property(self, val):
+           ...
+
+       @abstractmethod
+       def _get_x(self):
+           ...
+       @abstractmethod
+       def _set_x(self, val):
+           ...
+       x = property(_get_x, _set_x)
+
+In order to correctly interoperate with the abstract base class machinery,
+the descriptor must identify itself as abstract using
+`__isabstractmethod__`. In general, this attribute should be `True`
+if any of the methods used to compose the descriptor are abstract. For
+example, Python's built-in `property` does the equivalent of::
+
+   class Descriptor:
+       ...
+       @property
+       def __isabstractmethod__(self):
+           return any(getattr(f, '__isabstractmethod__', False) for
+                      f in (self._fget, self._fset, self._fdel))
+
+> **Note**
+>
+> Unlike Java abstract methods, these abstract
+> methods may have an implementation. This implementation can be
+> called via the `super` mechanism from the class that
+> overrides it.  This could be useful as an end-point for a
+> super-call in a framework that uses cooperative
+> multiple-inheritance.
+>

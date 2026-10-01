@@ -1,0 +1,22 @@
+---
+id: "python-en-function-doctest-skip"
+language: "python"
+lang: "en"
+category: "function"
+name: "SKIP"
+directive: "data"
+module: "doctest"
+source_url: "https://docs.python.org/3/library/doctest.html#doctest.SKIP"
+license: "PSF"
+updated: "2026-10-01"
+---
+
+# SKIP
+
+When specified, do not run the example at all.  This can be useful in contexts
+where doctest examples serve as both documentation and test cases, and an
+example should be included for documentation purposes, but should not be
+checked.  E.g., the example's output might be random; or the example might
+depend on resources which would be unavailable to the test driver.
+
+The SKIP flag can also be used for temporarily "commenting out" examples.

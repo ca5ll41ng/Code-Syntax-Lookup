@@ -1,0 +1,45 @@
+---
+id: "python-en-function-configparser-basicinterpolation"
+language: "python"
+lang: "en"
+category: "function"
+name: "BasicInterpolation"
+signature: "BasicInterpolation()"
+directive: "class"
+module: "configparser"
+source_url: "https://docs.python.org/3/library/configparser.html#configparser.BasicInterpolation"
+license: "PSF"
+updated: "2026-10-01"
+---
+
+# BasicInterpolation
+
+The default implementation used by `ConfigParser`.  It enables
+values to contain format strings which refer to other values in the same
+section, or values in the special default section [1]_.  Additional default
+values can be provided on initialization.
+
+For example:
+
+```ini
+
+[Paths]
+home_dir: /Users
+my_dir: %(home_dir)s/lumberjack
+my_pictures: %(my_dir)s/Pictures
+
+[Escape]
+# use a %% to escape the % sign (% is the only character that needs to be escaped):
+gain: 80%%
+```
+
+In the example above, `ConfigParser` with *interpolation* set to
+`BasicInterpolation()` would resolve `%(home_dir)s` to the value of
+`home_dir` (`/Users` in this case).  `%(my_dir)s` in effect would
+resolve to `/Users/lumberjack`.  All interpolations are done on demand so
+keys used in the chain of references do not have to be specified in any
+specific order in the configuration file.
+
+With `interpolation` set to `None`, the parser would simply return
+`%(my_dir)s/Pictures` as the value of `my_pictures` and
+`%(home_dir)s/lumberjack` as the value of `my_dir`.

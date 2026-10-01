@@ -1,0 +1,39 @@
+---
+id: "python-en-function-multiprocessing-freeze_support"
+language: "python"
+lang: "en"
+category: "function"
+name: "freeze_support"
+signature: "freeze_support()"
+directive: "function"
+module: "multiprocessing"
+source_url: "https://docs.python.org/3/library/multiprocessing.html#multiprocessing.freeze_support"
+license: "PSF"
+updated: "2026-10-01"
+---
+
+# freeze_support
+
+Add support for when a program which uses `multiprocessing` has been
+frozen to produce an executable.  (Has been tested with **py2exe**,
+**PyInstaller** and **cx_Freeze**.)
+
+One needs to call this function straight after the `if __name__ ==
+'__main__'` line of the main module.  For example::
+
+   from multiprocessing import Process, freeze_support
+
+   def f():
+       print('hello world!')
+
+   if __name__ == '__main__':
+       freeze_support()
+       Process(target=f).start()
+
+If the `freeze_support()` line is omitted then trying to run the frozen
+executable will raise `RuntimeError`.
+
+Calling `freeze_support()` has no effect when the start method is not
+*spawn*. In addition, if the module is being run normally by the Python
+interpreter (the program has not been frozen), then `freeze_support()`
+has no effect.

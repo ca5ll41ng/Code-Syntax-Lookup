@@ -68,9 +68,15 @@ export function searchSyntax({ language = 'php', query = '', category, danger, l
 
 export function getEntry({ language = 'php', name } = {}) {
   const db = openKb();
+  const q = String(name || '').toLowerCase();
   const row = db.prepare(
-    `SELECT * FROM docs WHERE language = ? AND lower(name) = lower(?) ORDER BY CASE lang WHEN 'zh' THEN 0 ELSE 1 END LIMIT 1`
-  ).get(language, String(name || ''));
+    `SELECT * FROM docs WHERE language = ? AND (
+       lower(name) = ?
+       OR lower(module || '.' || name) = ?
+       OR (aliases IS NOT NULL AND instr(lower(aliases), '"' || ? || '"') > 0)
+     )
+     ORDER BY CASE lang WHEN 'zh' THEN 0 ELSE 1 END LIMIT 1`
+  ).get(language, q, q, q);
   if (!row) return null;
   const dangers = dangerList(safeJson(row.danger));
   return { ...row, danger: dangers.length ? dangers : undefined, content: row.content, danger_json: undefined };

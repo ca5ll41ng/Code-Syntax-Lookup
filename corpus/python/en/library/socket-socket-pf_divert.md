@@ -1,0 +1,21 @@
+---
+id: "python-en-function-socket-pf_divert"
+language: "python"
+lang: "en"
+category: "function"
+name: "PF_DIVERT"
+directive: "data"
+module: "socket"
+source_url: "https://docs.python.org/3/library/socket.html#socket.PF_DIVERT"
+license: "PSF"
+updated: "2026-10-01"
+---
+
+# PF_DIVERT
+
+These two constants, documented in the FreeBSD divert(4) manual page, are
+also defined in the socket module.
+
+availability:: FreeBSD >= 14.0.
+
+> *Added in 3.12*

@@ -1,0 +1,64 @@
+---
+id: "python-zh-function-tempfile-mkstemp"
+language: "python"
+lang: "zh"
+category: "function"
+name: "mkstemp"
+signature: "mkstemp(suffix=None, prefix=None, dir=None, text=False)"
+directive: "function"
+module: "tempfile"
+source_url: "https://docs.python.org/zh-cn/3/library/tempfile.html#tempfile.mkstemp"
+license: "PSF"
+updated: "2026-10-01"
+---
+
+# mkstemp
+
+Creates a temporary file in the most secure manner possible.  There are
+no race conditions in the file's creation, assuming that the platform
+properly implements the `os.O_EXCL` flag for `os.open`.  The
+file is readable and writable only by the creating user ID.  If the
+platform uses permission bits to indicate whether a file is executable,
+the file is executable by no one.
+
+文件描述符 :ref:`不会被子进程继承 <fd_inheritance>`。
+
+Unlike `TemporaryFile`, the user of `mkstemp` is responsible
+for closing the file descriptor (for example, using `os.close`) and
+deleting the temporary file (for example, using `os.remove`).
+
+If *suffix* is not `None`, the file name will end with that suffix,
+otherwise there will be no suffix.  `mkstemp` does not put a dot
+between the file name and the suffix; if you need one, put it at the
+beginning of *suffix*.
+
+If *prefix* is not `None`, the file name will begin with that prefix;
+otherwise, a default prefix is used.  The default is the return value of
+`gettempprefix` or `gettempprefixb`, as appropriate.
+
+If *dir* is not `None`, the file will be created in that directory;
+otherwise, a default directory is used.  The default directory is chosen
+from a platform-dependent list, but the user of the application can
+control the directory location by setting the *TMPDIR*, *TEMP* or *TMP*
+environment variables.  There is thus no guarantee that the generated
+filename will have any nice properties, such as not requiring quoting
+when passed to external commands via `os.popen()`.
+
+If any of *suffix*, *prefix*, and *dir* are not
+`None`, they must be the same type.
+If they are bytes, the returned name will be bytes instead of str.
+If you want to force a bytes return value with otherwise default behavior,
+pass `suffix=b''`.
+
+If *text* is specified and true, the file is opened in text mode.
+Otherwise, (the default) the file is opened in binary mode.
+
+`mkstemp` returns a tuple containing an OS-level handle to an open
+file (as would be returned by `os.open`) and the absolute pathname
+of that file, in that order.
+
+audit-event:: tempfile.mkstemp fullpath tempfile.mkstemp
+
+> *Changed in 3.5*: *suffix*, *prefix*, and *dir* may now be supplied in bytes in order to obtain a bytes return value.  Prior to this, only str was allowed. *suffix* and *prefix* now accept and default to ``None`` to cause an appropriate default value to be used.
+
+> *Changed in 3.6*: The *dir* parameter now accepts a :term:`path-like object`.

@@ -1,0 +1,42 @@
+---
+id: "python-en-function-tempfile-mktemp"
+language: "python"
+lang: "en"
+category: "function"
+danger: {"type":"sink","attack":["B306"],"cwe":["CWE-377"],"note":"Use of insecure and deprecated function (mktemp)."}
+name: "mktemp"
+signature: "mktemp(suffix='', prefix='tmp', dir=None)"
+directive: "function"
+module: "tempfile"
+source_url: "https://docs.python.org/3/library/tempfile.html#tempfile.mktemp"
+license: "PSF"
+updated: "2026-10-01"
+---
+
+# mktemp
+
+> *Deprecated since 2.3*: Use :func:`mkstemp` instead.
+
+Return an absolute pathname of a file that did not exist at the time the
+call is made.  The *prefix*, *suffix*, and *dir* arguments are similar
+to those of `mkstemp`, except that bytes file names, `suffix=None`
+and `prefix=None` are not supported.
+
+> **Warning**
+>
+> Use of this function may introduce a security hole in your program.  By
+> the time you get around to doing anything with the file name it returns,
+> someone else may have beaten you to the punch.  `mktemp` usage can
+> be replaced easily with `NamedTemporaryFile`, passing it the
+> `delete=False` parameter::
+>
+>    >>> f = NamedTemporaryFile(delete=False)
+>    >>> f.name
+>    '/tmp/tmptjujjt'
+>    >>> f.write(b"Hello World!\n")
+>    13
+>    >>> f.close()
+>    >>> os.unlink(f.name)
+>    >>> os.path.exists(f.name)
+>    False
+>

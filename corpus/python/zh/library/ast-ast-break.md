@@ -1,0 +1,45 @@
+---
+id: "python-zh-function-ast-break"
+language: "python"
+lang: "zh"
+category: "function"
+name: "Break"
+directive: "class"
+module: "ast"
+source_url: "https://docs.python.org/zh-cn/3/library/ast.html#ast.Break"
+license: "PSF"
+updated: "2026-10-01"
+---
+
+# Break
+
+``break`` 和 ``continue`` 语句。
+
+```python
+
+>>> print(ast.dump(ast.parse("""\
+... for a in b:
+...     if a > 5:
+...         break
+...     else:
+...         continue
+...
+... """), indent=4))
+Module(
+    body=[
+        For(
+            target=Name(id='a', ctx=Store()),
+            iter=Name(id='b'),
+            body=[
+                If(
+                    test=Compare(
+                        left=Name(id='a'),
+                        ops=[
+                            Gt()],
+                        comparators=[
+                            Constant(value=5)]),
+                    body=[
+                        Break()],
+                    orelse=[
+                        Continue()])])])
+```

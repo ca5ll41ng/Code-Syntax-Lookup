@@ -1,0 +1,25 @@
+---
+id: "python-en-function-pyclbr-readmodule"
+language: "python"
+lang: "en"
+category: "function"
+name: "readmodule"
+signature: "readmodule(module, path=None)"
+directive: "function"
+module: "pyclbr"
+source_url: "https://docs.python.org/3/library/pyclbr.html#pyclbr.readmodule"
+license: "PSF"
+updated: "2026-10-01"
+---
+
+# readmodule
+
+Return a dictionary mapping module-level class names to class
+descriptors.  If possible, descriptors for imported base classes are
+included.  Parameter *module* is a string with the name of the module
+to read; it may be the name of a module within a package.  If given,
+*path* is a sequence of directory paths prepended to `sys.path`,
+which is used to locate the module source code.
+
+This function is the original interface and is only kept for back
+compatibility.  It returns a filtered version of the following.

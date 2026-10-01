@@ -1,0 +1,30 @@
+---
+id: "python-en-function-queue-queue-get"
+language: "python"
+lang: "en"
+category: "function"
+name: "Queue.get"
+signature: "Queue.get(block=True, timeout=None)"
+directive: "method"
+module: "queue"
+source_url: "https://docs.python.org/3/library/queue.html#queue.Queue.get"
+license: "PSF"
+updated: "2026-10-01"
+---
+
+# Queue.get
+
+Remove and return an item from the queue.  If optional args *block* is true and
+*timeout* is `None` (the default), block if necessary until an item is available.
+If *timeout* is a positive number, it blocks at most *timeout* seconds and
+raises the `Empty` exception if no item was available within that time.
+Otherwise (*block* is false), return an item if one is immediately available,
+else raise the `Empty` exception (*timeout* is ignored in that case).
+
+Prior to 3.0 on POSIX systems, and for all versions on Windows, if
+*block* is true and *timeout* is `None`, this operation goes into
+an uninterruptible wait on an underlying lock.  This means that no exceptions
+can occur, and in particular a SIGINT will not trigger a `KeyboardInterrupt`.
+
+Raises `ShutDown` if the queue has been shut down and is empty, or if
+the queue has been shut down immediately.

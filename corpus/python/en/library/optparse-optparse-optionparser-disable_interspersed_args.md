@@ -1,0 +1,33 @@
+---
+id: "python-en-function-optparse-optionparser-disable_interspersed_args"
+language: "python"
+lang: "en"
+category: "function"
+name: "OptionParser.disable_interspersed_args"
+signature: "OptionParser.disable_interspersed_args()"
+directive: "method"
+module: "optparse"
+source_url: "https://docs.python.org/3/library/optparse.html#optparse.OptionParser.disable_interspersed_args"
+license: "PSF"
+updated: "2026-10-01"
+---
+
+# OptionParser.disable_interspersed_args
+
+Set parsing to stop on the first non-option.  For example, if `-a` and
+`-b` are both simple options that take no arguments, `optparse`
+normally accepts this syntax::
+
+   prog -a arg1 -b arg2
+
+and treats it as equivalent to  ::
+
+   prog -a -b arg1 arg2
+
+To disable this feature, call `disable_interspersed_args`.  This
+restores traditional Unix syntax, where option parsing stops with the first
+non-option argument.
+
+Use this if you have a command processor which runs another command which has
+options of its own and you want to make sure these options don't get
+confused.  For example, each command might have a different set of options.

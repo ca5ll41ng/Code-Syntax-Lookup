@@ -1,0 +1,29 @@
+---
+id: "python-en-function-smtplib-smtp-ehlo"
+language: "python"
+lang: "en"
+category: "function"
+name: "SMTP.ehlo"
+signature: "SMTP.ehlo(name='')"
+directive: "method"
+module: "smtplib"
+source_url: "https://docs.python.org/3/library/smtplib.html#smtplib.SMTP.ehlo"
+license: "PSF"
+updated: "2026-10-01"
+---
+
+# SMTP.ehlo
+
+Identify yourself to an ESMTP server using `EHLO`.  The hostname argument
+defaults to the fully qualified domain name of the local host.  Examine the
+response for ESMTP option and store them for use by `has_extn`.
+Also sets several informational attributes: the message returned by
+the server is stored as the `ehlo_resp` attribute, `does_esmtp`
+is set to `True` or `False` depending on whether the server supports
+ESMTP, and `esmtp_features` will be a dictionary containing the names
+of the SMTP service extensions this server supports, and their parameters
+(if any).
+
+Unless you wish to use `has_extn` before sending mail, it should not be
+necessary to call this method explicitly.  It will be implicitly called by
+`sendmail` when necessary.

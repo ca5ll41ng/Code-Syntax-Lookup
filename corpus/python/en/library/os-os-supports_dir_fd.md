@@ -1,0 +1,36 @@
+---
+id: "python-en-function-os-supports_dir_fd"
+language: "python"
+lang: "en"
+category: "function"
+name: "supports_dir_fd"
+directive: "data"
+module: "os"
+source_url: "https://docs.python.org/3/library/os.html#os.supports_dir_fd"
+license: "PSF"
+updated: "2026-10-01"
+---
+
+# supports_dir_fd
+
+A `set` object indicating which functions in the `os`
+module accept an open file descriptor for their *dir_fd* parameter.
+Different platforms provide different features, and the underlying
+functionality Python uses to implement the *dir_fd* parameter is not
+available on all platforms Python supports.  For consistency's sake,
+functions that may support *dir_fd* always allow specifying the
+parameter, but will throw an exception if the functionality is used
+when it's not locally available. (Specifying `None` for *dir_fd*
+is always supported on all platforms.)
+
+To check whether a particular function accepts an open file descriptor
+for its *dir_fd* parameter, use the `in` operator on `supports_dir_fd`.
+As an example, this expression evaluates to `True` if `os.stat`
+accepts open file descriptors for *dir_fd* on the local platform::
+
+    os.stat in os.supports_dir_fd
+
+Currently *dir_fd* parameters only work on Unix platforms;
+none of them work on Windows.
+
+> *Added in 3.3*

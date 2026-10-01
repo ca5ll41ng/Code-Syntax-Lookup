@@ -1,0 +1,27 @@
+---
+id: "python-zh-function-test-bigmemtest"
+language: "python"
+lang: "zh"
+category: "function"
+name: "bigmemtest"
+signature: "bigmemtest(size, memuse, dry_run=True)"
+directive: "decorator"
+module: "test"
+source_url: "https://docs.python.org/zh-cn/3/library/test.html#test.bigmemtest"
+license: "PSF"
+updated: "2026-10-01"
+---
+
+# bigmemtest
+
+用于大内存测试的装饰器。
+
+*size* is a requested size for the test (in arbitrary, test-interpreted
+units.)  *memuse* is the number of bytes per unit for the test, or a good
+estimate of it.  For example, a test that needs two byte buffers, of 4 GiB
+each, could be decorated with `@bigmemtest(size=_4G, memuse=2)`.
+
+The *size* argument is normally passed to the decorated test method as an
+extra argument.  If *dry_run* is `True`, the value passed to the test
+method may be less than the requested value.  If *dry_run* is `False`, it
+means the test doesn't support dummy runs when `-M` is not specified.

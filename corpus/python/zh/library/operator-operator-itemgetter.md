@@ -1,0 +1,60 @@
+---
+id: "python-zh-function-operator-itemgetter"
+language: "python"
+lang: "zh"
+category: "function"
+name: "itemgetter"
+signature: "itemgetter(item)"
+directive: "function"
+module: "operator"
+source_url: "https://docs.python.org/zh-cn/3/library/operator.html#operator.itemgetter"
+license: "PSF"
+updated: "2026-10-01"
+---
+
+# itemgetter
+
+Return a callable object that fetches *item* from its operand using the
+operand's `~object.__getitem__` method.  If multiple items are specified,
+returns a tuple of lookup values.  For example:
+
+* After `f = itemgetter(2)`, the call `f(r)` returns `r[2]`.
+
+* After `g = itemgetter(2, 5, 3)`, the call `g(r)` returns
+  `(r[2], r[5], r[3])`.
+
+等价于::
+
+   def itemgetter(*items):
+       if len(items) == 1:
+           item = items[0]
+           def g(obj):
+               return obj[item]
+       else:
+           def g(obj):
+               return tuple(obj[item] for item in items)
+       return g
+
+The items can be any type accepted by the operand's `~object.__getitem__`
+method.  Dictionaries accept any `hashable` value.  Lists, tuples, and
+strings accept an index or a slice:
+
+   >>> itemgetter(1)('ABCDEFG')
+   'B'
+   >>> itemgetter(1, 3, 5)('ABCDEFG')
+   ('B', 'D', 'F')
+   >>> itemgetter(slice(2, None))('ABCDEFG')
+   'CDEFG'
+   >>> soldier = dict(rank='captain', name='dotterbart')
+   >>> itemgetter('rank')(soldier)
+   'captain'
+
+Example of using `itemgetter` to retrieve specific fields from a
+tuple record:
+
+   >>> inventory = [('apple', 3), ('banana', 2), ('pear', 5), ('orange', 1)]
+   >>> getcount = itemgetter(1)
+   >>> list(map(getcount, inventory))
+   [3, 2, 5, 1]
+   >>> sorted(inventory, key=getcount)
+   [('orange', 1), ('banana', 2), ('apple', 3), ('pear', 5)]

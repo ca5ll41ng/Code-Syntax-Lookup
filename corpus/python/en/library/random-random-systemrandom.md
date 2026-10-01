@@ -1,0 +1,22 @@
+---
+id: "python-en-function-random-systemrandom"
+language: "python"
+lang: "en"
+category: "function"
+name: "SystemRandom"
+signature: "SystemRandom([seed])"
+directive: "class"
+module: "random"
+source_url: "https://docs.python.org/3/library/random.html#random.SystemRandom"
+license: "PSF"
+updated: "2026-10-01"
+---
+
+# SystemRandom
+
+Class that uses the `os.urandom` function for generating random numbers
+from sources provided by the operating system. Not available on all systems.
+Does not rely on software state, and sequences are not reproducible. Accordingly,
+the `seed` method has no effect and is ignored.
+The `getstate` and `setstate` methods raise
+`NotImplementedError` if called.

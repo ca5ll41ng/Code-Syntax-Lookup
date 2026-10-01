@@ -1,0 +1,32 @@
+---
+id: "python-en-function-sys-__stdout__"
+language: "python"
+lang: "en"
+category: "function"
+name: "__stdout__"
+directive: "data"
+module: "sys"
+source_url: "https://docs.python.org/3/library/sys.html#sys.__stdout__"
+license: "PSF"
+updated: "2026-10-01"
+---
+
+# __stdout__
+
+These objects contain the original values of `stdin`, `stderr` and
+`stdout` at the start of the program.  They are used during finalization,
+and could be useful to print to the actual standard stream no matter if the
+`sys.std*` object has been redirected.
+
+It can also be used to restore the actual files to known working file objects
+in case they have been overwritten with a broken object.  However, the
+preferred way to do this is to explicitly save the previous stream before
+replacing it, and restore the saved object.
+
+> **Note**
+>
+> Under some conditions `stdin`, `stdout` and `stderr` as well as the
+> original values `__stdin__`, `__stdout__` and `__stderr__` can be
+> `None`. It is usually the case for Windows GUI apps that aren't connected
+> to a console and Python apps started with `pythonw`.
+>

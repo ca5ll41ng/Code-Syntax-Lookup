@@ -1,0 +1,48 @@
+---
+id: "python-zh-function-security_warnings-security_warnings"
+language: "python"
+lang: "zh"
+category: "function"
+name: "security_warnings"
+title: "Security Considerations"
+directive: "module"
+module: "security_warnings"
+source_url: "https://docs.python.org/zh-cn/3/library/security_warnings.html#module-security_warnings"
+license: "PSF"
+updated: "2026-10-01"
+---
+
+# Security Considerations
+
+.. _security-warnings:
+
+**Security Considerations**
+
+下列模块具有专门的安全事项：
+
+* `base64`: `base64 security considerations` in
+  RFC 4648
+* `hashlib`: `all constructors take a "usedforsecurity" keyword-only
+  argument disabling known insecure and blocked algorithms`
+* `http.server` is not suitable for production use, only implementing
+  basic security checks. See the `security considerations`.
+* `logging`: `Logging configuration uses eval()`
+* `multiprocessing`: `Connection.recv() uses pickle`
+* `pickle`: `Restricting globals in pickle`
+* `random` shouldn't be used for security purposes, use `secrets`
+  instead
+* `shelve`: `shelve is based on pickle and thus unsuitable for
+  dealing with untrusted sources`
+* `ssl`: `SSL/TLS security considerations`
+* `subprocess`: `Subprocess security considerations`
+* `tempfile`: `mktemp is deprecated due to vulnerability to race
+  conditions`
+* `xml`: `XML security`
+* `zipfile`: `maliciously prepared .zip files can cause disk volume
+  exhaustion`
+
+The `-I` command line option can be used to run Python in isolated
+mode. When it cannot be used, the `-P` option or the
+`PYTHONSAFEPATH` environment variable can be used to not prepend a
+potentially unsafe path to `sys.path` such as the current directory, the
+script's directory or an empty string.

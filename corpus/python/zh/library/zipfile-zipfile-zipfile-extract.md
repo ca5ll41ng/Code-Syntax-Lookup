@@ -1,0 +1,38 @@
+---
+id: "python-zh-function-zipfile-zipfile-extract"
+language: "python"
+lang: "zh"
+category: "function"
+name: "ZipFile.extract"
+signature: "ZipFile.extract(member, path=None, pwd=None)"
+directive: "method"
+module: "zipfile"
+source_url: "https://docs.python.org/zh-cn/3/library/zipfile.html#zipfile.ZipFile.extract"
+license: "PSF"
+updated: "2026-10-01"
+---
+
+# ZipFile.extract
+
+Extract a member from the archive to the current working directory; *member*
+must be its full name or a `ZipInfo` object.  Its file information is
+extracted as accurately as possible.  *path* specifies a different directory
+to extract to.  *member* can be a filename or a `ZipInfo` object.
+*pwd* is the password used for encrypted files as a `bytes` object.
+
+返回所创建的经正规化的路径（对应于目录或新文件）。
+
+> **Note**
+>
+> If a member filename is an absolute path, a drive/UNC sharepoint and
+> leading (back)slashes will be stripped, e.g.: `///foo/bar` becomes
+> `foo/bar` on Unix, and `C:\foo\bar` becomes `foo\bar` on Windows.
+> And all `".."` components in a member filename will be removed, e.g.:
+> `../../foo../../ba..r` becomes `foo../ba..r`.  On Windows illegal
+> characters (`:`, `<`, `>`, `|`, `"`, `?`, and `*`)
+> replaced by underscore (`_`).
+>
+
+> *Changed in 3.6*: Calling :meth:`extract` on a closed ZipFile will raise a :exc:`ValueError`.  Previously, a :exc:`RuntimeError` was raised.
+
+> *Changed in 3.6.2*: The *path* parameter accepts a :term:`path-like object`.

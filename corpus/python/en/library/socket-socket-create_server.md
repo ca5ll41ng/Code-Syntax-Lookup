@@ -1,0 +1,53 @@
+---
+id: "python-en-function-socket-create_server"
+language: "python"
+lang: "en"
+category: "function"
+name: "create_server"
+signature: "create_server(address, *, family=AF_INET, backlog=None, reuse_port=False, dualstack_ipv6=False)"
+directive: "function"
+module: "socket"
+source_url: "https://docs.python.org/3/library/socket.html#socket.create_server"
+license: "PSF"
+updated: "2026-10-01"
+---
+
+# create_server
+
+Convenience function which creates a TCP socket bound to *address* (a 2-tuple
+`(host, port)`) and returns the socket object.
+
+*family* should be either `AF_INET` or `AF_INET6`.
+*backlog* is the queue size passed to `socket.listen`; if not specified
+, a default reasonable value is chosen.
+*reuse_port* dictates whether to set the `SO_REUSEPORT` socket option.
+
+If *dualstack_ipv6* is true, *family* is `AF_INET6` and the platform
+supports it the socket will be able to accept both IPv4 and IPv6 connections,
+else it will raise `ValueError`. Most POSIX platforms and Windows are
+supposed to support this functionality.
+When this functionality is enabled the address returned by
+`socket.getpeername` when an IPv4 connection occurs will be an IPv6
+address represented as an IPv4-mapped IPv6 address.
+If *dualstack_ipv6* is false it will explicitly disable this functionality
+on platforms that enable it by default (e.g. Linux).
+This parameter can be used in conjunction with `has_dualstack_ipv6`:
+
+::
+
+  import socket
+
+  addr = ("", 8080)  # all interfaces, port 8080
+  if socket.has_dualstack_ipv6():
+      s = socket.create_server(addr, family=socket.AF_INET6, dualstack_ipv6=True)
+  else:
+      s = socket.create_server(addr)
+
+> **Note**
+>
+> On POSIX platforms the `SO_REUSEADDR` socket option is set in order to
+> immediately reuse previous sockets which were bound on the same *address*
+> and remained in TIME_WAIT state.
+>
+
+> *Added in 3.8*

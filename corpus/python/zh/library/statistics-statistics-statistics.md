@@ -1,0 +1,169 @@
+---
+id: "python-zh-function-statistics-statistics"
+language: "python"
+lang: "zh"
+category: "function"
+name: "statistics"
+title: "Examples and Recipes"
+directive: "module"
+module: "statistics"
+source_url: "https://docs.python.org/zh-cn/3/library/statistics.html#module-statistics"
+license: "PSF"
+updated: "2026-10-01"
+---
+
+# Examples and Recipes
+
+**Examples and Recipes**
+
+Classic probability problems
+****************************
+
+:class:`NormalDist` 适合用来解决经典概率问题。
+
+For example, given `historical data for SAT exams
+<https://nces.ed.gov/programs/digest/d17/tables/dt17_226.40.asp>`_ showing
+that scores are normally distributed with a mean of 1060 and a standard
+deviation of 195, determine the percentage of students with test scores
+between 1100 and 1200, after rounding to the nearest whole number:
+
+```python
+
+>>> sat = NormalDist(1060, 195)
+>>> fraction = sat.cdf(1200 + 0.5) - sat.cdf(1100 - 0.5)
+>>> round(fraction * 100.0, 1)
+18.4
+```
+
+Find the [quartiles](https://en.wikipedia.org/wiki/Quartile) and `deciles
+<https://en.wikipedia.org/wiki/Decile>`_ for the SAT scores:
+
+```python
+
+>>> list(map(round, sat.quantiles()))
+[928, 1060, 1192]
+>>> list(map(round, sat.quantiles(n=10)))
+[810, 896, 958, 1011, 1060, 1109, 1162, 1224, 1310]
+```
+
+Monte Carlo inputs for simulations
+**********************************
+
+To estimate the distribution for a model that isn't easy to solve
+analytically, `NormalDist` can generate input samples for a `Monte
+Carlo simulation <https://en.wikipedia.org/wiki/Monte_Carlo_method>`_:
+
+```python
+
+>>> def model(x, y, z):
+...     return (3*x + 7*x*y - 5*y) / (11 * z)
+...
+>>> n = 100_000
+>>> X = NormalDist(10, 2.5).samples(n, seed=3652260728)
+>>> Y = NormalDist(15, 1.75).samples(n, seed=4582495471)
+>>> Z = NormalDist(50, 1.25).samples(n, seed=6582483453)
+>>> quantiles(map(model, X, Y, Z))       # doctest: +SKIP
+[1.4591308524824727, 1.8035946855390597, 2.175091447274739]
+```
+
+Approximating binomial distributions
+************************************
+
+Normal distributions can be used to approximate `Binomial
+distributions <https://mathworld.wolfram.com/BinomialDistribution.html>`_
+when the sample size is large and when the probability of a successful
+trial is near 50%.
+
+For example, an open source conference has 750 attendees and two rooms with a
+500 person capacity.  There is a talk about Python and another about Ruby.
+In previous conferences, 65% of the attendees preferred to listen to Python
+talks.  Assuming the population preferences haven't changed, what is the
+probability that the Python room will stay within its capacity limits?
+
+```python
+
+>>> n = 750             # Sample size
+>>> p = 0.65            # Preference for Python
+>>> q = 1.0 - p         # Preference for Ruby
+>>> k = 500             # Room capacity
+
+>>> # Approximation using the cumulative normal distribution
+>>> from math import sqrt
+>>> round(NormalDist(mu=n*p, sigma=sqrt(n*p*q)).cdf(k + 0.5), 4)
+0.8402
+
+>>> # Exact solution using the cumulative binomial distribution
+>>> from math import comb, fsum
+>>> round(fsum(comb(n, r) * p**r * q**(n-r) for r in range(k+1)), 4)
+0.8402
+
+>>> # Approximation using a simulation
+>>> from random import seed, binomialvariate
+>>> seed(8675309)
+>>> mean(binomialvariate(n, p) <= k for i in range(10_000))
+0.8406
+```
+
+Naive bayesian classifier
+*************************
+
+在机器学习问题中也经常会出现正态分布。
+
+Wikipedia has a `nice example of a Naive Bayesian Classifier
+<https://en.wikipedia.org/wiki/Naive_Bayes_classifier#Person_classification>`_.
+The challenge is to predict a person's gender from measurements of normally
+distributed features including height, weight, and foot size.
+
+We're given a training dataset with measurements for eight people.  The
+measurements are assumed to be normally distributed, so we summarize the data
+with `NormalDist`:
+
+```python
+
+>>> height_male = NormalDist.from_samples([6, 5.92, 5.58, 5.92])
+>>> height_female = NormalDist.from_samples([5, 5.5, 5.42, 5.75])
+>>> weight_male = NormalDist.from_samples([180, 190, 170, 165])
+>>> weight_female = NormalDist.from_samples([100, 150, 130, 150])
+>>> foot_size_male = NormalDist.from_samples([12, 11, 12, 10])
+>>> foot_size_female = NormalDist.from_samples([6, 8, 7, 9])
+```
+
+Next, we encounter a new person whose feature measurements are known but whose
+gender is unknown:
+
+```python
+
+>>> ht = 6.0        # height
+>>> wt = 130        # weight
+>>> fs = 8          # foot size
+```
+
+Starting with a 50% `prior probability
+<https://en.wikipedia.org/wiki/Prior_probability>`_ of being male or female,
+we compute the posterior as the prior times the product of likelihoods for the
+feature measurements given the gender:
+
+```python
+
+>>> prior_male = 0.5
+>>> prior_female = 0.5
+>>> posterior_male = (prior_male * height_male.pdf(ht) *
+...                   weight_male.pdf(wt) * foot_size_male.pdf(fs))
+
+>>> posterior_female = (prior_female * height_female.pdf(ht) *
+...                     weight_female.pdf(wt) * foot_size_female.pdf(fs))
+```
+
+The final prediction goes to the largest posterior. This is known as the
+`maximum a posteriori
+<https://en.wikipedia.org/wiki/Maximum_a_posteriori_estimation>`_ or MAP:
+
+```python
+
+>>> 'male' if posterior_male > posterior_female else 'female'
+'female'
+```
+
+..
+   # This modelines must appear within the last ten lines of the file.
+   kate: indent-width 3; remove-trailing-space on; replace-tabs on; encoding utf-8;

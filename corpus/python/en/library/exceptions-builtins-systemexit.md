@@ -1,0 +1,34 @@
+---
+id: "python-en-function-builtins-systemexit"
+language: "python"
+lang: "en"
+category: "function"
+name: "SystemExit"
+directive: "exception"
+module: "builtins"
+source_url: "https://docs.python.org/3/library/exceptions.html#SystemExit"
+license: "PSF"
+updated: "2026-10-01"
+---
+
+# SystemExit
+
+This exception is raised by the `sys.exit` function.  It inherits from
+`BaseException` instead of `Exception` so that it is not accidentally
+caught by code that catches `Exception`.  This allows the exception to
+properly propagate up and cause the interpreter to exit.  When it is not
+handled, the Python interpreter exits; no stack traceback is printed.  The
+constructor accepts the same optional argument passed to `sys.exit`.
+If the value is an integer, it specifies the system exit status (passed to
+C's :c`exit` function); if it is `None`, the exit status is zero; if
+it has another type (such as a string), the object's value is printed and
+the exit status is one.
+
+A call to `sys.exit` is translated into an exception so that clean-up
+handlers (`finally` clauses of `try` statements) can be
+executed, and so that a debugger can execute a script without running the risk
+of losing control.  The `os._exit` function can be used if it is
+absolutely positively necessary to exit immediately (for example, in the child
+process after a call to `os.fork`).
+
+attribute:: code

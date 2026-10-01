@@ -1,0 +1,57 @@
+---
+id: "python-zh-function-wsgiref-validator"
+language: "python"
+lang: "zh"
+category: "function"
+name: "validator"
+signature: "validator(application)"
+directive: "function"
+module: "wsgiref"
+source_url: "https://docs.python.org/zh-cn/3/library/wsgiref.html#wsgiref.validator"
+license: "PSF"
+updated: "2026-10-01"
+---
+
+# validator
+
+Wrap *application* and return a new WSGI application object.  The returned
+application will forward all requests to the original *application*, and will
+check that both the *application* and the server invoking it are conforming to
+the WSGI specification and to RFC 2616.
+
+Any detected nonconformance results in an `AssertionError` being raised;
+note, however, that how these errors are handled is server-dependent.  For
+example, `wsgiref.simple_server` and other servers based on
+`wsgiref.handlers` (that don't override the error handling methods to do
+something else) will simply output a message that an error has occurred, and
+dump the traceback to `sys.stderr` or some other error stream.
+
+This wrapper may also generate output using the `warnings` module to
+indicate behaviors that are questionable but which may not actually be
+prohibited by PEP 3333.  Unless they are suppressed using Python command-line
+options or the `warnings` API, any such warnings will be written to
+`sys.stderr` (*not* `wsgi.errors`, unless they happen to be the same
+object).
+
+用法示例::
+
+   from wsgiref.validate import validator
+   from wsgiref.simple_server import make_server
+
+   # Our callable object which is intentionally not compliant to the
+   # standard, so the validator is going to break
+   def simple_app(environ, start_response):
+       status = '200 OK'  # HTTP Status
+       headers = [('Content-type', 'text/plain')]  # HTTP Headers
+       start_response(status, headers)
+
+       # This is going to break because we need to return a list, and
+       # the validator is going to inform us
+       return b"Hello World"
+
+   # This is the application wrapped in a validator
+   validator_app = validator(simple_app)
+
+   with make_server('', 8000, validator_app) as httpd:
+       print("Listening on port 8000....")
+       httpd.serve_forever()

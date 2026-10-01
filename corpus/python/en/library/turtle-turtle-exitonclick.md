@@ -1,0 +1,23 @@
+---
+id: "python-en-function-turtle-exitonclick"
+language: "python"
+lang: "en"
+category: "function"
+name: "exitonclick"
+signature: "exitonclick()"
+directive: "function"
+module: "turtle"
+source_url: "https://docs.python.org/3/library/turtle.html#turtle.exitonclick"
+license: "PSF"
+updated: "2026-10-01"
+---
+
+# exitonclick
+
+Bind `bye()` method to mouse clicks on the Screen.
+
+If the value "using_IDLE" in the configuration dictionary is `False`
+(default value), also enter mainloop.  Remark: If IDLE with the `-n` switch
+(no subprocess) is used, this value should be set to `True` in
+`turtle.cfg`.  In this case IDLE's own mainloop is active also for the
+client script.

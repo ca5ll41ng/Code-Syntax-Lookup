@@ -1,0 +1,22 @@
+---
+id: "python-en-function-ctypes-cfunctype"
+language: "python"
+lang: "en"
+category: "function"
+name: "CFUNCTYPE"
+signature: "CFUNCTYPE(restype, *argtypes, use_errno=False, use_last_error=False)"
+directive: "function"
+module: "ctypes"
+source_url: "https://docs.python.org/3/library/ctypes.html#ctypes.CFUNCTYPE"
+license: "PSF"
+updated: "2026-10-01"
+---
+
+# CFUNCTYPE
+
+The returned function prototype creates functions that use the standard C
+calling convention.  The function will release the GIL during the call.  If
+*use_errno* is set to true, the ctypes private copy of the system
+`errno` variable is exchanged with the real `errno` value before
+and after the call; *use_last_error* does the same for the Windows error
+code.

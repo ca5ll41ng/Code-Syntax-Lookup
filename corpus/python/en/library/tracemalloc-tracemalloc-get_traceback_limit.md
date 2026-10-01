@@ -1,0 +1,22 @@
+---
+id: "python-en-function-tracemalloc-get_traceback_limit"
+language: "python"
+lang: "en"
+category: "function"
+name: "get_traceback_limit"
+signature: "get_traceback_limit()"
+directive: "function"
+module: "tracemalloc"
+source_url: "https://docs.python.org/3/library/tracemalloc.html#tracemalloc.get_traceback_limit"
+license: "PSF"
+updated: "2026-10-01"
+---
+
+# get_traceback_limit
+
+Get the maximum number of frames stored in the traceback of a trace.
+
+The `tracemalloc` module must be tracing memory allocations to
+get the limit, otherwise an exception is raised.
+
+The limit is set by the `start` function.

@@ -1,0 +1,26 @@
+---
+id: "python-en-function-datetime-timezone-tzname"
+language: "python"
+lang: "en"
+category: "function"
+name: "timezone.tzname"
+signature: "timezone.tzname(dt)"
+directive: "method"
+module: "datetime"
+source_url: "https://docs.python.org/3/library/datetime.html#datetime.timezone.tzname"
+license: "PSF"
+updated: "2026-10-01"
+---
+
+# timezone.tzname
+
+Return the fixed value specified when the `timezone` instance
+is constructed.
+
+If *name* is not provided in the constructor, the name returned by
+`tzname(dt)` is generated from the value of the `offset` as follows. If
+*offset* is `timedelta(0)`, the name is "UTC", otherwise it is a string in
+the format `UTC±HH:MM`, where ± is the sign of `offset`, HH and MM are
+two digits of `offset.hours` and `offset.minutes` respectively.
+
+> *Changed in 3.6*: Name generated from ``offset=timedelta(0)`` is now plain ``'UTC'``, not ``'UTC+00:00'``.

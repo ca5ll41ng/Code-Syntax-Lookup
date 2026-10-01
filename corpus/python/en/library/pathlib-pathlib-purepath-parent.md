@@ -1,0 +1,42 @@
+---
+id: "python-en-function-pathlib-purepath-parent"
+language: "python"
+lang: "en"
+category: "function"
+name: "PurePath.parent"
+directive: "attribute"
+module: "pathlib"
+source_url: "https://docs.python.org/3/library/pathlib.html#pathlib.PurePath.parent"
+license: "PSF"
+updated: "2026-10-01"
+---
+
+# PurePath.parent
+
+The logical parent of the path::
+
+   >>> p = PurePosixPath('/a/b/c/d')
+   >>> p.parent
+   PurePosixPath('/a/b/c')
+
+You cannot go past an anchor, or empty path::
+
+   >>> p = PurePosixPath('/')
+   >>> p.parent
+   PurePosixPath('/')
+   >>> p = PurePosixPath('.')
+   >>> p.parent
+   PurePosixPath('.')
+
+> **Note**
+>
+> This is a purely lexical operation, hence the following behaviour::
+>
+>    >>> p = PurePosixPath('foo/..')
+>    >>> p.parent
+>    PurePosixPath('foo')
+>
+> If you want to walk an arbitrary filesystem path upwards, it is
+> recommended to first call `Path.resolve` so as to resolve
+> symlinks and eliminate `".."` components.
+>

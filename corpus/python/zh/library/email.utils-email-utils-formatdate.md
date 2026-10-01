@@ -1,0 +1,33 @@
+---
+id: "python-zh-function-email-utils-formatdate"
+language: "python"
+lang: "zh"
+category: "function"
+name: "formatdate"
+signature: "formatdate(timeval=None, localtime=False, usegmt=False)"
+directive: "function"
+module: "email.utils"
+source_url: "https://docs.python.org/zh-cn/3/library/email.utils.html#email.utils.formatdate"
+license: "PSF"
+updated: "2026-10-01"
+---
+
+# formatdate
+
+返回 :rfc:`2822` 标准的日期字符串，例如::
+
+   Fri, 09 Nov 2001 01:08:47 -0000
+
+Optional *timeval* if given is a floating-point time value as accepted by
+`time.gmtime` and `time.localtime`, otherwise the current time is
+used.
+
+Optional *localtime* is a flag that when `True`, interprets *timeval*, and
+returns a date relative to the local timezone instead of UTC, properly taking
+daylight savings time into account. The default is `False` meaning UTC is
+used.
+
+Optional *usegmt* is a flag that when `True`, outputs a  date string with the
+timezone as an ascii string `GMT`, rather than a numeric `-0000`. This is
+needed for some protocols (such as HTTP). This only applies when *localtime* is
+`False`.  The default is `False`.

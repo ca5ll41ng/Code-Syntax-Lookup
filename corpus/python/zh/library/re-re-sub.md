@@ -1,0 +1,81 @@
+---
+id: "python-zh-function-re-sub"
+language: "python"
+lang: "zh"
+category: "function"
+name: "sub"
+signature: "sub(pattern, repl, string, count=0, flags=0)"
+directive: "function"
+module: "re"
+source_url: "https://docs.python.org/zh-cn/3/library/re.html#re.sub"
+license: "PSF"
+updated: "2026-10-01"
+---
+
+# sub
+
+Return the string obtained by replacing the leftmost non-overlapping occurrences
+of *pattern* in *string* by the replacement *repl*.  If the pattern isn't found,
+*string* is returned unchanged.  *repl* can be a string or a function; if it is
+a string, any backslash escapes in it are processed.  That is, `\n` is
+converted to a single newline character, `\r` is converted to a carriage return, and
+so forth.  Unknown escapes of ASCII letters are reserved for future use and
+treated as errors.  Other unknown escapes such as `\&` are left alone.
+Backreferences, such
+as `\6`, are replaced with the substring matched by group 6 in the pattern.
+For example::
+
+   >>> re.sub(r'def\s+([a-zA-Z_][a-zA-Z_0-9]*)\s*\(\s*\):',
+   ...        r'static PyObject*\npy_\1(void)\n{',
+   ...        'def myfunc():')
+   'static PyObject*\npy_myfunc(void)\n{'
+
+If *repl* is a function, it is called for every non-overlapping occurrence of
+*pattern*.  The function takes a single `~re.Match` argument, and returns
+the replacement string.  For example::
+
+   >>> def dashrepl(matchobj):
+   ...     if matchobj.group(0) == '-': return ' '
+   ...     else: return '-'
+   ...
+   >>> re.sub('-{1,2}', dashrepl, 'pro----gram-files')
+   'pro--gram files'
+   >>> re.sub(r'\sAND\s', ' & ', 'Baked Beans And Spam', flags=re.IGNORECASE)
+   'Baked Beans & Spam'
+
+模式可以是一个字符串或者 :class:`~re.Pattern`。
+
+The optional argument *count* is the maximum number of pattern occurrences to be
+replaced; *count* must be a non-negative integer.  If omitted or zero, all
+occurrences will be replaced.
+
+Adjacent empty matches are not possible, but an empty match can occur
+immediately after a non-empty match.
+As a result, `sub('x*', '-', 'abxd')` returns `'-a-b--d-'`
+instead of `'-a-b-d-'`.
+
+In string-type *repl* arguments, in addition to the character escapes and
+backreferences described above,
+`\g<name>` will use the substring matched by the group named `name`, as
+defined by the `(?P<name>...)` syntax. `\g<number>` uses the corresponding
+group number; `\g<2>` is therefore equivalent to `\2`, but isn't ambiguous
+in a replacement such as `\g<2>0`.  `\20` would be interpreted as a
+reference to group 20, not a reference to group 2 followed by the literal
+character `'0'`.  The backreference `\g<0>` substitutes in the entire
+substring matched by the RE.
+
+The expression's behaviour can be modified by specifying a *flags* value.
+Values can be any of the `flags`_ variables, combined using bitwise OR
+(the `|` operator).
+
+> *Changed in 3.1*: Added the optional flags argument.
+
+> *Changed in 3.5*: Unmatched groups are replaced with an empty string.
+
+> *Changed in 3.6*: Unknown escapes in *pattern* consisting of ``'\'`` and an ASCII letter now are errors.
+
+> *Changed in 3.7*: Unknown escapes in *repl* consisting of ``'\'`` and an ASCII letter now are errors. An empty match can occur immediately after a non-empty match.
+
+> *Changed in 3.12*: Group *id* can only contain ASCII digits. In :class:`bytes` replacement strings, group *name* can only contain bytes in the ASCII range (``b'\x00'``-``b'\x7f'``).
+
+> *Deprecated since 3.13*: Passing *count* and *flags* as positional arguments is deprecated. In future Python versions they will be :ref:`keyword-only parameters <keyword-only_parameter>`.

@@ -1,0 +1,25 @@
+---
+id: "python-en-function-pyclbr-readmodule_ex"
+language: "python"
+lang: "en"
+category: "function"
+name: "readmodule_ex"
+signature: "readmodule_ex(module, path=None)"
+directive: "function"
+module: "pyclbr"
+source_url: "https://docs.python.org/3/library/pyclbr.html#pyclbr.readmodule_ex"
+license: "PSF"
+updated: "2026-10-01"
+---
+
+# readmodule_ex
+
+Return a dictionary-based tree containing a function or class
+descriptors for each function and class defined in the module with a
+`def` or `class` statement.  The returned dictionary maps
+module-level function and class names to their descriptors.  Nested
+objects are entered into the children dictionary of their parent.  As
+with readmodule, *module* names the module to be read and *path* is
+prepended to sys.path.  If the module being read is a package, the
+returned dictionary has a key `'__path__'` whose value is a list
+containing the package search path.

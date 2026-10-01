@@ -1,0 +1,42 @@
+---
+id: "python-en-function-asyncio-eventloop-loop-sock_sendfile-sock-file-offset-0-count-none"
+language: "python"
+lang: "en"
+category: "function"
+name: "loop.sock_sendfile(sock, file, offset=0, count=None, \\"
+directive: "method"
+module: "asyncio-eventloop"
+source_url: "https://docs.python.org/3/library/asyncio-eventloop.html#asyncio-eventloop.loop.sock_sendfile(sock, file, offset=0, count=None, \\"
+license: "PSF"
+updated: "2026-10-01"
+---
+
+# loop.sock_sendfile(sock, file, offset=0, count=None, \
+
+Send a file using high-performance `os.sendfile` if possible.
+Return the total number of bytes sent.
+
+Asynchronous version of `socket.sendfile()`.
+
+*sock* must be a non-blocking `socket.SOCK_STREAM`
+`~socket.socket`.
+
+*file* must be a regular file object open in binary mode.
+
+*offset* tells from where to start reading the file. If specified,
+*count* is the total number of bytes to transmit as opposed to
+sending the file until EOF is reached. File position is always updated,
+even when this method raises an error, and
+`file.tell()` can be used to obtain the actual
+number of bytes sent.
+
+*fallback*, when set to `True`, makes asyncio manually read and send
+the file when the platform does not support the sendfile syscall
+(e.g. Windows or SSL socket on Unix).
+
+Raise `SendfileNotAvailableError` if the system does not support
+*sendfile* syscall and *fallback* is `False`.
+
+*sock* must be a non-blocking socket.
+
+> *Added in 3.7*

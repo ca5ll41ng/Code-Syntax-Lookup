@@ -1,0 +1,110 @@
+---
+id: "python-en-function-locale-localeconv"
+language: "python"
+lang: "en"
+category: "function"
+name: "localeconv"
+signature: "localeconv()"
+directive: "function"
+module: "locale"
+source_url: "https://docs.python.org/3/library/locale.html#locale.localeconv"
+license: "PSF"
+updated: "2026-10-01"
+---
+
+# localeconv
+
+Returns the database of the local conventions as a dictionary. This dictionary
+has the following strings as keys:
+
++----------------------+-------------------------------------+--------------------------------+
+ Category              Key                                  Meaning                        
++======================+=====================================+================================+
+ `LC_NUMERIC`   `'decimal_point'`                  Decimal point character.       
++----------------------+-------------------------------------+--------------------------------+
+                       `'grouping'`                       Sequence of numbers specifying 
+                                                            which relative positions the   
+                                                            `'thousands_sep'` is         
+                                                            expected.  If the sequence is  
+                                                            terminated with                
+                                                            `CHAR_MAX`, no further  
+                                                            grouping is performed. If the  
+                                                            sequence terminates with a     
+                                                            `0`,  the last group size is 
+                                                            repeatedly used.               
++----------------------+-------------------------------------+--------------------------------+
+                       `'thousands_sep'`                  Character used between groups. 
++----------------------+-------------------------------------+--------------------------------+
+ `LC_MONETARY`  `'int_curr_symbol'`                International currency symbol. 
++----------------------+-------------------------------------+--------------------------------+
+                       `'currency_symbol'`                Local currency symbol.         
++----------------------+-------------------------------------+--------------------------------+
+                       `'p_cs_precedes/n_cs_precedes'`    Whether the currency symbol    
+                                                            precedes the value (for        
+                                                            positive resp. negative        
+                                                            values).                       
++----------------------+-------------------------------------+--------------------------------+
+                       `'p_sep_by_space/n_sep_by_space'`  Whether the currency symbol is 
+                                                            separated from the value  by a 
+                                                            space (for positive resp.      
+                                                            negative values).              
++----------------------+-------------------------------------+--------------------------------+
+                       `'mon_decimal_point'`              Decimal point used for         
+                                                            monetary values.               
++----------------------+-------------------------------------+--------------------------------+
+                       `'frac_digits'`                    Number of fractional digits    
+                                                            used in local formatting of    
+                                                            monetary values.               
++----------------------+-------------------------------------+--------------------------------+
+                       `'int_frac_digits'`                Number of fractional digits    
+                                                            used in international          
+                                                            formatting of monetary values. 
++----------------------+-------------------------------------+--------------------------------+
+                       `'mon_thousands_sep'`              Group separator used for       
+                                                            monetary values.               
++----------------------+-------------------------------------+--------------------------------+
+                       `'mon_grouping'`                   Equivalent to `'grouping'`,  
+                                                            used for monetary values.      
++----------------------+-------------------------------------+--------------------------------+
+                       `'positive_sign'`                  Symbol used to annotate a      
+                                                            positive monetary value.       
++----------------------+-------------------------------------+--------------------------------+
+                       `'negative_sign'`                  Symbol used to annotate a      
+                                                            negative monetary value.       
++----------------------+-------------------------------------+--------------------------------+
+                       `'p_sign_posn/n_sign_posn'`        The position of the sign (for  
+                                                            positive resp. negative        
+                                                            values), see below.            
++----------------------+-------------------------------------+--------------------------------+
+
+All numeric values can be set to `CHAR_MAX` to indicate that there is no
+value specified in this locale.
+
+The possible values for `'p_sign_posn'` and `'n_sign_posn'` are given below.
+
++--------------+-----------------------------------------+
+ Value         Explanation                             
++==============+=========================================+
+ `0`         Currency and value are surrounded by    
+               parentheses.                            
++--------------+-----------------------------------------+
+ `1`         The sign should precede the value and   
+               currency symbol.                        
++--------------+-----------------------------------------+
+ `2`         The sign should follow the value and    
+               currency symbol.                        
++--------------+-----------------------------------------+
+ `3`         The sign should immediately precede the 
+               value.                                  
++--------------+-----------------------------------------+
+ `4`         The sign should immediately follow the  
+               value.                                  
++--------------+-----------------------------------------+
+ `CHAR_MAX`  Nothing is specified in this locale.    
++--------------+-----------------------------------------+
+
+The function temporarily sets the `LC_CTYPE` locale to the `LC_NUMERIC`
+locale or the `LC_MONETARY` locale if locales are different and numeric or
+monetary strings are non-ASCII. This temporary change affects other threads.
+
+> *Changed in 3.7*: The function now temporarily sets the ``LC_CTYPE`` locale to the ``LC_NUMERIC`` locale in some cases.

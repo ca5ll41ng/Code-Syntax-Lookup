@@ -1,0 +1,29 @@
+---
+id: "python-en-function-difflib-diff_bytes"
+language: "python"
+lang: "en"
+category: "function"
+name: "diff_bytes"
+signature: "diff_bytes(dfunc, a, b, fromfile=b'', tofile=b'', fromfiledate=b'', tofiledate=b'', n=3, lineterm=b'\\n')"
+directive: "function"
+module: "difflib"
+source_url: "https://docs.python.org/3/library/difflib.html#difflib.diff_bytes"
+license: "PSF"
+updated: "2026-10-01"
+---
+
+# diff_bytes
+
+Compare *a* and *b* (lists of bytes objects) using *dfunc*; yield a
+sequence of delta lines (also bytes) in the format returned by *dfunc*.
+*dfunc* must be a callable, typically either `unified_diff` or
+`context_diff`.
+
+Allows you to compare data with unknown or inconsistent encoding. All
+inputs except *n* must be bytes objects, not str. Works by losslessly
+converting all inputs (except *n*) to str, and calling `dfunc(a, b,
+fromfile, tofile, fromfiledate, tofiledate, n, lineterm)`. The output of
+*dfunc* is then converted back to bytes, so the delta lines that you
+receive have the same unknown/inconsistent encodings as *a* and *b*.
+
+> *Added in 3.5*

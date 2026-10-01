@@ -1,0 +1,16 @@
+---
+id: "python-zh-function-test-requires_lzma"
+language: "python"
+lang: "zh"
+category: "function"
+name: "requires_lzma"
+directive: "decorator"
+module: "test"
+source_url: "https://docs.python.org/zh-cn/3/library/test.html#test.requires_lzma"
+license: "PSF"
+updated: "2026-10-01"
+---
+
+# requires_lzma
+
+用于当 :mod:`lzma` 不存在时跳过测试的装饰器。

@@ -1,0 +1,32 @@
+---
+id: "python-en-function-_thread-stack_size"
+language: "python"
+lang: "en"
+category: "function"
+name: "stack_size"
+signature: "stack_size([size])"
+directive: "function"
+module: "_thread"
+source_url: "https://docs.python.org/3/library/_thread.html#_thread.stack_size"
+license: "PSF"
+updated: "2026-10-01"
+---
+
+# stack_size
+
+Return the thread stack size used when creating new threads.  The optional
+*size* argument specifies the stack size to be used for subsequently created
+threads, and must be 0 (use platform or configured default) or a positive
+integer value of at least 32,768 (32 KiB). If *size* is not specified,
+0 is used.  If changing the thread stack size is
+unsupported, a `RuntimeError` is raised.  If the specified stack size is
+invalid, a `ValueError` is raised and the stack size is unmodified.  32 KiB
+is currently the minimum supported stack size value to guarantee sufficient
+stack space for the interpreter itself.  Note that some platforms may have
+particular restrictions on values for the stack size, such as requiring a
+minimum stack size > 32 KiB or requiring allocation in multiples of the system
+memory page size - platform documentation should be referred to for more
+information (4 KiB pages are common; using multiples of 4096 for the stack size is
+the suggested approach in the absence of more specific information).
+
+availability:: Windows, pthreads.

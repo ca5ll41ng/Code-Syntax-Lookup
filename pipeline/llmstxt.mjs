@@ -55,10 +55,10 @@ function buildForLanguage(lang, dir) {
   console.log(`${lang}: llms.txt (${entries.length} 条, ${(fs.statSync(path.join(dir, 'llms.txt')).size / 1024).toFixed(0)} KB), llms-full.txt (${(fs.statSync(path.join(dir, 'llms-full.txt')).size / 1024 / 1024).toFixed(1)} MB)`);
 }
 
-if (fs.existsSync(path.join(CORPUS, 'php'))) buildForLanguage('php', path.join(CORPUS, 'php'));
-
-// 根 llms.txt
 const langs = fs.existsSync(CORPUS) ? fs.readdirSync(CORPUS).filter((d) => fs.statSync(path.join(CORPUS, d)).isDirectory()) : [];
+for (const lang of langs) buildForLanguage(lang, path.join(CORPUS, lang));
+
+// 根 llms.txt（langs 已在上方收集）
 let root = `# Code-Syntax-Lookup\n\n> 白盒审计用多语言语法/安全知识库。人用搜索站点，AI 用本文件与 MCP 工具。\n\n## 语言知识库\n\n`;
 for (const l of langs) {
   const p = path.join(CORPUS, l, 'llms.txt');

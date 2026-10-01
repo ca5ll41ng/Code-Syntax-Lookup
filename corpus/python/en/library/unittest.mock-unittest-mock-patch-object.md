@@ -1,0 +1,27 @@
+---
+id: "python-en-function-unittest-mock-patch-object"
+language: "python"
+lang: "en"
+category: "function"
+name: "patch.object"
+signature: "patch.object(target, attribute, new=DEFAULT, spec=None, create=False, spec_set=None, autospec=None, new_callable=None, **kwargs)"
+directive: "function"
+module: "unittest.mock"
+source_url: "https://docs.python.org/3/library/unittest.mock.html#unittest.mock.patch.object"
+license: "PSF"
+updated: "2026-10-01"
+---
+
+# patch.object
+
+patch the named member (*attribute*) on an object (*target*) with a mock
+object.
+
+`patch.object` can be used as a decorator, class decorator or a context
+manager. Arguments *new*, *spec*, *create*, *spec_set*, *autospec* and
+*new_callable* have the same meaning as for `patch`. Like `patch`,
+`patch.object` takes arbitrary keyword arguments for configuring the mock
+object it creates.
+
+When used as a class decorator `patch.object` honours `patch.TEST_PREFIX`
+for choosing which methods to wrap.

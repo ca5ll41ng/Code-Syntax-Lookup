@@ -1,0 +1,35 @@
+---
+id: "python-en-function-codecs-register_error"
+language: "python"
+lang: "en"
+category: "function"
+name: "register_error"
+signature: "register_error(name, error_handler, /)"
+directive: "function"
+module: "codecs"
+source_url: "https://docs.python.org/3/library/codecs.html#codecs.register_error"
+license: "PSF"
+updated: "2026-10-01"
+---
+
+# register_error
+
+Register the error handling function *error_handler* under the name *name*.
+The *error_handler* argument will be called during encoding and decoding
+in case of an error, when *name* is specified as the errors parameter.
+
+For encoding, *error_handler* will be called with a `UnicodeEncodeError`
+instance, which contains information about the location of the error. The
+error handler must either raise this or a different exception, or return a
+tuple with a replacement for the unencodable part of the input and a position
+where encoding should continue. The replacement may be either `str` or
+`bytes`. If the replacement is bytes, the encoder will simply copy
+them into the output buffer. If the replacement is a string, the encoder will
+encode the replacement. Encoding continues on original input at the
+specified position. Negative position values will be treated as being
+relative to the end of the input string. If the resulting position is out of
+bound an `IndexError` will be raised.
+
+Decoding and translating works similarly, except `UnicodeDecodeError` or
+`UnicodeTranslateError` will be passed to the handler and that the
+replacement from the error handler will be put into the output directly.

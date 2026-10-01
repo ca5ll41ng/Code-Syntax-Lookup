@@ -1,0 +1,33 @@
+---
+id: "python-en-function-compileall-compile_path"
+language: "python"
+lang: "en"
+category: "function"
+name: "compile_path"
+signature: "compile_path(skip_curdir=True, maxlevels=0, force=False, quiet=0, legacy=False, optimize=-1, invalidation_mode=None)"
+directive: "function"
+module: "compileall"
+source_url: "https://docs.python.org/3/library/compileall.html#compileall.compile_path"
+license: "PSF"
+updated: "2026-10-01"
+---
+
+# compile_path
+
+Byte-compile all the `.py` files found along `sys.path`. Return a
+true value if all the files compiled successfully, and a false value otherwise.
+
+If *skip_curdir* is true (the default), the current directory is not included
+in the search.  All other parameters are passed to the `compile_dir`
+function.  Note that unlike the other compile functions, `maxlevels`
+defaults to `0`.
+
+> *Changed in 3.2*: Added the *legacy* and *optimize* parameter.
+
+> *Changed in 3.5*: *quiet* parameter was changed to a multilevel value.
+
+> *Changed in 3.5*: The *legacy* parameter only writes out ``.pyc`` files, not ``.pyo`` files no matter what the value of *optimize* is.
+
+> *Changed in 3.7*: The *invalidation_mode* parameter was added.
+
+> *Changed in 3.7.2*: The *invalidation_mode* parameter's default value is updated to ``None``.

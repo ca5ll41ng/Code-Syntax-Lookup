@@ -1,0 +1,35 @@
+---
+id: "python-en-function-unittest-mock-patch-multiple"
+language: "python"
+lang: "en"
+category: "function"
+name: "patch.multiple"
+signature: "patch.multiple(target, spec=None, create=False, spec_set=None, autospec=None, new_callable=None, **kwargs)"
+directive: "function"
+module: "unittest.mock"
+source_url: "https://docs.python.org/3/library/unittest.mock.html#unittest.mock.patch.multiple"
+license: "PSF"
+updated: "2026-10-01"
+---
+
+# patch.multiple
+
+Perform multiple patches in a single call. It takes the object to be
+patched (either as an object or a string to fetch the object by importing)
+and keyword arguments for the patches::
+
+    with patch.multiple(settings, FIRST_PATCH='one', SECOND_PATCH='two'):
+        ...
+
+Use `DEFAULT` as the value if you want `patch.multiple` to create
+mocks for you. In this case the created mocks are passed into a decorated
+function by keyword, and a dictionary is returned when `patch.multiple` is
+used as a context manager.
+
+`patch.multiple` can be used as a decorator, class decorator or a context
+manager. The arguments *spec*, *spec_set*, *create*, *autospec* and
+*new_callable* have the same meaning as for `patch`. These arguments will
+be applied to *all* patches done by `patch.multiple`.
+
+When used as a class decorator `patch.multiple` honours `patch.TEST_PREFIX`
+for choosing which methods to wrap.

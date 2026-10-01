@@ -1,0 +1,44 @@
+---
+id: "python-en-function-multiprocessing-value"
+language: "python"
+lang: "en"
+category: "function"
+name: "Value"
+signature: "Value(typecode_or_type, *args, lock=True)"
+directive: "function"
+module: "multiprocessing"
+source_url: "https://docs.python.org/3/library/multiprocessing.html#multiprocessing.Value"
+license: "PSF"
+updated: "2026-10-01"
+---
+
+# Value
+
+Return a `ctypes` object allocated from shared memory.  By default the
+return value is actually a synchronized wrapper for the object.  The object
+itself can be accessed via the *value* attribute of a `Value`.
+
+*typecode_or_type* determines the type of the returned object: it is either a
+ctypes type or a one character typecode of the kind used by the `array`
+module.  *\*args* is passed on to the constructor for the type.
+
+If *lock* is `True` (the default) then a new recursive lock
+object is created to synchronize access to the value.  If *lock* is
+a `Lock` or `RLock` object then that will be used to
+synchronize access to the value.  If *lock* is `False` then
+access to the returned object will not be automatically protected
+by a lock, so it will not necessarily be "process-safe".
+
+Operations like `+=` which involve a read and write are not
+atomic.  So if, for instance, you want to atomically increment a
+shared value it is insufficient to just do ::
+
+    counter.value += 1
+
+Assuming the associated lock is recursive (which it is by default)
+you can instead do ::
+
+    with counter.get_lock():
+        counter.value += 1
+
+Note that *lock* is a keyword-only argument.

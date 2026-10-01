@@ -5,3 +5,4 @@
 ## 语言知识库
 
 - [PHP 知识库索引](corpus/php/llms.txt): 函数/语法/安全条目目录，正文见同目录 llms-full.txt
+- [PYTHON 知识库索引](corpus/python/llms.txt): 函数/语法/安全条目目录，正文见同目录 llms-full.txt

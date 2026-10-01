@@ -1,0 +1,28 @@
+---
+id: "python-zh-function-socket-socketpair"
+language: "python"
+lang: "zh"
+category: "function"
+name: "socketpair"
+signature: "socketpair([family[, type[, proto]]])"
+directive: "function"
+module: "socket"
+source_url: "https://docs.python.org/zh-cn/3/library/socket.html#socket.socketpair"
+license: "PSF"
+updated: "2026-10-01"
+---
+
+# socketpair
+
+Build a pair of connected socket objects using the given address family, socket
+type, and protocol number.  Address family, socket type, and protocol number are
+as for the `~socket.socket` function. The default family is `AF_UNIX`
+if defined on the platform; otherwise, the default is `AF_INET`.
+
+新创建的套接字都是 :ref:`不可继承的 <fd_inheritance>`。
+
+> *Changed in 3.2*: The returned socket objects now support the whole socket API, rather than a subset.
+
+> *Changed in 3.4*: The returned sockets are now non-inheritable.
+
+> *Changed in 3.5*: Windows support added.

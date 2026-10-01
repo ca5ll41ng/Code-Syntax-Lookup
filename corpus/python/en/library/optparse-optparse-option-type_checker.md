@@ -1,0 +1,33 @@
+---
+id: "python-en-function-optparse-option-type_checker"
+language: "python"
+lang: "en"
+category: "function"
+name: "Option.TYPE_CHECKER"
+directive: "attribute"
+module: "optparse"
+source_url: "https://docs.python.org/3/library/optparse.html#optparse.Option.TYPE_CHECKER"
+license: "PSF"
+updated: "2026-10-01"
+---
+
+# Option.TYPE_CHECKER
+
+A dictionary mapping type names to type-checking functions.  A type-checking
+function has the following signature::
+
+   def check_mytype(option, opt, value)
+
+where `option` is an `Option` instance, `opt` is an option string
+(e.g., `-f`), and `value` is the string from the command line that must
+be checked and converted to your desired type.  `check_mytype()` should
+return an object of the hypothetical type `mytype`.  The value returned by
+a type-checking function will wind up in the OptionValues instance returned
+by `OptionParser.parse_args`, or be passed to a callback as the
+`value` parameter.
+
+Your type-checking function should raise `OptionValueError` if it
+encounters any problems.  `OptionValueError` takes a single string
+argument, which is passed as-is to `OptionParser`'s `error`
+method, which in turn prepends the program name and the string `"error:"`
+and prints everything to stderr before terminating the process.

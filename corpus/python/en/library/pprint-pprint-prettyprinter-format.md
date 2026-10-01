@@ -1,0 +1,29 @@
+---
+id: "python-en-function-pprint-prettyprinter-format"
+language: "python"
+lang: "en"
+category: "function"
+name: "PrettyPrinter.format"
+signature: "PrettyPrinter.format(object, context, maxlevels, level)"
+directive: "method"
+module: "pprint"
+source_url: "https://docs.python.org/3/library/pprint.html#pprint.PrettyPrinter.format"
+license: "PSF"
+updated: "2026-10-01"
+---
+
+# PrettyPrinter.format
+
+Returns three values: the formatted version of *object* as a string, a flag
+indicating whether the result is readable, and a flag indicating whether
+recursion was detected.  The first argument is the object to be presented.  The
+second is a dictionary which contains the `id` of objects that are part of
+the current presentation context (direct and indirect containers for *object*
+that are affecting the presentation) as the keys; if an object needs to be
+presented which is already represented in *context*, the third return value
+should be `True`.  Recursive calls to the `.format` method should add
+additional entries for containers to this dictionary.  The third argument,
+*maxlevels*, gives the requested limit to recursion; this will be `0` if there
+is no requested limit.  This argument should be passed unmodified to recursive
+calls. The fourth argument, *level*, gives the current level; recursive calls
+should be passed a value less than that of the current call.

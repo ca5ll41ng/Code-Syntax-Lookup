@@ -1,0 +1,30 @@
+---
+id: "python-en-function-ssl-sslcontext-maximum_version"
+language: "python"
+lang: "en"
+category: "function"
+name: "SSLContext.maximum_version"
+directive: "attribute"
+module: "ssl"
+source_url: "https://docs.python.org/3/library/ssl.html#ssl.SSLContext.maximum_version"
+license: "PSF"
+updated: "2026-10-01"
+---
+
+# SSLContext.maximum_version
+
+A `TLSVersion` enum member representing the highest supported
+TLS version. The value defaults to `TLSVersion.MAXIMUM_SUPPORTED`.
+The attribute is read-only for protocols other than `PROTOCOL_TLS`,
+`PROTOCOL_TLS_CLIENT`, and `PROTOCOL_TLS_SERVER`.
+
+The attributes `~SSLContext.maximum_version`,
+`~SSLContext.minimum_version` and
+`SSLContext.options` all affect the supported SSL
+and TLS versions of the context. The implementation does not prevent
+invalid combinations. For example a context with
+`OP_NO_TLSv1_2` in `~SSLContext.options` and
+`~SSLContext.maximum_version` set to `TLSVersion.TLSv1_2`
+will not be able to establish a TLS 1.2 connection.
+
+> *Added in 3.7*

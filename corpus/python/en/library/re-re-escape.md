@@ -1,0 +1,42 @@
+---
+id: "python-en-function-re-escape"
+language: "python"
+lang: "en"
+category: "function"
+name: "escape"
+signature: "escape(pattern)"
+directive: "function"
+module: "re"
+source_url: "https://docs.python.org/3/library/re.html#re.escape"
+license: "PSF"
+updated: "2026-10-01"
+---
+
+# escape
+
+Escape special characters in *pattern*.
+This is useful if you want to match an arbitrary literal string that may
+have regular expression metacharacters in it.  For example::
+
+   >>> print(re.escape('https://www.python.org'))
+   https://www\.python\.org
+
+   >>> legal_chars = string.ascii_lowercase + string.digits + "!#$%&'*+-.^_`~:"
+   >>> print('[%s]+' % re.escape(legal_chars))
+   [abcdefghijklmnopqrstuvwxyz0123456789!\#\$%\&'\*\+\-\.\^_`\\~:]+
+
+   >>> operators = ['+', '-', '*', '/', '**']
+   >>> print(''.join(map(re.escape, sorted(operators, reverse=True))))
+   /\-\+\*\*|\*
+
+This function must not be used for the replacement string in `sub`
+and `subn`, only backslashes should be escaped.  For example::
+
+   >>> digits_re = r'\d+'
+   >>> sample = '/usr/sbin/sendmail - 0 errors, 12 warnings'
+   >>> print(re.sub(digits_re, digits_re.replace('\\', r'\\'), sample))
+   /usr/sbin/sendmail - \d+ errors, \d+ warnings
+
+> *Changed in 3.3*: The ``'_'`` character is no longer escaped.
+
+> *Changed in 3.7*: Only characters that can have special meaning in a regular expression are escaped. As a result, ``'!'``, ``'"'``, ``'%'``, ``"'"``, ``','``, ``'/'``, ``':'``, ``';'``, ``'<'``, ``'='``, ``'>'``, ``'@'``, and ``"`"`` are no longer escaped.
