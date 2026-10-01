@@ -1,0 +1,365 @@
+---
+id: "en-php-guide-swoole-constants"
+language: "php"
+lang: "en"
+category: "guide"
+name: "swoole.constants"
+title: "Predefined Constants"
+module: "swoole"
+source_url: "https://www.php.net/manual/en/swoole.constants.php"
+license: "CC-BY-3.0"
+updated: "2026-10-01"
+---
+
+# Predefined Constants
+
+The constants below are defined by this extension, and will only be available when the extension has either been compiled into PHP or dynamically loaded at runtime.
+
+- **`SWOOLE_VERSION` (`string`)** — Swoole version.
+- **`SWOOLE_VERSION_ID` (`int`)** — Swoole version.
+- **`SWOOLE_MAJOR_VERSION` (`int`)** — Swoole major version.
+- **`SWOOLE_MINOR_VERSION` (`int`)** — Swoole minor version.
+- **`SWOOLE_RELEASE_VERSION` (`int`)** — Swoole release version.
+- **`SWOOLE_EXTRA_VERSION` (`string`)** — Swoole extra version.
+- **`SWOOLE_DEBUG` (`int`)** — Debug mode.
+- **`SWOOLE_HAVE_COMPRESSION` (`int`)** — Enable HTTP response compression mode.
+- **`SWOOLE_HAVE_ZLIB` (`int`)** — Have zlib compression tool.
+- **`SWOOLE_HAVE_BROTLI` (`int`)** — Have brotli compression tool.
+- **`SWOOLE_USE_HTTP2` (`int`)** — Support http2 server.
+- **`SWOOLE_USE_SHORTNAME` (`int`)** — Enable/disable short aliases.
+- **`SWOOLE_SOCK_TCP` (`int`)** — TCP ipv4 socket.
+- **`SWOOLE_SOCK_TCP6` (`int`)** — TCP ipv6 socket.
+- **`SWOOLE_SOCK_UDP` (`int`)** — UDP ipv4 socket.
+- **`SWOOLE_SOCK_UDP6` (`int`)** — UDP ipv6 socket.
+- **`SWOOLE_SOCK_UNIX_DGRAM` (`int`)** — UNIX socket dgram.
+- **`SWOOLE_SOCK_UNIX_STREAM` (`int`)** — UNIX socket stream.
+- **`SWOOLE_SOCK_SYNC` (`int`)** — Synchronous client mode.
+- **`SWOOLE_SOCK_ASYNC` (`int`)** — Asynchronous client mode.
+- **`SWOOLE_KEEP` (`int`)** — Swoole\Client supports creating a TCP long connection to the server in PHP-FPM/Apache.
+- **`SWOOLE_SSL` (`int`)** — Enable SSL tunnel encryption.
+- **`SWOOLE_SSLv3_METHOD` (`int`)** — SSLv3 method.
+- **`SWOOLE_SSLv3_SERVER_METHOD` (`int`)** — SSLv3 server method.
+- **`SWOOLE_SSLv3_CLIENT_METHOD` (`int`)** — SSLv3 client method.
+- **`SWOOLE_TLSv1_METHOD` (`int`)** — TLSv1 method.
+- **`SWOOLE_TLSv1_SERVER_METHOD` (`int`)** — TLSv1 server method.
+- **`SWOOLE_TLSv1_CLIENT_METHOD` (`int`)** — TLSv1 client method.
+- **`SWOOLE_TLSv1_1_METHOD` (`int`)** — TLSv1_1 method.
+- **`SWOOLE_TLSv1_1_SERVER_METHOD` (`int`)** — TLSv1_1 server method.
+- **`SWOOLE_TLSv1_1_CLIENT_METHOD` (`int`)** — TLSv1_1 client method.
+- **`SWOOLE_TLSv1_2_METHOD` (`int`)** — TLSv1_2 method.
+- **`SWOOLE_TLSv1_2_SERVER_METHOD` (`int`)** — TLSv1_2 server method.
+- **`SWOOLE_TLSv1_2_CLIENT_METHOD` (`int`)** — TLSv1_2 client method.
+- **`SWOOLE_DTLS_SERVER_METHOD` (`int`)** — DTLS server method.
+- **`SWOOLE_DTLS_CLIENT_METHOD` (`int`)** — DTLS client method.
+- **`SWOOLE_SSLv23_METHOD` (`int`)** — SSLv23 method.
+- **`SWOOLE_SSLv23_SERVER_METHOD` (`int`)** — SSLv23 server method.
+- **`SWOOLE_SSLv23_CLIENT_METHOD` (`int`)** — SSLv23 client method.
+- **`SWOOLE_TLS_METHOD` (`int`)** — TLS method.
+- **`SWOOLE_TLS_SERVER_METHOD` (`int`)** — TLS server method.
+- **`SWOOLE_TLS_CLIENT_METHOD` (`int`)** — TLS client method.
+- **`SWOOLE_SSL_SSLv3` (`int`)** — SSLv3 protocol.
+- **`SWOOLE_SSL_TLSv1` (`int`)** — TLSv1 protocol.
+- **`SWOOLE_SSL_TLSv1_1` (`int`)** — TLSv1_1 protocol.
+- **`SWOOLE_SSL_TLSv1_2` (`int`)** — TLSv1_2 protocol.
+- **`SWOOLE_SSL_TLSv1_3` (`int`)** — TLSv1_3 protocol.
+- **`SWOOLE_SSL_DTLS` (`int`)** — DTLS protocol.
+- **`SWOOLE_SSL_SSLv2` (`int`)** — SSLv2 protocol.
+- **`SWOOLE_EVENT_READ` (`int`)** — Whether to listen for readable events.
+- **`SWOOLE_EVENT_WRITE` (`int`)** — Whether to listen for writable events.
+- **`SWOOLE_STRERROR_SYSTEM` (`int`)** — Convert the system errno no into error messages.
+- **`SWOOLE_STRERROR_GAI` (`int`)** — Convert the addr info errno no into error messages.
+- **`SWOOLE_STRERROR_DNS` (`int`)** — Convert the DNS errno no into error messages.
+- **`SWOOLE_STRERROR_SWOOLE` (`int`)** — Convert the swoole errno no into error messages.
+- **`SWOOLE_ERROR_MALLOC_FAIL` (`int`)** — Malloc memory fail.
+- **`SWOOLE_ERROR_SYSTEM_CALL_FAIL` (`int`)** — System call fail.
+- **`SWOOLE_ERROR_PHP_FATAL_ERROR` (`int`)** — PHP fatal error.
+- **`SWOOLE_ERROR_NAME_TOO_LONG` (`int`)** — Name too long.
+- **`SWOOLE_ERROR_INVALID_PARAMS` (`int`)** — Invalid params.
+- **`SWOOLE_ERROR_QUEUE_FULL` (`int`)** — Queue full.
+- **`SWOOLE_ERROR_OPERATION_NOT_SUPPORT` (`int`)** — Operation not support.
+- **`SWOOLE_ERROR_PROTOCOL_ERROR` (`int`)** — Protocol error.
+- **`SWOOLE_ERROR_WRONG_OPERATION` (`int`)** — Wrong operation.
+- **`SWOOLE_ERROR_PHP_RUNTIME_NOTICE` (`int`)** — PHP runtime notice.
+- **`SWOOLE_ERROR_FOR_TEST` (`int`)** — For test.
+- **`SWOOLE_ERROR_NO_PAYLOAD` (`int`)** — No payload.
+- **`SWOOLE_ERROR_UNDEFINED_BEHAVIOR` (`int`)** — Undefined behavior.
+- **`SWOOLE_ERROR_NOT_THREAD_SAFETY` (`int`)** — Not thread safety.
+- **`SWOOLE_ERROR_FILE_NOT_EXIST` (`int`)** — File not exist.
+- **`SWOOLE_ERROR_FILE_TOO_LARGE` (`int`)** — File too large.
+- **`SWOOLE_ERROR_FILE_EMPTY` (`int`)** — File empty.
+- **`SWOOLE_ERROR_DNSLOOKUP_DUPLICATE_REQUEST` (`int`)** — DNS Lookup duplicate request.
+- **`SWOOLE_ERROR_DNSLOOKUP_RESOLVE_FAILED` (`int`)** — DNS Lookup resolve failed.
+- **`SWOOLE_ERROR_DNSLOOKUP_RESOLVE_TIMEOUT` (`int`)** — DNS Lookup resolve timeout.
+- **`SWOOLE_ERROR_DNSLOOKUP_UNSUPPORTED` (`int`)** — DNS Lookup unsupported.
+- **`SWOOLE_ERROR_DNSLOOKUP_NO_SERVER` (`int`)** — DNS Lookup no server.
+- **`SWOOLE_ERROR_BAD_IPV6_ADDRESS` (`int`)** — Bad ipv6 address.
+- **`SWOOLE_ERROR_UNREGISTERED_SIGNAL` (`int`)** — Unregistered signal.
+- **`SWOOLE_ERROR_BAD_HOST_ADDR` (`int`)** — Bad host addr.
+- **`SWOOLE_ERROR_EVENT_SOCKET_REMOVED` (`int`)** — Event socket removed.
+- **`SWOOLE_ERROR_SESSION_CLOSED_BY_SERVER` (`int`)** — Session closed by server.
+- **`SWOOLE_ERROR_SESSION_CLOSED_BY_CLIENT` (`int`)** — Session closed by client.
+- **`SWOOLE_ERROR_SESSION_CLOSING` (`int`)** — Session closing.
+- **`SWOOLE_ERROR_SESSION_CLOSED` (`int`)** — Session closed.
+- **`SWOOLE_ERROR_SESSION_NOT_EXIST` (`int`)** — Session not exist.
+- **`SWOOLE_ERROR_SESSION_INVALID_ID` (`int`)** — Session invalid id.
+- **`SWOOLE_ERROR_SESSION_DISCARD_TIMEOUT_DATA` (`int`)** — Session discard timeout data.
+- **`SWOOLE_ERROR_SESSION_DISCARD_DATA` (`int`)** — Session discard data.
+- **`SWOOLE_ERROR_OUTPUT_BUFFER_OVERFLOW` (`int`)** — Output buffer overflow.
+- **`SWOOLE_ERROR_OUTPUT_SEND_YIELD` (`int`)** — Output send yield
+- **`SWOOLE_ERROR_SSL_NOT_READY` (`int`)** — SSL not ready
+- **`SWOOLE_ERROR_SSL_CANNOT_USE_SENFILE` (`int`)** — SSL cannot use sendfile
+- **`SWOOLE_ERROR_SSL_EMPTY_PEER_CERTIFICATE` (`int`)** — SSL empty peer certificate.
+- **`SWOOLE_ERROR_SSL_VERIFY_FAILED` (`int`)** — SSL verify failed.
+- **`SWOOLE_ERROR_SSL_BAD_CLIENT` (`int`)** — SSL bad client.
+- **`SWOOLE_ERROR_SSL_BAD_PROTOCOL` (`int`)** — SSL bad protocol.
+- **`SWOOLE_ERROR_SSL_RESET` (`int`)** — SSL reset.
+- **`SWOOLE_ERROR_SSL_HANDSHAKE_FAILED` (`int`)** — SSL handshake failed.
+- **`SWOOLE_ERROR_PACKAGE_LENGTH_TOO_LARGE` (`int`)** — Package length too large.
+- **`SWOOLE_ERROR_PACKAGE_LENGTH_NOT_FOUND` (`int`)** — Package length not found.
+- **`SWOOLE_ERROR_DATA_LENGTH_TOO_LARGE` (`int`)** — Data length too large.
+- **`SWOOLE_ERROR_PACKAGE_MALFORMED_DATA` (`int`)** — Package malformed error data.
+- **`SWOOLE_ERROR_TASK_PACKAGE_TOO_BIG` (`int`)** — Task package too big.
+- **`SWOOLE_ERROR_TASK_DISPATCH_FAIL` (`int`)** — Task dispatch fail.
+- **`SWOOLE_ERROR_TASK_TIMEOUT` (`int`)** — Task timeout.
+- **`SWOOLE_ERROR_HTTP2_STREAM_ID_TOO_BIG` (`int`)** — Http2 stream id too big.
+- **`SWOOLE_ERROR_HTTP2_STREAM_NO_HEADER` (`int`)** — Http2 stream no header.
+- **`SWOOLE_ERROR_HTTP2_STREAM_NOT_FOUND` (`int`)** — Http2 stream not found.
+- **`SWOOLE_ERROR_HTTP2_STREAM_IGNORE` (`int`)** — Http2 stream ignore.
+- **`SWOOLE_ERROR_HTTP2_SEND_CONTROL_FRAME_FAILED` (`int`)** — Http2 send control frame failed.
+- **`SWOOLE_ERROR_AIO_BAD_REQUEST` (`int`)** — Aio bad request.
+- **`SWOOLE_ERROR_AIO_CANCELED` (`int`)** — Aio canceled.
+- **`SWOOLE_ERROR_AIO_TIMEOUT` (`int`)** — Aio timeout.
+- **`SWOOLE_ERROR_CLIENT_NO_CONNECTION` (`int`)** — Client no connection.
+- **`SWOOLE_ERROR_SOCKET_CLOSED` (`int`)** — Socket closed.
+- **`SWOOLE_ERROR_SOCKET_POLL_TIMEOUT` (`int`)** — Socket poll timeout.
+- **`SWOOLE_ERROR_SOCKS5_UNSUPPORT_VERSION` (`int`)** — Socks5 unsupported version.
+- **`SWOOLE_ERROR_SOCKS5_UNSUPPORT_METHOD` (`int`)** — Socks5 unsupported method.
+- **`SWOOLE_ERROR_SOCKS5_AUTH_FAILED` (`int`)** — Socks5 auth failed.
+- **`SWOOLE_ERROR_SOCKS5_SERVER_ERROR` (`int`)** — Socks5 server error.
+- **`SWOOLE_ERROR_SOCKS5_HANDSHAKE_FAILED` (`int`)** — Socks5 handshake failed.
+- **`SWOOLE_ERROR_HTTP_PROXY_HANDSHAKE_ERROR` (`int`)** — Http proxy handshake error.
+- **`SWOOLE_ERROR_HTTP_INVALID_PROTOCOL` (`int`)** — Http invalid protocol.
+- **`SWOOLE_ERROR_HTTP_PROXY_HANDSHAKE_FAILED` (`int`)** — Http proxy handshake failed.
+- **`SWOOLE_ERROR_HTTP_PROXY_BAD_RESPONSE` (`int`)** — Http proxy bad response.
+- **`SWOOLE_ERROR_HTTP_CONFLICT_HEADER` (`int`)** — Http conflict header.
+- **`SWOOLE_ERROR_HTTP_CONTEXT_UNAVAILABLE` (`int`)** — Http context unavailable.
+- **`SWOOLE_ERROR_HTTP_COOKIE_UNAVAILABLE` (`int`)** — Http cookie unavailable.
+- **`SWOOLE_ERROR_WEBSOCKET_BAD_CLIENT` (`int`)** — Websocket bad client.
+- **`SWOOLE_ERROR_WEBSOCKET_BAD_OPCODE` (`int`)** — Websocket bad opcode.
+- **`SWOOLE_ERROR_WEBSOCKET_UNCONNECTED` (`int`)** — Websocket unconnected.
+- **`SWOOLE_ERROR_WEBSOCKET_HANDSHAKE_FAILED` (`int`)** — Websocket handshake failed.
+- **`SWOOLE_ERROR_WEBSOCKET_PACK_FAILED` (`int`)** — Websocket pack failed.
+- **`SWOOLE_ERROR_WEBSOCKET_UNPACK_FAILED` (`int`)** — Websocket unpack failed.
+- **`SWOOLE_ERROR_WEBSOCKET_INCOMPLETE_PACKET` (`int`)** — Websocket incomplete packet.
+- **`SWOOLE_ERROR_SERVER_MUST_CREATED_BEFORE_CLIENT` (`int`)** — Server must be created before client.
+- **`SWOOLE_ERROR_SERVER_TOO_MANY_SOCKET` (`int`)** — Server too many socket.
+- **`SWOOLE_ERROR_SERVER_WORKER_TERMINATED` (`int`)** — Server worker terminated.
+- **`SWOOLE_ERROR_SERVER_INVALID_LISTEN_PORT` (`int`)** — Server invalid listen port.
+- **`SWOOLE_ERROR_SERVER_TOO_MANY_LISTEN_PORT` (`int`)** — Server too many listen port.
+- **`SWOOLE_ERROR_SERVER_PIPE_BUFFER_FULL` (`int`)** — Server pipe buffer full.
+- **`SWOOLE_ERROR_SERVER_NO_IDLE_WORKER` (`int`)** — Server no idle worker.
+- **`SWOOLE_ERROR_SERVER_ONLY_START_ONE` (`int`)** — Server only start one.
+- **`SWOOLE_ERROR_SERVER_SEND_IN_MASTER` (`int`)** — Server send in master.
+- **`SWOOLE_ERROR_SERVER_INVALID_REQUEST` (`int`)** — Server invalid request.
+- **`SWOOLE_ERROR_SERVER_CONNECT_FAIL` (`int`)** — Server connect failed.
+- **`SWOOLE_ERROR_SERVER_INVALID_COMMAND` (`int`)** — Server invalid command.
+- **`SWOOLE_ERROR_SERVER_IS_NOT_REGULAR_FILE` (`int`)** — Server is not regular file.
+- **`SWOOLE_ERROR_SERVER_SEND_TO_WOKER_TIMEOUT` (`int`)** — Server send to woker timeout.
+- **`SWOOLE_ERROR_SERVER_INVALID_CALLBACK` (`int`)** — Server invalid callback.
+- **`SWOOLE_ERROR_SERVER_UNRELATED_THREAD` (`int`)** — Server unrelated thread.
+- **`SWOOLE_ERROR_SERVER_WORKER_EXIT_TIMEOUT` (`int`)** — Server worker exit timeout.
+- **`SWOOLE_ERROR_SERVER_WORKER_ABNORMAL_PIPE_DATA` (`int`)** — Server worker abnormal pipe data.
+- **`SWOOLE_ERROR_SERVER_WORKER_UNPROCESSED_DATA` (`int`)** — Server worker unprocessed data.
+- **`SWOOLE_ERROR_CO_OUT_OF_COROUTINE` (`int`)** — Coroutine out of coroutine.
+- **`SWOOLE_ERROR_CO_HAS_BEEN_BOUND` (`int`)** — Coroutine has been bound.
+- **`SWOOLE_ERROR_CO_HAS_BEEN_DISCARDED` (`int`)** — Coroutine has been discarded.
+- **`SWOOLE_ERROR_CO_MUTEX_DOUBLE_UNLOCK` (`int`)** — Coroutine mutex double unlock.
+- **`SWOOLE_ERROR_CO_BLOCK_OBJECT_LOCKED` (`int`)** — Coroutine block object locked.
+- **`SWOOLE_ERROR_CO_BLOCK_OBJECT_WAITING` (`int`)** — Coroutine block object waiting.
+- **`SWOOLE_ERROR_CO_YIELD_FAILED` (`int`)** — Coroutine yield failed.
+- **`SWOOLE_ERROR_CO_GETCONTEXT_FAILED` (`int`)** — Coroutine getcontext failed.
+- **`SWOOLE_ERROR_CO_SWAPCONTEXT_FAILED` (`int`)** — Coroutine swapcontext failed.
+- **`SWOOLE_ERROR_CO_MAKECONTEXT_FAILED` (`int`)** — Coroutine makecontext failed.
+- **`SWOOLE_ERROR_CO_IOCPINIT_FAILED` (`int`)** — Coroutine iocpinit failed.
+- **`SWOOLE_ERROR_CO_PROTECT_STACK_FAILED` (`int`)** — Coroutine protect stack failed.
+- **`SWOOLE_ERROR_CO_STD_THREAD_LINK_ERROR` (`int`)** — Coroutine std thread link error.
+- **`SWOOLE_ERROR_CO_DISABLED_MULTI_THREAD` (`int`)** — Coroutine disabled multi thread.
+- **`SWOOLE_ERROR_CO_CANNOT_CANCEL` (`int`)** — Coroutine cannot cancel.
+- **`SWOOLE_ERROR_CO_NOT_EXISTS` (`int`)** — Coroutine not exists.
+- **`SWOOLE_ERROR_CO_CANCELED` (`int`)** — Coroutine canceled.
+- **`SWOOLE_ERROR_CO_TIMEDOUT` (`int`)** — Coroutine timedout.
+- **`SWOOLE_ERROR_CO_SOCKET_CLOSE_WAIT` (`int`)** — Coroutine socket close wait.
+- **`SWOOLE_TRACE_SERVER` (`int`)** — Record server log flag.
+- **`SWOOLE_TRACE_CLIENT` (`int`)** — Record client log flag.
+- **`SWOOLE_TRACE_BUFFER` (`int`)** — Record buffer log flag.
+- **`SWOOLE_TRACE_CONN` (`int`)** — Record connect log flag.
+- **`SWOOLE_TRACE_EVENT` (`int`)** — Record event log flag.
+- **`SWOOLE_TRACE_WORKER` (`int`)** — Record worker log flag.
+- **`SWOOLE_TRACE_MEMORY` (`int`)** — Record memory log flag.
+- **`SWOOLE_TRACE_REACTOR` (`int`)** — Record reactor log flag.
+- **`SWOOLE_TRACE_PHP` (`int`)** — Record php log flag.
+- **`SWOOLE_TRACE_HTTP` (`int`)** — Record http log flag.
+- **`SWOOLE_TRACE_HTTP2` (`int`)** — Record http2 log flag.
+- **`SWOOLE_TRACE_EOF_PROTOCOL` (`int`)** — Record eof protocol log flag.
+- **`SWOOLE_TRACE_LENGTH_PROTOCOL` (`int`)** — Record length protocol log flag.
+- **`SWOOLE_TRACE_CLOSE` (`int`)** — Record close event log flag.
+- **`SWOOLE_TRACE_WEBSOCKET` (`int`)** — Record websocket log flag.
+- **`SWOOLE_TRACE_REDIS_CLIENT` (`int`)** — Record redis client log flag.
+- **`SWOOLE_TRACE_MYSQL_CLIENT` (`int`)** — Record mysql client log flag.
+- **`SWOOLE_TRACE_HTTP_CLIENT` (`int`)** — Record http client log flag.
+- **`SWOOLE_TRACE_AIO` (`int`)** — Record AIO log flag.
+- **`SWOOLE_TRACE_SSL` (`int`)** — Record SSL log flag.
+- **`SWOOLE_TRACE_NORMAL` (`int`)** — Record normal log flag.
+- **`SWOOLE_TRACE_CHANNEL` (`int`)** — Record channel log flag.
+- **`SWOOLE_TRACE_TIMER` (`int`)** — Record timer log flag.
+- **`SWOOLE_TRACE_SOCKET` (`int`)** — Record socket log flag.
+- **`SWOOLE_TRACE_COROUTINE` (`int`)** — Record coroutine log flag.
+- **`SWOOLE_TRACE_CONTEXT` (`int`)** — Record context log flag.
+- **`SWOOLE_TRACE_CO_HTTP_SERVER` (`int`)** — Record coroutine http server log flag.
+- **`SWOOLE_TRACE_TABLE` (`int`)** — Record table log flag.
+- **`SWOOLE_TRACE_CO_CURL` (`int`)** — Record coroutine curl log flag.
+- **`SWOOLE_TRACE_CARES` (`int`)** — Record cares log flag.
+- **`SWOOLE_TRACE_ZLIB` (`int`)** — Record zlib log flag.
+- **`SWOOLE_TRACE_CO_PGSQL` (`int`)** — Record pgsql coroutine log flag.
+- **`SWOOLE_TRACE_CO_ODBC` (`int`)** — Record odbc coroutine log flag.
+- **`SWOOLE_TRACE_CO_ORACLE` (`int`)** — Record oracle coroutine log flag.
+- **`SWOOLE_TRACE_CO_SQLITE` (`int`)** — Record sqlite coroutine log flag.
+- **`SWOOLE_TRACE_ALL` (`int`)** — Record all level log flag.
+- **`SWOOLE_LOG_DEBUG` (`int`)** — Record debug level log flag.
+- **`SWOOLE_LOG_TRACE` (`int`)** — Record trace level log flag.
+- **`SWOOLE_LOG_INFO` (`int`)** — Record info level log flag.
+- **`SWOOLE_LOG_NOTICE` (`int`)** — Record notice level log flag.
+- **`SWOOLE_LOG_WARNING` (`int`)** — Record warning level log flag.
+- **`SWOOLE_LOG_ERROR` (`int`)** — Record error level log flag.
+- **`SWOOLE_LOG_NONE` (`int`)** — Equivalent to turning off log information, log information will not be thrown.
+- **`SWOOLE_LOG_ROTATION_SINGLE` (`int`)** — disable log rotation.
+- **`SWOOLE_LOG_ROTATION_MONTHLY` (`int`)** — Rotate logs monthly.
+- **`SWOOLE_LOG_ROTATION_DAILY` (`int`)** — Rotate logs daily.
+- **`SWOOLE_LOG_ROTATION_HOURLY` (`int`)** — Rotate logs hourly.
+- **`SWOOLE_LOG_ROTATION_EVERY_MINUTE` (`int`)** — Rotate logs every minute.
+- **`SWOOLE_IPC_NONE` (`int`)** — Do not use any inter-process communication (IPC) features.
+- **`SWOOLE_IPC_UNIXSOCK` (`int`)** — For inter-process communication (IPC), using Unix domain sockets (UnixSocket) in coroutine mode is highly recommended.
+- **`SWOOLE_IPC_SOCKET` (`int`)** — To use sockets for inter-process communication (IPC), the listen method must be called to specify the address and port to monitor.
+- **`SWOOLE_IOV_MAX` (`int`)** — MAX iov limit.
+- **`SWOOLE_IOURING_DEFAULT` (`int`)** — In interrupt-driven mode, I/O requests can be submitted via the io_uring_enter syscall, and completion is determined by directly checking the completion queue status.
+- **`SWOOLE_IOURING_SQPOLL` (`int`)** — In kernel polling mode, the kernel creates dedicated threads to submit and reap I/O requests, nearly eliminating user-kernel context switches.
+- **`SWOOLE_BASE` (`int`)** — Basic mode.
+- **`SWOOLE_PROCESS` (`int`)** — Multi-process mode.
+- **`SWOOLE_THREAD` (`int`)** — Multi-thread mode.
+- **`SWOOLE_IPC_UNSOCK` (`int`)** — The task process communicates with the worker process using a Unix Socket.
+- **`SWOOLE_IPC_MSGQUEUE` (`int`)** — The task process communicates with the worker process using a sysvmsg queue.
+- **`SWOOLE_IPC_PREEMPTIVE` (`int`)** — The task process communicates with the worker process using a preemptive mode over a sysvmsg queue.
+- **`SWOOLE_SERVER_COMMAND_MASTER` (`int`)** — Master process accept requests.
+- **`SWOOLE_SERVER_COMMAND_MANAGER` (`int`)** — Manager process accept requests.
+- **`SWOOLE_SERVER_COMMAND_REACTOR_THREAD` (`int`)** — Reactor thread accept requests.
+- **`SWOOLE_SERVER_COMMAND_EVENT_WORKER` (`int`)** — Event worker thread process accept requests.
+- **`SWOOLE_SERVER_COMMAND_TASK_WORKER` (`int`)** — Task worker thread process accept requests.
+- **`SWOOLE_DISPATCH_ROUND` (`int`)** — Round robin mode, each Worker process will be allocated sequentially for every received connection.
+- **`SWOOLE_DISPATCH_FDMOD` (`int`)** — Allocate Worker based on the connection's file descriptor. This ensures that data from the same connection will be processed by the same Worker only.
+- **`SWOOLE_DISPATCH_IDLE_WORKER` (`int`)** — The main process will choose delivery based on the workload status of the Worker, delivering only to idle Workers.
+- **`SWOOLE_DISPATCH_IPMOD` (`int`)** — Allocate based on client IP using modulo hash, assigning to a specific Worker process. This ensures that data from the same source IP connection will always be assigned to the same Worker process. Algorithm: inet_addr_mod(ClientIP, worker_num).
+- **`SWOOLE_DISPATCH_UIDMOD` (`int`)** — Requires binding a connection to a unique uid by calling Server->bind() in the user code. Then, the underlying system allocates to different Worker processes based on the value of UID. Algorithm: UID % worker_num. To use strings as UID, you can use crc32(UID_STRING).
+- **`SWOOLE_DISPATCH_USERFUNC` (`int`)** — Set a dispatch_func callback function, where its return value determines which process handles the request.
+- **`SWOOLE_DISPATCH_CO_CONN_LB` (`int`)** — Determine which process handles the request based on the number of connections.
+- **`SWOOLE_DISPATCH_CO_REQ_LB` (`int`)** — Determine which process handles the request based on the number of requests.
+- **`SWOOLE_DISPATCH_CONCURRENT_LB` (`int`)** — Determine which process handles the request based on concurrency count.
+- **`SWOOLE_WORKER_BUSY` (`int`)** — Process is busy.
+- **`SWOOLE_WORKER_IDLE` (`int`)** — Process is idle.
+- **`SWOOLE_WORKER_EXIT` (`int`)** — Process exited.
+- **`SWOOLE_MUTEX` (`int`)** — Mutex lock.
+- **`SWOOLE_RWLOCK` (`int`)** — RW lock.
+- **`SWOOLE_SPINLOCK` (`int`)** — Spin lock.
+- **`SWOOLE_CORO_MAX_NUM_LIMIT` (`int`)** — Maximum number of coroutines created(PHP_INT_MAX).
+- **`SWOOLE_CORO_INIT` (`int`)** — Coroutine initializing.
+- **`SWOOLE_CORO_WAITING` (`int`)** — Coroutine yield.
+- **`SWOOLE_CORO_RUNNING` (`int`)** — Coroutine completed
+- **`SWOOLE_CORO_END` (`int`)** — Coroutine completed.
+- **`SWOOLE_EXIT_IN_COROUTINE` (`int`)** — Executing exit() function in coroutine.
+- **`SWOOLE_EXIT_IN_SERVER` (`int`)** — Executing exit() function in server.
+- **`SWOOLE_HTTP2_TYPE_DATA` (`int`)** — HTTP2 data frame.
+- **`SWOOLE_HTTP2_TYPE_HEADERS` (`int`)** — HTTP2 headers frame.
+- **`SWOOLE_HTTP2_TYPE_PRIORITY` (`int`)** — HTTP2 priority frame.
+- **`SWOOLE_HTTP2_TYPE_RST_STREAM` (`int`)** — HTTP2 rst stream frame.
+- **`SWOOLE_HTTP2_TYPE_SETTINGS` (`int`)** — HTTP2 settings frame.
+- **`SWOOLE_HTTP2_TYPE_PUSH_PROMISE` (`int`)** — HTTP2 push promise frame.
+- **`SWOOLE_HTTP2_TYPE_PING` (`int`)** — HTTP2 ping frame.
+- **`SWOOLE_HTTP2_TYPE_GOAWAY` (`int`)** — HTTP2 goaway frame.
+- **`SWOOLE_HTTP2_TYPE_WINDOW_UPDATE` (`int`)** — HTTP2 window update frame.
+- **`SWOOLE_HTTP2_TYPE_CONTINUATION` (`int`)** — HTTP2 continuation frame.
+- **`SWOOLE_HTTP2_ERROR_NO_ERROR` (`int`)** — HTTP2 no error.
+- **`SWOOLE_HTTP2_ERROR_PROTOCOL_ERROR` (`int`)** — HTTP2 protocol error.
+- **`SWOOLE_HTTP2_ERROR_INTERNAL_ERROR` (`int`)** — HTTP2 internal error.
+- **`SWOOLE_HTTP2_ERROR_FLOW_CONTROL_ERROR` (`int`)** — HTTP2 flow control error.
+- **`SWOOLE_HTTP2_ERROR_SETTINGS_TIMEOUT` (`int`)** — HTTP2 setting timeout error.
+- **`SWOOLE_HTTP2_ERROR_STREAM_CLOSED` (`int`)** — HTTP2 stream closed error.
+- **`SWOOLE_HTTP2_ERROR_FRAME_SIZE_ERROR` (`int`)** — HTTP2 frame size error error.
+- **`SWOOLE_HTTP2_ERROR_REFUSED_STREAM` (`int`)** — HTTP2 refused stream error.
+- **`SWOOLE_HTTP2_ERROR_CANCEL` (`int`)** — HTTP2 cancel error.
+- **`SWOOLE_HTTP2_ERROR_COMPRESSION_ERROR` (`int`)** — HTTP2 compression error.
+- **`SWOOLE_HTTP2_ERROR_CONNECT_ERROR` (`int`)** — HTTP2 connect error.
+- **`SWOOLE_HTTP2_ERROR_ENHANCE_YOUR_CALM` (`int`)** — HTTP2 enhance your calm error.
+- **`SWOOLE_HTTP2_ERROR_INADEQUATE_SECURITY` (`int`)** — HTTP2 inadequate security error.
+- **`SWOOLE_HTTP2_ERROR_HTTP_1_1_REQUIRED` (`int`)** — HTTP2 require http1.1 error.
+- **`SWOOLE_HTTP_CLIENT_ESTATUS_CONNECT_FAILED` (`int`)** — Connection timeout, the server is not listening on the port or there is a network failure, you can read $errCode to get the specific network error code.
+- **`SWOOLE_HTTP_CLIENT_ESTATUS_REQUEST_TIMEOUT` (`int`)** — Request timeout, the server did not return a response within the specified timeout time.
+- **`SWOOLE_HTTP_CLIENT_ESTATUS_SERVER_RESET` (`int`)** — After the client's request is sent, the server forcefully disconnects the connection.
+- **`SWOOLE_HTTP_CLIENT_ESTATUS_SEND_FAILED` (`int`)** — Client send failed (this constant is available in Swoole version >= v4.5.9, for versions less than this, please use the status code).
+- **`SWOOLE_MSGQUEUE_ORIENT` (`int`)** — Swoole\Process::pop() will return specific data in the queue with the message type as process id + 1, Swoole\Process::push() will add the type process id + 1 to the message.
+- **`SWOOLE_MSGQUEUE_BALANCE` (`int`)** — Swoole\Process::pop() will return the first message in the queue, Swoole\Process::push() will not add a specific type to the message.
+- **`SWOOLE_HOOK_TCP` (`int`)** — Coroutine-based stream of TCP Socket type, including the most common ones like Redis, PDO, Mysqli.
+- **`SWOOLE_HOOK_UDP` (`int`)** — Coroutine-based stream of UDP Socket type.
+- **`SWOOLE_HOOK_UNIX` (`int`)** — Coroutine-based stream for Unix Stream Socket type.
+- **`SWOOLE_HOOK_UDG` (`int`)** — Coroutine-based stream for UDG Stream Socket type.
+- **`SWOOLE_HOOK_SSL` (`int`)** — Coroutine-based stream for SSL Stream Socket type.
+- **`SWOOLE_HOOK_TLS` (`int`)** — Coroutine-based stream for TLS Stream Socket type.
+- **`SWOOLE_HOOK_STREAM_FUNCTION` (`int`)** — Coroutine-based stream_*() function.
+- **`SWOOLE_HOOK_FILE` (`int`)** — Coroutine-based file operations.
+- **`SWOOLE_HOOK_STDIO` (`int`)** — Coroutine-based STDIO operations.
+- **`SWOOLE_HOOK_SLEEP` (`int`)** — Coroutine-based sleep operations, including sleep, usleep, time_nanosleep, time_sleep_until.
+- **`SWOOLE_HOOK_PROC` (`int`)** — Coroutine-based proc* functions, including: proc_open, proc_close, proc_get_status, proc_terminate.
+- **`SWOOLE_HOOK_CURL` (`int`)** — Coroutine-based for curl extension.
+- **`SWOOLE_HOOK_NATIVE_CURL` (`int`)** — Coroutine-based for native curl extension.
+- **`SWOOLE_HOOK_BLOCKING_FUNCTION` (`int`)** — Coroutine-based for blocking function, include gethostbyname, exec, shell_exec.
+- **`SWOOLE_HOOK_SOCKETS` (`int`)** — Coroutine-based for the sockets extension
+- **`SWOOLE_HOOK_PDO_PGSQL` (`int`)** — Coroutine-based for pdo_pgsql extension.
+- **`SWOOLE_HOOK_PDO_ODBC` (`int`)** — Coroutine-based for pdo_odbc extension.
+- **`SWOOLE_HOOK_PDO_ORACLE` (`int`)** — Coroutine-based for pdo_oci extension.
+- **`SWOOLE_HOOK_PDO_SQLITE` (`int`)** — Coroutine-based for pdo_sqlite extension.
+- **`SWOOLE_HOOK_ALL` (`int`)** — Coroutine-based for all block functions and extensions.
+- **`SOCKET_ECANCELED` (`int`)** — Socket ecanceled error.
+- **`TCP_INFO` (`int`)** — TCP_INFO.
+- **`SWOOLE_TIMER_MIN_MS` (`int`)** — Minimum supported timer interval (in milliseconds).
+- **`SWOOLE_TIMER_MIN_SEC` (`double`)** — Minimum supported timer interval (in seconds).
+- **`SWOOLE_TIMER_MAX_MS` (`int`)** — Maximum supported timer interval (in milliseconds).
+- **`SWOOLE_TIMER_MAX_SEC` (`int`)** — Maximum supported timer interval (in seconds).
+- **`SWOOLE_WEBSOCKET_STATUS_CONNECTION` (`int`)** — WebSocket is establishing a connection.
+- **`SWOOLE_WEBSOCKET_STATUS_HANDSHAKE` (`int`)** — The WebSocket is in the handshake phase.
+- **`SWOOLE_WEBSOCKET_STATUS_ACTIVE` (`int`)** — Active WebSocket connection.
+- **`SWOOLE_WEBSOCKET_STATUS_CLOSING` (`int`)** — WebSocket connection is closed.
+- **`SWOOLE_WEBSOCKET_OPCODE_CONTINUATION` (`int`)** — Websocket continuation frame.
+- **`SWOOLE_WEBSOCKET_OPCODE_TEXT` (`int`)** — Websocket text frame.
+- **`SWOOLE_WEBSOCKET_OPCODE_BINARY` (`int`)** — Websocket binary frame.
+- **`SWOOLE_WEBSOCKET_OPCODE_CLOSE` (`int`)** — Websocket close frame.
+- **`SWOOLE_WEBSOCKET_OPCODE_PING` (`int`)** — Websocket ping frame.
+- **`SWOOLE_WEBSOCKET_OPCODE_PONG` (`int`)** — Websocket pong frame.
+- **`SWOOLE_WEBSOCKET_FLAG_FIN` (`int`)** — Websocket FIN flag.
+- **`SWOOLE_WEBSOCKET_FLAG_RSV1` (`int`)** — Websocket RSV1 flag.
+- **`SWOOLE_WEBSOCKET_FLAG_RSV2` (`int`)** — Websocket RSV2 flag.
+- **`SWOOLE_WEBSOCKET_FLAG_RSV3` (`int`)** — Websocket RSV3 flag.
+- **`SWOOLE_WEBSOCKET_FLAG_MASK` (`int`)** — Websocket MASK flag.
+- **`SWOOLE_WEBSOCKET_FLAG_COMPRESS` (`int`)** — Websocket COMPRESS flag.
+- **`SWOOLE_WEBSOCKET_CLOSE_NORMAL` (`int`)** — Normal closure (connection completed successfully).
+- **`SWOOLE_WEBSOCKET_CLOSE_GOING_AWAY` (`int`)** — Endpoint is going away (e.g., browser tab closed).
+- **`SWOOLE_WEBSOCKET_CLOSE_PROTOCOL_ERROR` (`int`)** — Protocol error (malformed data frame).
+- **`SWOOLE_WEBSOCKET_CLOSE_DATA_ERROR` (`int`)** — Received unsupported data (e.g., binary when expecting text).
+- **`SWOOLE_WEBSOCKET_CLOSE_STATUS_ERROR` (`int`)** — No status code provided (sent as a placeholder).
+- **`SWOOLE_WEBSOCKET_CLOSE_ABNORMAL` (`int`)** — Abnormal closure (no close frame received, e.g., TCP reset).
+- **`SWOOLE_WEBSOCKET_CLOSE_MESSAGE_ERROR` (`int`)** — Invalid data (e.g., non-UTF-8 text in a text frame).
+- **`SWOOLE_WEBSOCKET_CLOSE_POLICY_ERROR` (`int`)** — Policy violation (e.g., unauthorized action).
+- **`SWOOLE_WEBSOCKET_CLOSE_MESSAGE_TOO_BIG` (`int`)** — Message too large (exceeds server’s max size).
+- **`SWOOLE_WEBSOCKET_CLOSE_EXTENSION_MISSING` (`int`)** — Client didn’t negotiate required extensions.
+- **`SWOOLE_WEBSOCKET_CLOSE_SERVER_ERROR` (`int`)** — Server encountered an error.
+- **`SWOOLE_WEBSOCKET_CLOSE_CLOSE_SERVICE_RESTART` (`int`)** — Server is restarting (temporary condition).
+- **`SWOOLE_WEBSOCKET_CLOSE_TRY_AGAIN_LATER` (`int`)** — Temporary server overload (client should retry).
+- **`SWOOLE_WEBSOCKET_CLOSE_BAD_GATEWAY` (`int`)** — Invalid response from upstream server.
+- **`SWOOLE_WEBSOCKET_CLOSE_TLS` (`int`)** — TLS handshake failed (used when HTTPS fails).

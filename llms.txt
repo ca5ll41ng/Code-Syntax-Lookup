@@ -1,0 +1,7 @@
+# Code-Syntax-Lookup
+
+> 白盒审计用多语言语法/安全知识库。人用搜索站点，AI 用本文件与 MCP 工具。
+
+## 语言知识库
+
+- [PHP 知识库索引](corpus/php/llms.txt): 函数/语法/安全条目目录，正文见同目录 llms-full.txt

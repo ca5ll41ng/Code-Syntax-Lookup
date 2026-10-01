@@ -1,0 +1,77 @@
+---
+id: "en-php-function-function-cubrid-field-len"
+language: "php"
+lang: "en"
+category: "function"
+name: "cubrid_field_len"
+title: "Get the maximum length of the specified field"
+signature: "int cubrid_field_len(resource $result, int $field_offset)"
+module: "cubrid"
+source_url: "https://www.php.net/manual/en/function.cubrid-field-len.php"
+license: "CC-BY-3.0"
+updated: "2026-10-01"
+---
+
+# Get the maximum length of the specified field
+
+## Description
+
+```php
+int cubrid_field_len(resource $result, int $field_offset)
+```
+
+This function returns the maximum length of the specified field on success, or it returns FALSE on failure.
+
+## Parameters
+
+- **`$result`** — `$result` comes from a call to `cubrid_execute()`
+- **`$field_offset`** — The numerical field offset. The `$field_offset` starts at 0. If `$field_offset` does not exist, an error of level `E_WARNING` is also issued.
+
+## Return Values
+
+Maximum length, when process is successful.
+
+`false` on failure.
+
+## Examples
+
+**`cubrid_field_len()` example**
+
+```php
+
+
+<?php
+$conn = cubrid_connect("localhost", 33000, "demodb");
+$result = cubrid_execute($conn, "SELECT * FROM game WHERE host_year=2004 AND nation_code='AUS' AND medal='G'");
+
+$column_names = cubrid_column_names($result);
+$column_types = cubrid_column_types($result);
+
+printf("%-30s %-30s %-15s\n", "Column Names", "Column Types", "Column Maxlen");
+for($i = 0, $size = count($column_names); $i < $size; $i++) {
+    $column_len = cubrid_field_len($result, $i);
+    printf("%-30s %-30s %-15s\n", $column_names[$i], $column_types[$i], $column_len);
+}
+
+cubrid_disconnect($conn);
+?>
+
+   
+```
+
+The above example will output:
+
+```text
+
+
+Column Names                   Column Types                   Column Maxlen
+host_year                      integer                        11
+event_code                     integer                        11
+athlete_code                   integer                        11
+stadium_code                   integer                        11
+nation_code                    char                           3
+medal                          char                           1
+game_date                      date                           10
+
+    
+```

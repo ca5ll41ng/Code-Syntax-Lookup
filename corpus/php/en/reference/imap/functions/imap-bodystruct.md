@@ -1,0 +1,43 @@
+---
+id: "en-php-function-function-imap-bodystruct"
+language: "php"
+lang: "en"
+category: "function"
+name: "imap_bodystruct"
+title: "Read the structure of a specified body section of a specific message"
+signature: "stdClass|false imap_bodystruct(IMAP\\Connection $imap, int $message_num, string $section)"
+module: "imap"
+source_url: "https://www.php.net/manual/en/function.imap-bodystruct.php"
+license: "CC-BY-3.0"
+updated: "2026-10-01"
+---
+
+# Read the structure of a specified body section of a specific message
+
+## Description
+
+```php
+stdClass|false imap_bodystruct(IMAP\Connection $imap, int $message_num, string $section)
+```
+
+Read the structure of a specified body section of a specific message.
+
+## Parameters
+
+- **`$imap`** — An `IMAP\Connection` instance.
+- **`$message_num`** — The message number
+- **`$section`** — The body section to read
+
+## Return Values
+
+Returns the information in an object, or `false` on failure. For a detailed description of the object structure and properties see `imap_fetchstructure()`.
+
+## Changelog
+
+|  |  |
+| --- | --- |
+| 8.1.0 | The `$imap` parameter expects an `IMAP\Connection` instance now; previously, a valid `imap` `resource` was expected. |
+
+## See Also
+
+`imap_fetchstructure()`

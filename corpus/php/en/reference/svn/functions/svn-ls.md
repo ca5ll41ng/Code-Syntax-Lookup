@@ -1,0 +1,108 @@
+---
+id: "en-php-function-function-svn-ls"
+language: "php"
+lang: "en"
+category: "function"
+name: "svn_ls"
+title: "Returns list of directory contents in repository URL, optionally at revision number"
+signature: "array svn_ls(string $repos_url, int $revision_no = SVN_REVISION_HEAD, bool $recurse = false, bool $peg = false)"
+module: "svn"
+source_url: "https://www.php.net/manual/en/function.svn-ls.php"
+license: "CC-BY-3.0"
+updated: "2026-10-01"
+---
+
+# Returns list of directory contents in repository URL, optionally at revision number
+
+## Description
+
+```php
+array svn_ls(string $repos_url, int $revision_no = SVN_REVISION_HEAD, bool $recurse = false, bool $peg = false)
+```
+
+This function queries the repository URL and returns a list of files and directories, optionally from a specific revision. This is equivalent to svn list $repos_url[@$revision_no]
+
+> This function does not work with working copies. `$repos_url` *must* be a repository URL.
+
+## Parameters
+
+- **`$url`** — URL of the repository, eg. http://www.example.com/svnroot. To access a local Subversion repository via filesystem, use the file URI scheme, eg. file:///home/user/svn-repos
+- **`$revision`** — Integer revision number to retrieve listing of. When omitted, the HEAD revision is used.
+- **`$recurse`** — Enables recursion.
+
+## Return Values
+
+On success, this function returns an array file listing in the format of:
+
+```text
+
+
+[0] => Array
+    (
+        [created_rev] => integer revision number of last edit
+        [last_author] => string author name of last edit
+        [size] => integer byte file size of file
+        [time] => string date of last edit in form 'M d H:i'
+                  or 'M d Y', depending on how old the file is
+        [time_t] => integer unix timestamp of last edit
+        [name] => name of file/directory
+        [type] => type, can be 'file' or 'dir'
+    )
+[1] => ...
+
+    
+```
+
+## Examples
+
+**`svn_ls()` example**
+
+```php
+
+
+<?php
+print_r( svn_ls('http://www.example.com/svnroot/') );
+?>
+
+   
+```
+
+The above example will output something similar to:
+
+```text
+
+
+Array
+(
+    [0] => Array
+        (
+            [created_rev] => 20
+            [last_author] => Joe
+            [size] => 0
+            [time] => Apr 02 09:28
+            [time_t] => 1175520529
+            [name] => tags
+            [type] => dir
+        )
+    [1] => Array
+        (
+            [created_rev] => 23
+            [last_author] => Bob
+            [size] => 0
+            [time] => Apr 02 15:15
+            [time_t] => 1175541322
+            [name] => trunk
+            [type] => dir
+        )
+)
+
+   
+```
+
+## Notes
+
+> This function is *EXPERIMENTAL*. The behaviour of this function, its name, and surrounding documentation may change without notice in a future release of PHP. This function should be used at your own risk.
+
+## See Also
+
+  [SVN documentation on svn list]()

@@ -1,0 +1,34 @@
+---
+id: "en-php-function-function-openal-source-get"
+language: "php"
+lang: "en"
+category: "function"
+name: "openal_source_get"
+title: "Retrieve an OpenAL source property"
+signature: "mixed openal_source_get(resource $source, int $property)"
+module: "openal"
+source_url: "https://www.php.net/manual/en/function.openal-source-get.php"
+license: "CC-BY-3.0"
+updated: "2026-10-01"
+---
+
+# Retrieve an OpenAL source property
+
+## Description
+
+```php
+mixed openal_source_get(resource $source, int $property)
+```
+
+## Parameters
+
+- **`$source`** — An Open AL(Source) resource (previously created by `openal_source_create()`).
+- **`$property`** — Property to get, one of: `AL_SOURCE_RELATIVE` (int), `AL_SOURCE_STATE` (int), `AL_PITCH` (float), `AL_GAIN` (float), `AL_MIN_GAIN` (float), `AL_MAX_GAIN` (float), `AL_MAX_DISTANCE` (float), `AL_ROLLOFF_FACTOR` (float), `AL_CONE_OUTER_GAIN` (float), `AL_CONE_INNER_ANGLE` (float), `AL_CONE_OUTER_ANGLE` (float), `AL_REFERENCE_DISTANCE` (float), `AL_POSITION` (array(float,float,float)), `AL_VELOCITY` (array(float,float,float)), `AL_DIRECTION` (array(float,float,float)).
+
+## Return Values
+
+Returns the type associated with the property being retrieved or `false` on failure.
+
+## See Also
+
+ `openal_source_create()` `openal_source_set()` `openal_source_play()`

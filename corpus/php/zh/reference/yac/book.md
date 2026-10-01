@@ -1,0 +1,19 @@
+---
+id: "zh-php-guide-book-yac"
+language: "php"
+lang: "zh"
+category: "guide"
+name: "book.yac"
+title: "Yac"
+module: "yac"
+source_url: "https://www.php.net/manual/zh/book.yac.php"
+license: "CC-BY-3.0"
+updated: "2026-10-01"
+---
+
+# Yac
+
+Yac
+
+ 简介  Yac（Yet Another Cache）是一个无锁（lock-free）的共享内存用户数据缓存，可以用来替代 APC 或本地 memcached。    Yac 将数据存储在共享内存中，同一台机器上的每个 PHP 工作进程都能直接访问，无需任何进程间通信。 Yac 不加锁，而是依靠原子的槽位更新加上少量的冲突探测，因此缓存未命中（cache miss）绝不会阻塞请求；并发写入最坏的情况也只是某次存储失败或某次读取落空，调用方直接重试即可。    访问路径上没有锁，也没有进程间通信，一次读取本质上就是在共享内存中做一次哈希查找。因此，Yac 极其快，读取延迟在微秒级；只要写入分散在不同的键上，吞吐量还能随着访问缓存的 worker 数量增长；参见 [基准测试](laruence/yac/blob/master/README.md#benchmarks)。    由于 Yac 用正确性保证换取速度和吞吐量，它最适合缓存那些生成代价高但可以轻易重建的数据：页面片段、配置快照、小型服务响应等本地缓存。不要把它用作不可替代数据的权威存储。    从 yac 2.4.0 开始，小标量值——`NULL`、布尔值、大多数整数（在 64 位构建下能装进 60 个有符号位的整数）、最长 7 字节的字符串和空数组——直接存储在哈希槽（hash slot）里，而不是单独的值块（即“嵌入值”，embedded values）。这样每次访问都省去了值内存的分配和块拷贝，显著提升性能的同时减少了内存占用。 2.4.0 还把压缩后端从 FastLZ 换成了 LZ4，使压缩数据的读取快了好几倍。   
+> 共享内存仅在同一台机器内可见。如果需要在多台服务器之间共享缓存，请使用 Memcached 或 Redis 等网络缓存。

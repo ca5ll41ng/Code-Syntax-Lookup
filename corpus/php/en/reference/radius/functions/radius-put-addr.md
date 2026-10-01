@@ -1,0 +1,43 @@
+---
+id: "en-php-function-function-radius-put-addr"
+language: "php"
+lang: "en"
+category: "function"
+name: "radius_put_addr"
+title: "Attaches an IP address attribute"
+signature: "bool radius_put_addr(resource $radius_handle, int $type, string $addr, int $options = 0, [int $tag = ...])"
+module: "radius"
+source_url: "https://www.php.net/manual/en/function.radius-put-addr.php"
+license: "CC-BY-3.0"
+updated: "2026-10-01"
+---
+
+# Attaches an IP address attribute
+
+## Description
+
+```php
+bool radius_put_addr(resource $radius_handle, int $type, string $addr, int $options = 0, [int $tag = ...])
+```
+
+Attaches an IP address attribute to the current RADIUS request.
+
+> A request must be created via `radius_create_request()` before this function can be called.
+
+## Parameters
+
+- **`$radius_handle`** — The RADIUS resource.
+- **`$type`** — The attribute type.
+- **`$addr`** — An IPv4 address in string form, such as `10.0.0.1`.
+- **`$options`** — A bitmask of the attribute options. The available options include `RADIUS_OPTION_TAGGED` and `RADIUS_OPTION_SALT`.
+- **`$tag`** — The attribute tag. This parameter is ignored unless the `RADIUS_OPTION_TAGGED` option is set.
+
+## Return Values
+
+Returns `true` on success or `false` on failure.
+
+## Changelog
+
+|  |  |
+| --- | --- |
+| PECL radius 1.3.0 | The `$options` and `$tag` parameters were added. |

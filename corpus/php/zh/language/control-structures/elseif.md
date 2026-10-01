@@ -1,0 +1,24 @@
+---
+id: "zh-php-syntax-control-structures-elseif"
+language: "php"
+lang: "zh"
+category: "syntax"
+name: "control-structures.elseif"
+title: "elseif/else if"
+module: "language"
+source_url: "https://www.php.net/manual/zh/control-structures.elseif.php"
+license: "CC-BY-3.0"
+updated: "2026-10-01"
+---
+
+# elseif/else if
+
+`elseif`，和此名称暗示的一样，是 `if` 和 `else` 的组合。和 `else` 一样，它延伸了 `if` 语句，可以在原来的 `if` 表达式值为 `false` 时执行不同语句。但是和 `else` 不一样的是，它仅在 `elseif` 的条件表达式值为 `true` 时执行语句。例如以下代码将根据条件分别显示 `a is bigger than b`，`a equal to b` 或者 `a is smaller than b`： ```php <?php if ($a > $b) { echo "a is bigger than b"; } elseif ($a == $b) { echo "a is equal to b"; } else { echo "a is smaller than b"; } ?> ```
+
+在一个 `if` 语句中可以有多个 `elseif`，其中将会执行第一个表达式值为 `true`（如果有的话）的 `elseif`。在 PHP 中，也可以写成 `else if`（两个单词），它和 `elseif`（一个单词）的行为完全一样。句法分析的含义有少许区别（行为与 C 相同），但是底线是两者会产生完全一样的行为。
+
+`elseif` 的语句仅在之前的 `if` 和所有之前 `elseif` 的表达式值为 `false`，并且当前的 `elseif` 表达式值为 `true` 时执行。
+
+> 必须要注意的是 `elseif` 与 `else if` 只有在类似上例中使用花括号的情况下才认为是完全相同。如果用冒号来定义 `if`/`elseif` 条件，必须在一个单词中使用 `elseif`。如果 `else if` 分割为两个单词，则 PHP 会产生解析错误。
+
+```php <?php /* 不正确的使用方法： */ if ($a > $b): echo $a." is greater than ".$b; else if ($a == $b): // 将无法编译 echo "The above line causes a parse error."; endif; ``` ```php <?php /* 正确的使用方法： */ if ($a > $b): echo $a." is greater than ".$b; elseif ($a == $b): // 注意使用了一个单词的 elseif echo $a." equals ".$b; else: echo $a." is neither greater than or equal to ".$b; endif; ?> ```

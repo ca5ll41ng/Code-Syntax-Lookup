@@ -1,0 +1,668 @@
+---
+id: "zh-php-syntax-language-oop5-traits"
+language: "php"
+lang: "zh"
+category: "syntax"
+name: "language.oop5.traits"
+title: "Trait"
+module: "language"
+source_url: "https://www.php.net/manual/zh/language.oop5.traits.php"
+license: "CC-BY-3.0"
+updated: "2026-10-01"
+---
+
+# Trait
+
+PHP 实现了一种代码复用的方法，称为 trait。
+
+Trait 是为类似 PHP 的单继承语言而准备的一种代码复用机制。Trait 为了减少单继承语言的限制，使开发人员能够自由地在不同层次结构内独立的类中复用 method。Trait 和 Class 组合的语义定义了一种减少复杂性的方式，避免传统多继承和 Mixin 类相关典型问题。
+
+Trait 和 Class 相似，但仅仅旨在用细粒度和一致的方式来组合功能。 无法通过 trait 自身来实例化。它为传统继承增加了水平特性的组合；也就是说，应用的几个 Class 之间不需要继承。
+
+**Trait 示例**
+
+```php
+
+
+<?php
+
+trait TraitA {
+    public function sayHello() {
+        echo 'Hello';
+    }
+}
+
+trait TraitB {
+    public function sayWorld() {
+        echo 'World';
+    }
+}
+
+class MyHelloWorld
+{
+    use TraitA, TraitB; // A class can use multiple traits
+
+    public function sayHelloWorld() {
+        $this->sayHello();
+        echo ' ';
+        $this->sayWorld();
+        echo "!\n";
+    }
+}
+
+$myHelloWorld = new MyHelloWorld();
+$myHelloWorld->sayHelloWorld();
+
+?>
+
+    
+```
+
+以上示例会输出：
+
+```text
+
+
+Hello World!
+
+    
+```
+
+### 优先级
+
+从基类继承的成员会被 trait 插入的成员所覆盖。优先顺序是来自当前类的成员覆盖了 trait 的方法，而 trait 则覆盖了被继承的方法。
+
+**优先顺序示例**
+
+从基类继承的成员被插入的 SayWorld Trait 中的 MyHelloWorld 方法所覆盖。其行为 MyHelloWorld 类中定义的方法一致。优先顺序是当前类中的方法会覆盖 trait 方法，而 trait 方法又覆盖了基类中的方法。
+
+```php
+
+
+<?php
+class Base {
+    public function sayHello() {
+        echo 'Hello ';
+    }
+}
+
+trait SayWorld {
+    public function sayHello() {
+        parent::sayHello();
+        echo 'World!';
+    }
+}
+
+class MyHelloWorld extends Base {
+    use SayWorld;
+}
+
+$o = new MyHelloWorld();
+$o->sayHello();
+?>
+
+    
+```
+
+以上示例会输出：
+
+```text
+
+
+Hello World!
+
+    
+```
+
+**另一个优先级顺序的例子**
+
+```php
+
+
+<?php
+trait HelloWorld {
+    public function sayHello() {
+        echo 'Hello World!';
+    }
+}
+
+class TheWorldIsNotEnough {
+    use HelloWorld;
+    public function sayHello() {
+        echo 'Hello Universe!';
+    }
+}
+
+$o = new TheWorldIsNotEnough();
+$o->sayHello();
+?>
+
+    
+```
+
+以上示例会输出：
+
+```text
+
+
+Hello Universe!
+
+    
+```
+
+### 多个 trait
+
+通过逗号分隔，在 `use` 声明列出多个 trait，可以都插入到一个类中。
+
+**多个 trait 的用法**
+
+```php
+
+
+<?php
+trait Hello {
+    public function sayHello() {
+        echo 'Hello ';
+    }
+}
+
+trait World {
+    public function sayWorld() {
+        echo 'World';
+    }
+}
+
+class MyHelloWorld {
+    use Hello, World;
+    public function sayExclamationMark() {
+        echo '!';
+    }
+}
+
+$o = new MyHelloWorld();
+$o->sayHello();
+$o->sayWorld();
+$o->sayExclamationMark();
+?>
+
+    
+```
+
+以上示例会输出：
+
+```text
+
+
+Hello World!
+
+    
+```
+
+### 冲突的解决
+
+如果两个 trait 都插入了一个同名的方法，如果没有明确解决冲突将会产生一个致命错误。
+
+为了解决多个 trait 在同一个类中的命名冲突，需要使用 `insteadof` 操作符来明确指定使用冲突方法中的哪一个。
+
+以上方式仅允许排除掉其它方法，`as` 操作符可以 为某个方法引入别名。 注意，`as` 操作符不会对方法进行重命名，也不会影响其方法。
+
+**冲突的解决**
+
+在本例中 Talker 使用了 trait A 和 B。由于 A 和 B 有冲突的方法，其定义了使用 trait B 中的 smallTalk 以及 trait A 中的 bigTalk。
+
+Aliased_Talker 使用了 `as` 操作符来定义了 `talk` 来作为 B 的 bigTalk 的别名。
+
+```php
+
+
+<?php
+trait A {
+    public function smallTalk() {
+        echo 'a';
+    }
+    public function bigTalk() {
+        echo 'A';
+    }
+}
+
+trait B {
+    public function smallTalk() {
+        echo 'b';
+    }
+    public function bigTalk() {
+        echo 'B';
+    }
+}
+
+class Talker {
+    use A, B {
+        B::smallTalk insteadof A;
+        A::bigTalk insteadof B;
+    }
+}
+
+class Aliased_Talker {
+    use A, B {
+        B::smallTalk insteadof A;
+        A::bigTalk insteadof B;
+        B::bigTalk as talk;
+    }
+}
+?>
+
+    
+```
+
+### 修改方法的访问控制
+
+使用 `as` 语法还可以用来调整方法的访问控制。
+
+**修改方法的访问控制**
+
+```php
+
+
+<?php
+trait HelloWorld {
+    public function sayHello() {
+        echo 'Hello World!';
+    }
+}
+
+// 修改 sayHello 的访问控制
+class MyClass1 {
+    use HelloWorld { sayHello as protected; }
+}
+
+// 给方法一个改变了访问控制的别名
+// 原版 sayHello 的访问控制则没有发生变化
+class MyClass2 {
+    use HelloWorld { sayHello as private myPrivateHello; }
+}
+?>
+
+    
+```
+
+### 从 trait 来组成 trait
+
+正如 class 能够使用 trait 一样，其它 trait 也能够使用 trait。在 trait 定义时通过使用一个或多个 trait，能够组合其它 trait 中的部分或全部成员。
+
+**从 trait 来组成 trait**
+
+```php
+
+
+<?php
+trait Hello {
+    public function sayHello() {
+        echo 'Hello ';
+    }
+}
+
+trait World {
+    public function sayWorld() {
+        echo 'World!';
+    }
+}
+
+trait HelloWorld {
+    use Hello, World;
+}
+
+class MyHelloWorld {
+    use HelloWorld;
+}
+
+$o = new MyHelloWorld();
+$o->sayHello();
+$o->sayWorld();
+?>
+
+    
+```
+
+以上示例会输出：
+
+```text
+
+
+Hello World!
+
+    
+```
+
+### Trait 的抽象成员
+
+为了对使用的类施加强制要求，trait 支持抽象方法的使用。 支持 public 、protected 和 private 方法。PHP 8.0.0 之前， 仅支持 public 和 protected 抽象方法。
+
+> 自 PHP 8.0.0 起，具体方法的签名必须遵循签名兼容性规则。以前，其签名可能有所不同。
+
+**表示通过抽象方法来进行强制要求**
+
+```php
+
+
+<?php
+trait Hello {
+    public function sayHelloWorld() {
+        echo 'Hello'.$this->getWorld();
+    }
+    abstract public function getWorld();
+}
+
+class MyHelloWorld {
+    private $world;
+    use Hello;
+    public function getWorld() {
+        return $this->world;
+    }
+    public function setWorld($val) {
+        $this->world = $val;
+    }
+}
+?>
+
+    
+```
+
+### Trait 的静态成员
+
+Traits 可以定义静态变量、静态方法和静态属性。
+
+> 自 PHP 8.1.0 起，弃用直接在 trait 上调用静态方法或者访问静态属性。 静态方法和属性应该仅在使用了 trait 的 class 中访问。
+
+**静态变量**
+
+```php
+
+
+<?php
+
+trait Counter
+{
+    public function inc()
+    {
+        static $c = 0;
+        $c = $c + 1;
+        echo "$c\n";
+    }
+}
+
+class C1
+{
+    use Counter;
+}
+
+class C2
+{
+    use Counter;
+}
+
+$o = new C1();
+$o->inc();
+$p = new C2();
+$p->inc();
+
+?>
+
+    
+```
+
+以上示例会输出：
+
+```text
+
+
+1
+1
+
+    
+```
+
+**静态方法**
+
+```php
+
+
+<?php
+
+trait StaticExample
+{
+    public static function doSomething()
+    {
+        return 'Doing something';
+    }
+}
+
+class Example
+{
+    use StaticExample;
+}
+
+echo Example::doSomething();
+
+?>
+
+    
+```
+
+以上示例会输出：
+
+```text
+
+
+Doing something
+
+    
+```
+
+**静态属性**
+
+> PHP 8.3.0 之前，trait 中定义的静态属性会在使用该 trait 的同一继承层次结构中的所有类之间共享。自 PHP 8.3.0 起，如果子类使用具有静态属性的 trait，将视为与父类中定义的 trait 不同。
+
+```php
+
+     
+<?php
+
+trait T
+{
+    public static $counter = 1;
+}
+
+class A
+{
+    use T;
+
+    public static function incrementCounter()
+    {
+        static::$counter++;
+    }
+}
+
+class B extends A
+{
+    use T;
+}
+
+A::incrementCounter();
+
+echo A::$counter, "\n";
+echo B::$counter, "\n";
+
+?>
+
+    
+```
+
+以上示例在 PHP 8.3 中的输出：
+
+```text
+
+
+2
+1
+
+    
+```
+
+### 属性
+
+Trait 同样可以定义属性。
+
+**定义属性**
+
+```php
+
+
+<?php
+
+trait PropertiesTrait
+{
+    public $x = 1;
+}
+
+class PropertiesExample
+{
+    use PropertiesTrait;
+}
+
+$example = new PropertiesExample();
+$example->x;
+
+?>
+
+    
+```
+
+Trait 定义了一个属性后，类就不能定义同样名称的属性，否则会产生 fatal error。 有种情况例外：属性是兼容的（同样的访问可见度、类型、readonly 修饰符和初始默认值）。
+
+**解决冲突**
+
+```php
+
+
+<?php
+trait PropertiesTrait {
+    public $same = true;
+    public $different1 = false;
+    public bool $different2;
+    public bool $different3;
+}
+
+class PropertiesExample {
+    use PropertiesTrait;
+    public $same = true;
+    public $different1 = true; // Fatal error
+    public string $different2; // Fatal error
+    readonly protected bool $different3; // Fatal error
+}
+?>
+
+    
+```
+
+### 常量
+
+自 PHP 8.2.0 起，trait 也可以定义常量。
+
+**定义常量**
+
+```php
+
+
+<?php
+trait ConstantsTrait {
+    public const FLAG_MUTABLE = 1;
+    final public const FLAG_IMMUTABLE = 5;
+}
+
+class ConstantsExample {
+    use ConstantsTrait;
+}
+
+$example = new ConstantsExample;
+echo $example::FLAG_MUTABLE;
+?>
+
+   
+```
+
+以上示例会输出：
+
+```text
+
+
+1
+
+    
+```
+
+如果 trait 定义了常量，然后类不能定义相同名称的常量，除非两者兼容（相同的可见性、初始化值和 final），否则会发出 fatal error。
+
+**解决冲突**
+
+```php
+
+
+<?php
+trait ConstantsTrait {
+    public const FLAG_MUTABLE = 1;
+    final public const FLAG_IMMUTABLE = 5;
+}
+
+class ConstantsExample {
+    use ConstantsTrait;
+    public const FLAG_IMMUTABLE = 5; // Fatal error
+}
+?>
+
+   
+```
+
+### final 方法
+
+自 PHP 8.3.0 起，final 修饰符可以应用于使用 `as` 操作符从 trait 导入的方法。这可用于防止子类覆盖该方法。但是，使用该 trait 的类仍然可以覆盖该方法。
+
+**将来自 trait 的方法定义为 `final`**
+
+```php
+
+    
+<?php
+
+trait CommonTrait
+{
+    public function method()
+    {
+        echo 'Hello';
+    }
+}
+
+class FinalExampleA
+{
+    use CommonTrait {
+        CommonTrait::method as final; // 'final' 防止子类覆盖方法
+    }
+}
+
+class FinalExampleB extends FinalExampleA
+{
+    public function method() {}
+}
+
+?>
+
+   
+```
+
+以上示例的输出类似于：
+
+```text
+
+
+Fatal error: Cannot override final method FinalExampleA::method() in ...
+
+    
+```

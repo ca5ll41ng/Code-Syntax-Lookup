@@ -1,0 +1,73 @@
+---
+id: "en-php-function-function-dbase-get-header-info"
+language: "php"
+lang: "en"
+category: "function"
+name: "dbase_get_header_info"
+title: "Gets the header info of a database"
+signature: "array dbase_get_header_info(resource $database)"
+module: "dbase"
+source_url: "https://www.php.net/manual/en/function.dbase-get-header-info.php"
+license: "CC-BY-3.0"
+updated: "2026-10-01"
+---
+
+# Gets the header info of a database
+
+## Description
+
+```php
+array dbase_get_header_info(resource $database)
+```
+
+Returns information on the column structure of the given database resource.
+
+## Parameters
+
+- **`$database`** — The database resource, returned by `dbase_open()` or `dbase_create()`.
+
+## Return Values
+
+An indexed array with an entry for each column in the database. The array index starts at 0.
+
+Each array element contains an associative array of column information, as described here:
+
+- **name** — The name of the column
+- **type** — The human-readable name for the dbase type of the column (i.e. date, boolean, etc.) The supported field types are listed in the introduction section.
+- **length** — The number of bytes this column can hold
+- **precision** — The number of digits of decimal precision for the column
+- **format** — A suggested `printf()` format specifier for the column
+- **offset** — The byte offset of the column from the start of the row
+
+If the database header information cannot be read, `false` is returned.
+
+## Changelog
+
+|  |  |
+| --- | --- |
+| PECL dbase 7.0.0 | `$database` is now a `resource` instead of an `int`. |
+
+## Examples
+
+**Showing header information for a dBase database file**
+
+```php
+
+
+<?php
+// Path to dbase file
+$db_path = "/tmp/test.dbf";
+
+// Open dbase file
+$dbh = dbase_open($db_path, 0)
+  or die("Error! Could not open dbase database file '$db_path'.");
+
+// Get column information
+$column_info = dbase_get_header_info($dbh);
+
+// Display information
+print_r($column_info);
+?>
+
+    
+```

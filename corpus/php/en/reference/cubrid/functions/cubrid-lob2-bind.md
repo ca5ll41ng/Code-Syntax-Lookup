@@ -1,0 +1,74 @@
+---
+id: "en-php-function-function-cubrid-lob2-bind"
+language: "php"
+lang: "en"
+category: "function"
+name: "cubrid_lob2_bind"
+title: "Bind a lob object or a string as a lob object to a prepared statement as parameters"
+signature: "bool cubrid_lob2_bind(resource $req_identifier, int $bind_index, mixed $bind_value, [string $bind_value_type = ...])"
+module: "cubrid"
+source_url: "https://www.php.net/manual/en/function.cubrid-lob2-bind.php"
+license: "CC-BY-3.0"
+updated: "2026-10-01"
+---
+
+# Bind a lob object or a string as a lob object to a prepared statement as parameters
+
+## Description
+
+```php
+bool cubrid_lob2_bind(resource $req_identifier, int $bind_index, mixed $bind_value, [string $bind_value_type = ...])
+```
+
+The `cubrid_lob2_bind()` function is used to bind BLOB/CLOB datas to a corresponding question mark placeholder in the SQL statement that was passed to `cubrid_prepare()`. If `$bind_value_type` is not given, string will be "BLOB" as the default. But if you use `cubrid_lob2_new()` before, `$bind_value_type` will be consistent with `$type` in `cubrid_lob2_new()` as the default.
+
+## Parameters
+
+- **`$req_identifier`** — Request identifier as a result of `cubrid_prepare()`.
+- **`$bind_index`** — Location of binding parameters. It starts with 1.
+- **`$bind_value`** — Actual value for binding.
+- **`$bind_value_type`** — It must be "BLOB" or "CLOB" and it won't be case-sensitive. If it not be given, the default value is "BLOB".
+
+## Return Values
+
+Returns `true` on success or `false` on failure.
+
+## Examples
+
+**`cubrid_lob2_bind()` example**
+
+```php
+
+
+<?php
+// Table: test_lob (id INT, contents CLOB)
+
+$conn = cubrid_connect("localhost", 33000, "demodb", "dba", "");
+
+cubrid_execute($conn,"DROP TABLE if exists test_lob");
+cubrid_execute($conn,"CREATE TABLE test_lob (id INT, contents CLOB)");
+
+$req = cubrid_prepare($conn, "INSERT INTO test_lob VALUES (?, ?)");
+
+cubrid_bind($req,1, 3);
+
+$lob = cubrid_lob2_new($conn, 'CLOB');
+cubrid_lob2_bind($req, 2, $lob);
+
+cubrid_execute($req);
+
+cubrid_bind($req, 1, 4);
+
+cubrid_lob2_bind($req, 2, 'CUBRID LOB2 TEST', 'CLOB');
+
+cubrid_execute($req);
+
+cubrid_disconnect($conn);
+?>
+
+   
+```
+
+## See Also
+
+ `cubrid_lob2_new()` `cubrid_lob2_close()`

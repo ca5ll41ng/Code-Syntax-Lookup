@@ -1,0 +1,97 @@
+---
+id: "en-php-function-function-ps-translate"
+language: "php"
+lang: "en"
+category: "function"
+name: "ps_translate"
+title: "Sets translation"
+signature: "bool ps_translate(resource $psdoc, float $x, float $y)"
+module: "ps"
+source_url: "https://www.php.net/manual/en/function.ps-translate.php"
+license: "CC-BY-3.0"
+updated: "2026-10-01"
+---
+
+# Sets translation
+
+## Description
+
+```php
+bool ps_translate(resource $psdoc, float $x, float $y)
+```
+
+Sets a new initial point of the coordinate system.
+
+## Parameters
+
+- **`$psdoc`** — Resource identifier of the postscript file as returned by `ps_new()`.
+- **`$x`** — x-coordinate of the origin of the translated coordinate system.
+- **`$y`** — y-coordinate of the origin of the translated coordinate system.
+
+## Return Values
+
+Returns `true` on success or `false` on failure.
+
+## Examples
+
+**Translation of the coordinate system**
+
+```php
+
+
+<?php
+function rectangle($ps) {
+    ps_moveto($ps, 0, 0);
+    ps_lineto($ps, 0, 50);
+    ps_lineto($ps, 50, 50);
+    ps_lineto($ps, 50, 0);
+    ps_lineto($ps, 0, 0);
+    ps_stroke($ps);
+}
+
+$ps = ps_new();
+if (!ps_open_file($ps, "translate.ps")) {
+  print "Cannot open PostScript file\n";
+  exit;
+}
+
+ps_set_info($ps, "Creator", "translate.php");
+ps_set_info($ps, "Author", "Uwe Steinmann");
+ps_set_info($ps, "Title", "Translated example");
+ps_set_info($ps, "BoundingBox", "0 0 596 842");
+
+$psfont = ps_findfont($ps, "Helvetica", "", 0);
+
+ps_begin_page($ps, 596, 842);
+ps_set_text_pos($ps, 100, 100);
+ps_translate($ps, 500, 750);
+rectangle($ps);
+ps_translate($ps, -500, -750);
+ps_setfont($ps, $psfont, 8.0);
+ps_show($ps, "Text at initial position");
+ps_end_page($ps);
+
+ps_begin_page($ps, 596, 842);
+ps_set_text_pos($ps, 100, 100);
+ps_save($ps);
+ps_translate($ps, 500, 750);
+rectangle($ps);
+ps_restore($ps);
+ps_setfont($ps, $psfont, 8.0);
+ps_show($ps, "Text at initial position");
+ps_end_page($ps);
+
+ps_delete($ps);
+?>
+
+
+    
+```
+
+The above example demonstrates two possible ways to place a graphic (in this case just a rectangle) at any position on the page, while the graphic itself uses its own coordinate system. The trick is to change the origin of the current coordinate system before drawing the rectangle. The translation has to be undone after the graphic has been drawn.
+
+On the second page a slightly different and more elegant approach is applied. Instead of undoing the translation with a second call of `ps_translate()` the graphics context is saved before modifying the coordinate system and restored after drawing the rectangle.
+
+## See Also
+
+`ps_scale()` `ps_rotate()`

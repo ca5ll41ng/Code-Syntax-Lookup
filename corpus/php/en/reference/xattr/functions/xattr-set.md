@@ -1,0 +1,61 @@
+---
+id: "en-php-function-function-xattr-set"
+language: "php"
+lang: "en"
+category: "function"
+name: "xattr_set"
+title: "Set an extended attribute"
+signature: "bool xattr_set(string $filename, string $name, string $value, int $flags = 0)"
+module: "xattr"
+source_url: "https://www.php.net/manual/en/function.xattr-set.php"
+license: "CC-BY-3.0"
+updated: "2026-10-01"
+---
+
+# Set an extended attribute
+
+## Description
+
+```php
+bool xattr_set(string $filename, string $name, string $value, int $flags = 0)
+```
+
+This function sets the value of an extended attribute of a file.
+
+Extended attributes have two different namespaces: user and root. The user namespace is available to all users, while the root namespace is available only to users with root privileges. xattr operates on the user namespace by default, but this can be changed with the `$flags` parameter.
+
+## Parameters
+
+- **`$filename`** — The file in which we set the attribute.
+- **`$name`** — The name of the extended attribute. This attribute will be created if it doesn't exist or replaced otherwise. You can change this behaviour by using the `$flags` parameter.
+- **`$value`** — The value of the attribute.
+- **`$flags`** — | `XATTR_CREATE` | Function will fail if extended attribute already exists. | | --- | --- | | `XATTR_REPLACE` | Function will fail if extended attribute doesn't exist. | | `XATTR_DONTFOLLOW` | Do not follow the symbolic link but operate on symbolic link itself. | | `XATTR_ROOT` | Set attribute in root (trusted) namespace. Requires root privileges. |
+
+## Return Values
+
+Returns `true` on success or `false` on failure.
+
+## Examples
+
+**Sets extended attributes on `.wav` file**
+
+```php
+
+
+<?php
+$file = 'my_favourite_song.wav';
+xattr_set($file, 'Artist', 'Someone');
+xattr_set($file, 'My ranking', 'Good');
+xattr_set($file, 'Listen count', '34');
+
+/* ... other code ... */
+
+printf("You've played this song %d times", xattr_get($file, 'Listen count')); 
+?>
+
+    
+```
+
+## See Also
+
+`xattr_get()` `xattr_remove()`

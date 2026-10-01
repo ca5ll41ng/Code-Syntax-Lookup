@@ -1,0 +1,71 @@
+---
+id: "en-php-function-function-sqlsrv-free-stmt"
+language: "php"
+lang: "en"
+category: "function"
+name: "sqlsrv_free_stmt"
+title: "Frees all resources for the specified statement"
+signature: "bool sqlsrv_free_stmt(resource $stmt)"
+module: "sqlsrv"
+source_url: "https://www.php.net/manual/en/function.sqlsrv-free-stmt.php"
+license: "CC-BY-3.0"
+updated: "2026-10-01"
+---
+
+# Frees all resources for the specified statement
+
+## Description
+
+```php
+bool sqlsrv_free_stmt(resource $stmt)
+```
+
+Frees all resources for the specified statement. The statement cannot be used after `sqlsrv_free_stmt()` has been called on it. If `sqlsrv_free_stmt()` is called on an in-progress statement that alters server state, statement execution is terminated and the statement is rolled back.
+
+## Parameters
+
+- **`$stmt`** — The statement for which resources are freed. Note that `null` is a valid parameter value. This allows the function to be called multiple times in a script.
+
+## Return Values
+
+Returns `true` on success or `false` on failure.
+
+## Examples
+
+**`sqlsrv_free_stmt()` example**
+
+```php
+
+
+<?php
+$serverName = "serverName\sqlexpress";
+$connectionInfo = array( "Database"=>"dbName", "UID"=>"username", "PWD"=>"password");
+$conn = sqlsrv_connect( $serverName, $connectionInfo);
+if( $conn === false ) {
+     die( print_r( sqlsrv_errors(), true));
+}
+
+$stmt = sqlsrv_query( $conn, "SELECT * FROM Table_1");
+if( $stmt === false ) {
+     die( print_r( sqlsrv_errors(), true));
+}
+
+/*-------------------------------
+     Process query results here.
+-------------------------------*/
+
+/* Free the statement resources. */
+sqlsrv_free_stmt( $stmt);
+
+?>
+
+   
+```
+
+## Notes
+
+The main difference between `sqlsrv_free_stmt()` and `sqlsrv_cancel()` is that a statement resource cancelled with `sqlsrv_cancel()` can be re-executed if it was created with `sqlsrv_prepare()`. A statement resource cancelled with `sqlsrv_free_statement()` cannot be re-executed.
+
+## See Also
+
+ `sqlsrv_cancel()`

@@ -1,0 +1,64 @@
+---
+id: "en-php-function-function-pspell-config-repl"
+language: "php"
+lang: "en"
+category: "function"
+name: "pspell_config_repl"
+title: "Set a file that contains replacement pairs"
+signature: "bool pspell_config_repl(PSpell\\Config $config, string $filename)"
+module: "pspell"
+source_url: "https://www.php.net/manual/en/function.pspell-config-repl.php"
+license: "CC-BY-3.0"
+updated: "2026-10-01"
+---
+
+# Set a file that contains replacement pairs
+
+## Description
+
+```php
+bool pspell_config_repl(PSpell\Config $config, string $filename)
+```
+
+Set a file that contains replacement pairs.
+
+The replacement pairs improve the quality of the spellchecker. When a word is misspelled, and a proper suggestion was not found in the list, `pspell_store_replacement()` can be used to store a replacement pair and then `pspell_save_wordlist()` to save the wordlist along with the replacement pairs.
+
+`pspell_config_repl()` should be used on a config before calling `pspell_new_config()`.
+
+## Parameters
+
+- **`$config`** — An `PSpell\Config` instance.
+- **`$filename`** — The file should be writable by whoever PHP runs as (e.g. nobody).
+
+## Return Values
+
+Returns `true` on success or `false` on failure.
+
+## Changelog
+
+|  |  |
+| --- | --- |
+| 8.1.0 | The `$config` parameter expects an `PSpell\Config` instance now; previously, a `resource` was expected. |
+
+## Examples
+
+**`pspell_config_repl()`**
+
+```php
+
+
+<?php
+$pspell_config = pspell_config_create("en");
+pspell_config_personal($pspell_config, "/var/dictionaries/custom.pws");
+pspell_config_repl($pspell_config, "/var/dictionaries/custom.repl");
+$pspell = pspell_new_config($pspell_config);
+pspell_check($pspell, "thecat");
+?>
+
+    
+```
+
+## Notes
+
+> This function will not work unless you have pspell .11.2 and aspell .32.5 or later.

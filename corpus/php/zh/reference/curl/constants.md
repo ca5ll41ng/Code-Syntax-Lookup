@@ -1,0 +1,220 @@
+---
+id: "zh-php-guide-curl-constants"
+language: "php"
+lang: "zh"
+category: "guide"
+name: "curl.constants"
+title: "预定义常量"
+module: "curl"
+source_url: "https://www.php.net/manual/zh/curl.constants.php"
+license: "CC-BY-3.0"
+updated: "2026-10-01"
+---
+
+# 预定义常量
+
+下列常量由此扩展定义，且仅在此扩展编译入 PHP 或在运行时动态载入时可用。
+
+`curl_setopt()`、`curl_multi_setopt()`、 `curl_getinfo()` 文档中常量的描述和使用。
+
+- **`CURLALTSVC_H1` (`int`)** — 自 PHP 8.2.0 和 cURL 7.64.1 起可用。
+- **`CURLALTSVC_H2` (`int`)** — 自 PHP 8.2.0 和 cURL 7.64.1 起可用。
+- **`CURLALTSVC_H3` (`int`)** — 自 PHP 8.2.0 和 cURL 7.64.1 起可用。
+- **`CURLALTSVC_READONLYFILE` (`int`)** — 自 PHP 8.2.0 和 cURL 7.64.1 起可用。
+- **`CURLAUTH_ANY` (`int`)**
+- **`CURLAUTH_ANYSAFE` (`int`)**
+- **`CURLAUTH_AWS_SIGV4` (`int`)** — 自 PHP 8.2.0 和 cURL 7.75.0 起可用。
+- **`CURLAUTH_BASIC` (`int`)**
+- **`CURLAUTH_BEARER` (`int`)** — 自 PHP 7.3.0 和 cURL 7.61.0 起可用。
+- **`CURLAUTH_DIGEST` (`int`)**
+- **`CURLAUTH_DIGEST_IE` (`int`)** — 使用带有 IE 风格的 HTTP 摘要认证。自 cURL 7.19.3 起可用。
+- **`CURLAUTH_GSSAPI` (`int`)** — 自 PHP 7.3.0 和 cURL 7.54.1 起可用
+- **`CURLAUTH_GSSNEGOTIATE` (`int`)**
+- **`CURLAUTH_NEGOTIATE` (`int`)** — 自 PHP 7.0.7 和 cURL 7.38.0 起可用。
+- **`CURLAUTH_NONE` (`int`)** — 自 cURL 7.10.6 起可用。
+- **`CURLAUTH_NTLM` (`int`)**
+- **`CURLAUTH_NTLM_WB` (`int`)** — 自 PHP 7.0.7 和 cURL 7.22.0 起可用
+- **`CURLAUTH_ONLY` (`int`)** — 这是元符号。将此值与单个特定认证值进行 OR 运算，以强制 libcurl 探测不受限制的认证方法；如果不可用，则仅接受该单个认证算法。自 cURL 7.21.3 起可用。
+- **`CURLFTPAUTH_DEFAULT` (`int`)**
+- **`CURLFTPAUTH_SSL` (`int`)**
+- **`CURLFTPAUTH_TLS` (`int`)**
+- **`CURLFTPMETHOD_DEFAULT` (`int`)** — 自 PHP 8.2.0 和 cURL 7.15.3 起可用。
+- **`CURLFTPMETHOD_MULTICWD` (`int`)** — 对指定 URL 中的每个路径部分执行一次 `CWD` 操作。自 cURL 7.15.3 起可用。
+- **`CURLFTPMETHOD_NOCWD` (`int`)** — libcurl 完全不执行 `CWD` 操作。libcurl 执行 `SIZE`、`RETR`、`STOR` 等命令，并为这些命令向服务器提供完整路径。自 cURL 7.15.3 起可用。
+- **`CURLFTPMETHOD_SINGLECWD` (`int`)** — libcurl 使用完整的目标目录执行一次 `CWD` 操作，然后像在多次 CWD 情况下对文件进行操作。自 cURL 7.15.3 起可用。
+- **`CURLFTPSSL_ALL` (`int`)**
+- **`CURLFTPSSL_CCC_ACTIVE` (`int`)** — 发起关闭操作并等待回复。自 cURL 7.16.2 起可用。
+- **`CURLFTPSSL_CCC_NONE` (`int`)** — 不要尝试使用 CCC（清除命令通道）。自 cURL 7.16.2 起可用。
+- **`CURLFTPSSL_CCC_PASSIVE` (`int`)** — 不要发起关闭操作，而是等待服务器进行关闭。不要发送回复。自 cURL 7.16.1 起可用。
+- **`CURLFTPSSL_CONTROL` (`int`)**
+- **`CURLFTPSSL_NONE` (`int`)**
+- **`CURLFTPSSL_TRY` (`int`)**
+- **`CURLFTP_CREATE_DIR` (`int`)** — 自 PHP 7.0.7 和 cURL 7.19.3 起可用
+- **`CURLFTP_CREATE_DIR_NONE` (`int`)** — 自 PHP 7.0.7 和 cURL 7.19.3 起可用
+- **`CURLFTP_CREATE_DIR_RETRY` (`int`)** — 自 PHP 7.0.7 和 cURL 7.19.3 起可用
+- **`CURLGSSAPI_DELEGATION_FLAG` (`int`)** — 允许无条件的 GSSAPI 凭证委派。自 cURL 7.22.0 起可用。
+- **`CURLGSSAPI_DELEGATION_POLICY_FLAG` (`int`)** — 仅当服务票据（service ticket）中设置了 `OK-AS-DELEGATE` flag 的情况下进行委托，前提是由 GSS-API 实现支持此功能，并且在编译时定义了 `GSS_C_DELEG_POLICY_FLAG` 时可用。自 cURL 7.22.0 起可用。
+- **`CURLHEADER_SEPARATE` (`int`)** — 自 PHP 7.0.7 和 cURL 7.37.0 起可用。
+- **`CURLHEADER_UNIFIED` (`int`)** — 自 PHP 7.0.7 和 cURL 7.37.0 起可用。
+- **`CURLHSTS_ENABLE` (`int`)** — 自 PHP 8.2.0 和 cURL 7.74.0 起可用
+- **`CURLHSTS_READONLYFILE` (`int`)** — 自 PHP 8.2.0 和 cURL 7.74.0 起可用
+- **`CURLKHMATCH_LAST` (`int`)** — 自 PHP 8.3.0 和 cURL 7.19.6 起可用
+- **`CURLKHMATCH_MISMATCH` (`int`)** — 自 PHP 8.3.0 和 cURL 7.19.6 起可用
+- **`CURLKHMATCH_MISSING` (`int`)** — 自 PHP 8.3.0 和 cURL 7.19.6 起可用
+- **`CURLKHMATCH_OK` (`int`)** — 自 PHP 8.3.0 和 cURL 7.19.6 起可用
+- **`CURLMIMEOPT_FORMESCAPE` (`int`)** — 自 PHP 8.3.0 和 cURL 7.81.0 起可用
+- **`CURLMSG_DONE` (`int`)**
+- **`CURLPIPE_HTTP1` (`int`)** — 自 cURL 7.43.0 起可用。
+- **`CURLPIPE_MULTIPLEX` (`int`)** — 自 cURL 7.43.0 起可用。
+- **`CURLPIPE_NOTHING` (`int`)** — 自 cURL 7.43.0 起可用。
+- **`CURLPROXY_HTTP` (`int`)** — 自 cURL 7.10 起可用。
+- **`CURLPROXY_HTTPS` (`int`)** — 自 PHP 7.3.0 和 cURL 7.52.0 起可用
+- **`CURLPROXY_HTTP_1_0` (`int`)** — 自 PHP 7.0.7 和 cURL 7.19.3 起可用
+- **`CURLPROXY_SOCKS4` (`int`)** — 自 cURL 7.10 起可用。
+- **`CURLPROXY_SOCKS4A` (`int`)** — 自 cURL 7.18.0 起可用。
+- **`CURLPROXY_SOCKS5` (`int`)** — 自 cURL 7.10 起可用。
+- **`CURLPROXY_SOCKS5_HOSTNAME` (`int`)** — 自 cURL 7.18.0 起可用。
+- **`CURLPX_BAD_ADDRESS_TYPE` (`int`)** — 自 PHP 8.2.0 和 cURL 7.73.0 起可用
+- **`CURLPX_BAD_VERSION` (`int`)** — 自 PHP 8.2.0 和 cURL 7.73.0 起可用
+- **`CURLPX_CLOSED` (`int`)** — 自 PHP 8.2.0 和 cURL 7.73.0 起可用
+- **`CURLPX_GSSAPI` (`int`)** — 自 PHP 8.2.0 和 cURL 7.73.0 起可用
+- **`CURLPX_GSSAPI_PERMSG` (`int`)** — 自 PHP 8.2.0 和 cURL 7.73.0 起可用
+- **`CURLPX_GSSAPI_PROTECTION` (`int`)** — 自 PHP 8.2.0 和 cURL 7.73.0 起可用
+- **`CURLPX_IDENTD` (`int`)** — 自 PHP 8.2.0 和 cURL 7.73.0 起可用
+- **`CURLPX_IDENTD_DIFFER` (`int`)** — 自 PHP 8.2.0 和 cURL 7.73.0 起可用
+- **`CURLPX_LONG_HOSTNAME` (`int`)** — 自 PHP 8.2.0 和 cURL 7.73.0 起可用
+- **`CURLPX_LONG_PASSWD` (`int`)** — 自 PHP 8.2.0 和 cURL 7.73.0 起可用
+- **`CURLPX_LONG_USER` (`int`)** — 自 PHP 8.2.0 和 cURL 7.73.0 起可用
+- **`CURLPX_NO_AUTH` (`int`)** — 自 PHP 8.2.0 和 cURL 7.73.0 起可用
+- **`CURLPX_OK` (`int`)** — 自 PHP 8.2.0 和 cURL 7.73.0 起可用
+- **`CURLPX_RECV_ADDRESS` (`int`)** — 自 PHP 8.2.0 和 cURL 7.73.0 起可用
+- **`CURLPX_RECV_AUTH` (`int`)** — 自 PHP 8.2.0 和 cURL 7.73.0 起可用
+- **`CURLPX_RECV_CONNECT` (`int`)** — 自 PHP 8.2.0 和 cURL 7.73.0 起可用
+- **`CURLPX_RECV_REQACK` (`int`)** — 自 PHP 8.2.0 和 cURL 7.73.0 起可用
+- **`CURLPX_REPLY_ADDRESS_TYPE_NOT_SUPPORTED` (`int`)** — 自 PHP 8.2.0 和 cURL 7.73.0 起可用
+- **`CURLPX_REPLY_COMMAND_NOT_SUPPORTED` (`int`)** — 自 PHP 8.2.0 和 cURL 7.73.0 起可用
+- **`CURLPX_REPLY_CONNECTION_REFUSED` (`int`)** — 自 PHP 8.2.0 和 cURL 7.73.0 起可用
+- **`CURLPX_REPLY_GENERAL_SERVER_FAILURE` (`int`)** — 自 PHP 8.2.0 和 cURL 7.73.0 起可用
+- **`CURLPX_REPLY_HOST_UNREACHABLE` (`int`)** — 自 PHP 8.2.0 和 cURL 7.73.0 起可用
+- **`CURLPX_REPLY_NETWORK_UNREACHABLE` (`int`)** — 自 PHP 8.2.0 和 cURL 7.73.0 起可用
+- **`CURLPX_REPLY_NOT_ALLOWED` (`int`)** — 自 PHP 8.2.0 和 cURL 7.73.0 起可用
+- **`CURLPX_REPLY_TTL_EXPIRED` (`int`)** — 自 PHP 8.2.0 和 cURL 7.73.0 起可用
+- **`CURLPX_REPLY_UNASSIGNED` (`int`)** — 自 PHP 8.2.0 和 cURL 7.73.0 起可用
+- **`CURLPX_REQUEST_FAILED` (`int`)** — 自 PHP 8.2.0 和 cURL 7.73.0 起可用
+- **`CURLPX_RESOLVE_HOST` (`int`)** — 自 PHP 8.2.0 和 cURL 7.73.0 起可用
+- **`CURLPX_SEND_AUTH` (`int`)** — 自 PHP 8.2.0 和 cURL 7.73.0 起可用
+- **`CURLPX_SEND_CONNECT` (`int`)** — 自 PHP 8.2.0 和 cURL 7.73.0 起可用
+- **`CURLPX_SEND_REQUEST` (`int`)** — 自 PHP 8.2.0 和 cURL 7.73.0 起可用
+- **`CURLPX_UNKNOWN_FAIL` (`int`)** — 自 PHP 8.2.0 和 cURL 7.73.0 起可用
+- **`CURLPX_UNKNOWN_MODE` (`int`)** — 自 PHP 8.2.0 和 cURL 7.73.0 起可用
+- **`CURLPX_USER_REJECTED` (`int`)** — 自 PHP 8.2.0 和 cURL 7.73.0 起可用
+- **`CURLSSH_AUTH_AGENT` (`int`)** — 自 PHP 7.0.7 和 cURL 7.28.0 起可用
+- **`CURLSSH_AUTH_ANY` (`int`)**
+- **`CURLSSH_AUTH_DEFAULT` (`int`)**
+- **`CURLSSH_AUTH_GSSAPI` (`int`)** — 自 PHP 7.3.0 和 cURL 7.58.0 起可用
+- **`CURLSSH_AUTH_HOST` (`int`)**
+- **`CURLSSH_AUTH_KEYBOARD` (`int`)**
+- **`CURLSSH_AUTH_NONE` (`int`)**
+- **`CURLSSH_AUTH_PASSWORD` (`int`)**
+- **`CURLSSH_AUTH_PUBLICKEY` (`int`)**
+- **`CURLSSLOPT_ALLOW_BEAST` (`int`)** — 自 cURL 7.25.0 起可用
+- **`CURLSSLOPT_AUTO_CLIENT_CERT` (`int`)** — 自 PHP 8.2.0 和 cURL 7.77.0 起可用
+- **`CURLSSLOPT_NATIVE_CA` (`int`)** — 自 PHP 8.2.0 和 cURL 7.71.0 起可用
+- **`CURLSSLOPT_NO_PARTIALCHAIN` (`int`)** — 自 PHP 8.2.0 和 cURL 7.68.0 起可用
+- **`CURLSSLOPT_NO_REVOKE` (`int`)** — 自 PHP 7.0.7 和 cURL 7.44.0 起可用
+- **`CURLSSLOPT_REVOKE_BEST_EFFORT` (`int`)** — 自 PHP 8.2.0 和 cURL 7.70.0 起可用
+- **`CURLUSESSL_ALL` (`int`)** — 所有通信都需要 SSL，否则会失败并出现 `CURLE_USE_SSL_FAILED`。自 cURL 7.17.0 起可用。
+- **`CURLUSESSL_CONTROL` (`int`)** — 控制连接需要 SSL，否则会失败并出现 `CURLE_USE_SSL_FAILED`。自 cURL 7.17.0 起可用。
+- **`CURLUSESSL_NONE` (`int`)** — 不要尝试使用 SSL。自 cURL 7.17.0 起可用。
+- **`CURLUSESSL_TRY` (`int`)** — 尝试使用 SSL，如果失败则按正常方式继续。注意，如果协商不成功，服务器可能会关闭连接。自 cURL 7.17.0 起可用。
+- **`CURLVERSION_NOW` (`int`)**
+- **`CURLWS_RAW_MODE` (`int`)** — 自 PHP 8.3.0 和 cURL 7.86.0 起可用
+- **`CURL_FNMATCHFUNC_FAIL` (`int`)** — 如果发生错误，则由通配符匹配回调函数返回。自 cURL 7.21.0 起可用。
+- **`CURL_FNMATCHFUNC_MATCH` (`int`)** — 如果模式与字符串匹配，则由通配符匹配回调函数返回。自 cURL 7.21.0 起可用。
+- **`CURL_FNMATCHFUNC_NOMATCH` (`int`)** — 如果模式与字符串不匹配，则由通配符匹配回调函数返回。自 cURL 7.21.0 起可用。
+- **`CURL_HTTP_VERSION_1_0` (`int`)**
+- **`CURL_HTTP_VERSION_1_1` (`int`)**
+- **`CURL_HTTP_VERSION_2` (`int`)** — 自 PHP 7.0.7 和 cURL 7.43.0 起可用
+- **`CURL_HTTP_VERSION_2TLS` (`int`)** — 自 PHP 7.0.7 和 cURL 7.47.0 起可用
+- **`CURL_HTTP_VERSION_2_0` (`int`)** — 自 cURL 7.33.0 起可用
+- **`CURL_HTTP_VERSION_2_PRIOR_KNOWLEDGE` (`int`)** — 自 PHP 7.0.7 和 cURL 7.49.0 起可用
+- **`CURL_HTTP_VERSION_3` (`int`)** — 自 PHP 8.4.0 和 cURL 7.66.0 起可用。
+- **`CURL_HTTP_VERSION_3ONLY` (`int`)** — 自 PHP 8.4.0 和 cURL 7.88.0 起可用。
+- **`CURL_HTTP_VERSION_NONE` (`int`)**
+- **`CURL_IPRESOLVE_V4` (`int`)** — 建立连接或从连接池中选一个时仅使用 IPv4 地址。自 cURL 7.10.8 起可用。
+- **`CURL_IPRESOLVE_V6` (`int`)** — 建立连接或从连接池中选一个时仅使用 IPv6 地址。自 cURL 7.10.8 起可用。
+- **`CURL_IPRESOLVE_WHATEVER` (`int`)** — 使用系统允许的所有 IP 版本的地址。自 cURL 7.10.8 起可用。
+- **`CURL_MAX_READ_SIZE` (`int`)** — 自 PHP 7.3.0 和 cURL 7.53.0 起可用
+- **`CURL_NETRC_IGNORED` (`int`)**
+- **`CURL_NETRC_OPTIONAL` (`int`)**
+- **`CURL_NETRC_REQUIRED` (`int`)**
+- **`CURL_PUSH_DENY` (`int`)** — 自 PHP 7.1.0 和 cURL 7.44.0 起可用
+- **`CURL_PUSH_OK` (`int`)** — 自 PHP 7.1.0 和 cURL 7.44.0 起可用
+- **`CURL_READFUNC_PAUSE` (`int`)** — 自 cURL 7.18.0 起可用。
+- **`CURL_REDIR_POST_301` (`int`)** — 自 PHP 7.0.7 和 cURL 7.18.2 起可用
+- **`CURL_REDIR_POST_302` (`int`)** — 自 PHP 7.0.7 和 cURL 7.18.2 起可用
+- **`CURL_REDIR_POST_303` (`int`)** — 自 PHP 7.0.7 和 cURL 7.25.1 起可用
+- **`CURL_REDIR_POST_ALL` (`int`)** — 自 PHP 7.0.7 和 cURL 7.18.2 起可用
+- **`CURL_RTSPREQ_ANNOUNCE` (`int`)** — 当客户端发送时，该方法会更改会话的描述。`ANNOUNCE` 的作用类似于 HTTP PUT 或 POST，就像 `CURL_RTSPREQ_SET_PARAMETER` 一样。自 cURL 7.20.0 起可用。
+- **`CURL_RTSPREQ_DESCRIBE` (`int`)** — 用于获取流的低级描述。应用程序应在 `Accept:` header 中注明其支持的格式。除非手动设置，否则 libcurl 会自动添加 `Accept: application/sdp`。如果使用了 `CURLOPT_TIMECONDITION` 选项，时间条件（Time-condition）header 将添加到 DESCRIBE 请求中。自 cURL 7.20.0 起可用。
+- **`CURL_RTSPREQ_GET_PARAMETER` (`int`)** — 从服务器检索参数。默认情况下，libcurl 会在所有非空请求中添加 `Content-Type: text/parameters` header，除非设置了自定义标头。`GET_PARAMETER` 的作用与 HTTP 的 PUT 或 POST 相同。希望发送心跳消息的应用程序应使用空的 `GET_PARAMETER` 请求。自 cURL 7.20.0 起可用。
+- **`CURL_RTSPREQ_OPTIONS` (`int`)** — 用于检索服务器的可用方法。自 cURL 7.20.0 起可用。
+- **`CURL_RTSPREQ_PAUSE` (`int`)** — 向服务器发送 `PAUSE` 命令。使用 `CURLOPT_RANGE` 选项以及单个值来指示何时应停止流（例如 npt=25）。自 cURL 7.20.0 起可用。
+- **`CURL_RTSPREQ_PLAY` (`int`)** — 向服务器发送 `PLAY` 命令。使用 `CURLOPT_RANGE` 选项来修改播放时间（例如 npt=10-15）。自 cURL 7.20.0 起可用。
+- **`CURL_RTSPREQ_RECEIVE` (`int`)** — 将 RTSP 请求类型设置为此值以接收交替 RTP 数据。自 cURL 7.20.0 起可用。
+- **`CURL_RTSPREQ_RECORD` (`int`)** — 用于告诉服务器记录会话。使用 `CURLOPT_RANGE` 选项修改记录时间。自 cURL 7.20.0 起可用。
+- **`CURL_RTSPREQ_SETUP` (`int`)** — 用于初始化会话的传输层。自 cURL 7.20.0 起可用。
+- **`CURL_RTSPREQ_SET_PARAMETER` (`int`)** — 在服务器上设置参数。自 cURL 7.20.0 起可用。
+- **`CURL_RTSPREQ_TEARDOWN` (`int`)** — 终止 RTSP 会话。简单地关闭连接不会终止 RTSP 会话，因为通过不同的连接控制 RTSP 会话是有效的。自 cURL 7.20.0 起可用。
+- **`CURL_SSLVERSION_DEFAULT` (`int`)**
+- **`CURL_SSLVERSION_MAX_DEFAULT` (`int`)** — 自 PHP 7.3.0 和 cURL 7.54.0 起可用
+- **`CURL_SSLVERSION_MAX_NONE` (`int`)** — 自 PHP 7.3.0 和 cURL 7.54.0 起可用
+- **`CURL_SSLVERSION_MAX_TLSv1_0` (`int`)** — 自 PHP 7.3.0 和 cURL 7.54.0 起可用
+- **`CURL_SSLVERSION_MAX_TLSv1_1` (`int`)** — 自 PHP 7.3.0 和 cURL 7.54.0 起可用
+- **`CURL_SSLVERSION_MAX_TLSv1_2` (`int`)** — 自 PHP 7.3.0 和 cURL 7.54.0 起可用
+- **`CURL_SSLVERSION_MAX_TLSv1_3` (`int`)** — 自 PHP 7.3.0 和 cURL 7.54.0 起可用
+- **`CURL_SSLVERSION_SSLv2` (`int`)**
+- **`CURL_SSLVERSION_SSLv3` (`int`)**
+- **`CURL_SSLVERSION_TLSv1` (`int`)**
+- **`CURL_SSLVERSION_TLSv1_0` (`int`)**
+- **`CURL_SSLVERSION_TLSv1_1` (`int`)**
+- **`CURL_SSLVERSION_TLSv1_2` (`int`)**
+- **`CURL_SSLVERSION_TLSv1_3` (`int`)** — 自 PHP 7.3.0 和 cURL 7.52.0 起可用
+- **`CURL_TIMECOND_IFMODSINCE` (`int`)**
+- **`CURL_TIMECOND_IFUNMODSINCE` (`int`)**
+- **`CURL_TIMECOND_LASTMOD` (`int`)**
+- **`CURL_TIMECOND_NONE` (`int`)**
+- **`CURL_TLSAUTH_SRP` (`int`)** — 自 cURL 7.21.4 起可用。
+- **`CURL_VERSION_ALTSVC` (`int`)** — 自 PHP 7.3.6 和 cURL 7.64.1 起可用
+- **`CURL_VERSION_ASYNCHDNS` (`int`)** — 异步 DNS 解析。自 PHP 7.3.0 和 cURL 7.10.7 起可用
+- **`CURL_VERSION_BROTLI` (`int`)** — 自 PHP 7.3.0 和 cURL 7.57.0 起可用
+- **`CURL_VERSION_CONV` (`int`)** — 字符转换支持。自 PHP 7.3.0 和 cURL 7.15.4 起可用
+- **`CURL_VERSION_CURLDEBUG` (`int`)** — 调试内存跟踪支持。自 PHP 7.3.6 和 cURL 7.19.6 起可用
+- **`CURL_VERSION_DEBUG` (`int`)** — 内置调试功能。自 PHP 7.3.0 和 cURL 7.10.6 起可用
+- **`CURL_VERSION_GSASL` (`int`)** — 自 PHP 8.2.0 和 cURL 7.76.0 起可用
+- **`CURL_VERSION_GSSAPI` (`int`)** — 基于 GSS-API 库编译。自 PHP 7.3.0 和 cURL 7.38.0 起可用
+- **`CURL_VERSION_GSSNEGOTIATE` (`int`)** — 支持协商（Negotiate）身份验证。自 PHP 7.3.0 和 cURL 7.10.6 起可用（自 cURL 7.38.0 起弃用）
+- **`CURL_VERSION_HSTS` (`int`)** — 自 PHP 8.2.0 和 cURL 7.74.0 起可用
+- **`CURL_VERSION_HTTP2` (`int`)** — 内置 HTTP2 支持。自 cURL 7.33.0 起可用
+- **`CURL_VERSION_HTTP3` (`int`)** — 自 PHP 8.2.0 和 cURL 7.66.0 起可用
+- **`CURL_VERSION_HTTPS_PROXY` (`int`)** — 自 PHP 7.3.0 和 cURL 7.52.0 起可用
+- **`CURL_VERSION_IDN` (`int`)** — 国际化域名支持。自 PHP 7.3.0 和 cURL 7.12.0 起可用
+- **`CURL_VERSION_IPV6` (`int`)** — 启用 IPv6。
+- **`CURL_VERSION_KERBEROS4` (`int`)** — Kerberos V4 身份验证支持。
+- **`CURL_VERSION_KERBEROS5` (`int`)** — Kerberos V5 身份验证支持。自 PHP 7.0.7 和 cURL 7.40.0 起可用
+- **`CURL_VERSION_LARGEFILE` (`int`)** — 支持大于 2GB 的文件。自 cURL 7.33.0 起可用
+- **`CURL_VERSION_LIBZ` (`int`)** — 存在 libz 功能。
+- **`CURL_VERSION_MULTI_SSL` (`int`)** — 自 PHP 7.3.0 和 cURL 7.56.0 起可用
+- **`CURL_VERSION_NTLM` (`int`)** — NTLM 身份验证支持。自 PHP 7.3.0 和 cURL 7.10.6 起可用
+- **`CURL_VERSION_NTLM_WB` (`int`)** — 支持 NTLM 委派给 winbind 助手。自 PHP 7.3.0 和 cURL 7.22.0 起可用
+- **`CURL_VERSION_PSL` (`int`)** — Mozilla 的公共后缀列表，用于 cookie 域验证。自 PHP 7.3.6 和 cURL 7.47.0 起可用
+- **`CURL_VERSION_SPNEGO` (`int`)** — SPNEGO 身份验证支持。自 PHP 7.3.0 和 cURL 7.10.8 起可用
+- **`CURL_VERSION_SSL` (`int`)** — 存在 SSL 选项。
+- **`CURL_VERSION_SSPI` (`int`)** — 基于 Windows SSPI 编译。 自 PHP 7.3.0 和 cURL 7.13.2 起可用
+- **`CURL_VERSION_TLSAUTH_SRP` (`int`)** — TLS-SRP 身份验证支持。自 PHP 7.3.0 和 cURL 7.21.4 起可用
+- **`CURL_VERSION_UNICODE` (`int`)** — 自 PHP 8.2.0 和 cURL 7.72.0 起可用
+- **`CURL_VERSION_UNIX_SOCKETS` (`int`)** — Unix 域套接字支持。自 PHP 7.0.7 和 cURL 7.40.0 起可用
+- **`CURL_VERSION_ZSTD` (`int`)** — 自 PHP 8.2.0 和 cURL 7.72.0 起可用
+- **`CURL_WRITEFUNC_PAUSE` (`int`)** — 自 cURL 7.18.0 起可用。
+- **`CURL_PREREQFUNC_OK` (`int`)** — 自 PHP 8.4.0 和 cURL 7.80.0 起可用。
+- **`CURL_PREREQFUNC_ABORT` (`int`)** — 自 PHP 8.4.0 和 cURL 7.80.0 起可用。

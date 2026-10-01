@@ -1,0 +1,77 @@
+---
+id: "en-php-function-function-cubrid-field-flags"
+language: "php"
+lang: "en"
+category: "function"
+name: "cubrid_field_flags"
+title: "Return a string with the flags of the given field offset"
+signature: "string cubrid_field_flags(resource $result, int $field_offset)"
+module: "cubrid"
+source_url: "https://www.php.net/manual/en/function.cubrid-field-flags.php"
+license: "CC-BY-3.0"
+updated: "2026-10-01"
+---
+
+# Return a string with the flags of the given field offset
+
+## Description
+
+```php
+string cubrid_field_flags(resource $result, int $field_offset)
+```
+
+This function returns a string with the flags of the given field offset separated by space. You can split the returned value using explode. The possible flags could be: `not_null`, `primary_key`, `unique_key`, `foreign_key`, `auto_increment`, `shared`, `reverse_index`, `reverse_unique` and `timestamp`.
+
+## Parameters
+
+- **`$result`** — `$result` comes from a call to `cubrid_execute()`
+- **`$field_offset`** — The numerical field offset. The `$field_offset` starts at 0. If `$field_offset` does not exist, an error of level `E_WARNING` is also issued.
+
+## Return Values
+
+A string with flags, when process is successful.
+
+`false` when invalid field_offset value.
+
+-1 if SQL sentence is not SELECT.
+
+## Examples
+
+**`cubrid_field_flags()` example**
+
+```php
+
+
+<?php
+$conn = cubrid_connect("localhost", 33000, "demodb");
+$result = cubrid_execute($conn, "SELECT * FROM game WHERE host_year=2004 AND nation_code='AUS' AND medal='G'");
+
+$col_num = cubrid_num_cols($result);
+
+printf("%-30s %s\n", "Field Name", "Field Flags");
+for($i = 0; $i < $col_num; $i++) {
+    printf("%-30s %s\n", cubrid_field_name($result, $i), cubrid_field_flags($result, $i));
+}
+
+cubrid_disconnect($conn);
+?>
+
+   
+```
+
+The above example will output:
+
+```text
+
+
+Field Name                     Field Flags
+host_year                      not_null primary_key unique_key
+event_code                     not_null primary_key unique_key foreign_key
+athlete_code                   not_null primary_key unique_key foreign_key
+stadium_code                   not_null
+nation_code
+medal
+game_date
+
+    
+```

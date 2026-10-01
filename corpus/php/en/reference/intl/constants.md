@@ -1,0 +1,187 @@
+---
+id: "en-php-guide-intl-constants"
+language: "php"
+lang: "en"
+category: "guide"
+name: "intl.constants"
+title: "Predefined Constants"
+module: "intl"
+source_url: "https://www.php.net/manual/en/intl.constants.php"
+license: "CC-BY-3.0"
+updated: "2026-10-01"
+---
+
+# Predefined Constants
+
+- **`INTL_ICU_DATA_VERSION` (`string`)** — Data version in ICU4C.
+- **`INTL_ICU_VERSION` (`string`)** — The current ICU library version as a dotted-decimal string.
+- **`INTL_MAX_LOCALE_LEN` (`int`)** — Limit on locale length, set to 80 in PHP code. Locale names longer than this limit will not be accepted.
+- **`IDNA_DEFAULT` (`int`)** — Prohibit processing of unassigned codepoints in the input for IDN functions and do not check if the input conforms to domain name ASCII rules.
+- **`IDNA_ALLOW_UNASSIGNED` (`int`)** — Allow processing of unassigned codepoints in the input for IDN functions.
+- **`IDNA_USE_STD3_RULES` (`int`)** — Check if the input for IDN functions conforms to domain name ASCII rules.
+- **`IDNA_CHECK_BIDI` (`int`)** — Check whether the input conforms to the BiDi rules. Ignored by the IDNA2003 implementation, which always performs this check.
+- **`IDNA_CHECK_CONTEXTJ` (`int`)** — Check whether the input conforms to the CONTEXTJ rules. Ignored by the IDNA2003 implementation, as this check is new in IDNA2008.
+- **`IDNA_NONTRANSITIONAL_TO_ASCII` (`int`)** — Option for nontransitional processing in `idn_to_ascii()`. Transitional processing is activated by default. This option is ignored by the IDNA2003 implementation.
+- **`IDNA_NONTRANSITIONAL_TO_UNICODE` (`int`)** — Option for nontransitional processing in `idn_to_utf8()`. Transitional processing is activated by default. This option is ignored by the IDNA2003 implementation.
+- **`INTL_IDNA_VARIANT_2003` (`int`)** — Use IDNA 2003 algorithm in `idn_to_utf8()` and `idn_to_ascii()`. This is the default. This constant and using the default has been deprecated as of PHP 7.2.0.
+- **`INTL_IDNA_VARIANT_UTS46` (`int`)** — Use UTS #46 algorithm in `idn_to_utf8()` and `idn_to_ascii()`. Available as of ICU 4.6.
+- **`GRAPHEME_EXTR_COUNT` (`int`)** — The number of default grapheme clusters to extract.
+- **`GRAPHEME_EXTR_MAXBYTES` (`int`)** — The maximum number of bytes returned.
+- **`GRAPHEME_EXTR_MAXCHARS` (`int`)** — The maximum number of UTF-8 characters returned.
+
+- **`IDNA_ERROR_EMPTY_LABEL` (`int`)**
+- **`IDNA_ERROR_LABEL_TOO_LONG` (`int`)**
+- **`IDNA_ERROR_DOMAIN_NAME_TOO_LONG` (`int`)**
+- **`IDNA_ERROR_LEADING_HYPHEN` (`int`)**
+- **`IDNA_ERROR_TRAILING_HYPHEN` (`int`)**
+- **`IDNA_ERROR_HYPHEN_3_4` (`int`)**
+- **`IDNA_ERROR_LEADING_COMBINING_MARK` (`int`)**
+- **`IDNA_ERROR_DISALLOWED` (`int`)**
+- **`IDNA_ERROR_PUNYCODE` (`int`)**
+- **`IDNA_ERROR_LABEL_HAS_DOT` (`int`)**
+- **`IDNA_ERROR_INVALID_ACE_LABEL` (`int`)**
+- **`IDNA_ERROR_BIDI` (`int`)**
+- **`IDNA_ERROR_CONTEXTJ` (`int`)**
+- **`ULOC_ACTUAL_LOCALE` (`int`)** — The locale the data actually comes from.
+- **`ULOC_VALID_LOCALE` (`int`)** — The most specific locale supported by ICU.
+- **`U_AMBIGUOUS_ALIAS_WARNING` (`int`)** — This converter alias can go to different converter implementations.
+- **`U_BAD_VARIABLE_DEFINITION` (`int`)** — Missing `'$'` or duplicate variable name.
+- **`U_BRK_ASSIGN_ERROR` (`int`)** — Syntax error in RBBI rule assignment statement.
+- **`U_BRK_ERROR_LIMIT` (`int`)** — This must always be the last value to indicate the limit for Break Iterator failures.
+- **`U_BRK_ERROR_START` (`int`)** — Start of codes indicating Break Iterator failures.
+- **`U_BRK_HEX_DIGITS_EXPECTED` (`int`)** — Hex digits expected as part of a escaped char in a rule.
+- **`U_BRK_INIT_ERROR` (`int`)** — Initialization failure. Probable missing ICU Data.
+- **`U_BRK_INTERNAL_ERROR` (`int`)** — An internal error (bug) was detected.
+- **`U_BRK_MALFORMED_RULE_TAG` (`int`)** — The `{nnn}` tag on a rule is mal formed.
+- **`U_BRK_MISMATCHED_PAREN` (`int`)** — Mis-matched parentheses in an RBBI rule.
+- **`U_BRK_NEW_LINE_IN_QUOTED_STRING` (`int`)** — Missing closing quote in an RBBI rule.
+- **`U_BRK_RULE_EMPTY_SET` (`int`)** — Rule contains an empty Unicode Set.
+- **`U_BRK_RULE_SYNTAX` (`int`)** — Syntax error in RBBI rule.
+- **`U_BRK_SEMICOLON_EXPECTED` (`int`)** — Missing `';'` at the end of a RBBI rule.
+- **`U_BRK_UNCLOSED_SET` (`int`)** — UnicodeSet writing an RBBI rule missing a closing `']'`.
+- **`U_BRK_UNDEFINED_VARIABLE` (`int`)** — Use of an undefined $Variable in an RBBI rule.
+- **`U_BRK_UNRECOGNIZED_OPTION` (`int`)** — Option in RBBI rules not recognized.
+- **`U_BRK_VARIABLE_REDFINITION` (`int`)** — RBBI rule variable redefined.
+- **`U_BUFFER_OVERFLOW_ERROR` (`int`)** — A result would not fit in the supplied buffer.
+- **`U_CE_NOT_FOUND_ERROR` (`int`)** — Currently used only while setting variable top, but can be used generally.
+- **`U_COLLATOR_VERSION_MISMATCH` (`int`)** — Collator version is not compatible with the base version.
+- **`U_DIFFERENT_UCA_VERSION` (`int`)** — ucol_open encountered a mismatch between UCA version and collator image version, so the collator was constructed from rules. No impact to further function.
+- **`U_ENUM_OUT_OF_SYNC_ERROR` (`int`)** — UEnumeration out of sync with underlying collection.
+- **`U_ERROR_LIMIT` (`int`)** — Alias of `U_PLUGIN_ERROR_LIMIT`.
+- **`U_ERROR_WARNING_LIMIT` (`int`)** — This must always be the last warning value to indicate the limit for UErrorCode warnings (last warning code +1).
+- **`U_ERROR_WARNING_START` (`int`)** — Start of information results (semantically successful).
+- **`U_FILE_ACCESS_ERROR` (`int`)** — The requested file cannot be found.
+- **`U_FMT_PARSE_ERROR_LIMIT` (`int`)** — The limit for format library errors.
+- **`U_FMT_PARSE_ERROR_START` (`int`)** — Start of format library errors.
+- **`U_IDNA_ACE_PREFIX_ERROR` (`int`)**
+- **`U_IDNA_CHECK_BIDI_ERROR` (`int`)**
+- **`U_IDNA_DOMAIN_NAME_TOO_LONG_ERROR` (`int`)**
+- **`U_IDNA_ERROR_LIMIT` (`int`)**
+- **`U_IDNA_ERROR_START` (`int`)**
+- **`U_IDNA_LABEL_TOO_LONG_ERROR` (`int`)**
+- **`U_IDNA_PROHIBITED_ERROR` (`int`)**
+- **`U_IDNA_STD3_ASCII_RULES_ERROR` (`int`)**
+- **`U_IDNA_UNASSIGNED_ERROR` (`int`)**
+- **`U_IDNA_VERIFICATION_ERROR` (`int`)**
+- **`U_IDNA_ZERO_LENGTH_LABEL_ERROR` (`int`)**
+- **`U_ILLEGAL_ARGUMENT_ERROR` (`int`)** — Indicates an incorrect argument value.
+- **`U_ILLEGAL_CHAR_FOUND` (`int`)** — Character conversion: Illegal input sequence.
+- **`U_ILLEGAL_CHAR_IN_SEGMENT` (`int`)** — Unused as of ICU 2.4.
+- **`U_ILLEGAL_CHARACTER` (`int`)** — A special character is outside its allowed context.
+- **`U_ILLEGAL_ESCAPE_SEQUENCE` (`int`)** — ISO-2022 illlegal escape sequence.
+- **`U_ILLEGAL_PAD_POSITION` (`int`)** — Pad symbol misplaced in number pattern.
+- **`U_INDEX_OUTOFBOUNDS_ERROR` (`int`)** — Trying to access the index that is out of bounds.
+- **`U_INTERNAL_PROGRAM_ERROR` (`int`)** — Indicates a bug in the library code.
+- **`U_INTERNAL_TRANSLITERATOR_ERROR` (`int`)** — Internal transliterator system error.
+- **`U_INVALID_CHAR_FOUND` (`int`)** — Character conversion: Unmappable input sequence. In other APIs: Invalid character.
+- **`U_INVALID_FORMAT_ERROR` (`int`)** — Data format is not what is expected.
+- **`U_INVALID_FUNCTION` (`int`)** — A `'&fn()'` rule specifies an unknown transliterator.
+- **`U_INVALID_ID` (`int`)** — A `'::id'` rule specifies an unknown transliterator.
+- **`U_INVALID_PROPERTY_PATTERN` (`int`)** — Unused as of ICU 2.4.
+- **`U_INVALID_RBT_SYNTAX` (`int`)** — A `'::id'` rule was passed to the RuleBasedTransliterator parser.
+- **`U_INVALID_STATE_ERROR` (`int`)** — Requested operation can not be completed with ICU in its current state.
+- **`U_INVALID_TABLE_FILE` (`int`)** — Conversion table file not found.
+- **`U_INVALID_TABLE_FORMAT` (`int`)** — Conversion table file found, but corrupted.
+- **`U_INVARIANT_CONVERSION_ERROR` (`int`)** — Unable to convert a UChar* string to char* with the invariant converter.
+- **`U_MALFORMED_EXPONENTIAL_PATTERN` (`int`)** — Grouping symbol in exponent pattern.
+- **`U_MALFORMED_PRAGMA` (`int`)** — A `'use'` pragma is invalid.
+- **`U_MALFORMED_RULE` (`int`)** — Elements of a rule are misplaced.
+- **`U_MALFORMED_SET` (`int`)** — A UnicodeSet pattern is invalid.
+- **`U_MALFORMED_SYMBOL_REFERENCE` (`int`)** — Unused as of ICU 2.4.
+- **`U_MALFORMED_UNICODE_ESCAPE` (`int`)** — A Unicode escape pattern is invalid.
+- **`U_MALFORMED_VARIABLE_DEFINITION` (`int`)** — A variable definition is invalid.
+- **`U_MALFORMED_VARIABLE_REFERENCE` (`int`)** — A variable reference is invalid.
+- **`U_MEMORY_ALLOCATION_ERROR` (`int`)** — Memory allocation error.
+- **`U_MESSAGE_PARSE_ERROR` (`int`)** — Unable to parse a message (message format).
+- **`U_MISMATCHED_SEGMENT_DELIMITERS` (`int`)** — Unused as of ICU 2.4.
+- **`U_MISPLACED_ANCHOR_START` (`int`)** — A start anchor appears at an illegal position.
+- **`U_MISPLACED_COMPOUND_FILTER` (`int`)** — A compound filter is in an invalid location.
+- **`U_MISPLACED_CURSOR_OFFSET` (`int`)** — A cursor offset occurs at an illegal position.
+- **`U_MISPLACED_QUANTIFIER` (`int`)** — A quantifier appears after a segment close delimiter.
+- **`U_MISSING_OPERATOR` (`int`)** — A rule contains no operator.
+- **`U_MISSING_RESOURCE_ERROR` (`int`)** — The requested resource cannot be found.
+- **`U_MISSING_SEGMENT_CLOSE` (`int`)** — Unused as of ICU 2.4.
+- **`U_MULTIPLE_ANTE_CONTEXTS` (`int`)** — More than one ante context.
+- **`U_MULTIPLE_COMPOUND_FILTERS` (`int`)** — More than one compound filter.
+- **`U_MULTIPLE_CURSORS` (`int`)** — More than one cursor.
+- **`U_MULTIPLE_DECIMAL_SEPARATORS` (`int`)** — More than one decimal separator in number pattern.
+- **`U_MULTIPLE_DECIMAL_SEPERATORS` (`int`)** — Alias of `U_MULTIPLE_DECIMAL_SEPARATORS`.
+- **`U_MULTIPLE_EXPONENTIAL_SYMBOLS` (`int`)** — More than one exponent symbol in number pattern.
+- **`U_MULTIPLE_PAD_SPECIFIERS` (`int`)** — More than one pad symbol in number pattern.
+- **`U_MULTIPLE_PERCENT_SYMBOLS` (`int`)** — More than one percent symbol in number pattern.
+- **`U_MULTIPLE_PERMILL_SYMBOLS` (`int`)** — More than one permill symbol in number pattern.
+- **`U_MULTIPLE_POST_CONTEXTS` (`int`)** — More than one post context.
+- **`U_NO_SPACE_AVAILABLE` (`int`)** — No space available for in-buffer expansion for Arabic shaping.
+- **`U_NO_WRITE_PERMISSION` (`int`)** — Attempt to modify read-only or constant data.
+- **`U_PARSE_ERROR` (`int`)** — Equivalent to Java ParseException.
+- **`U_PARSE_ERROR_LIMIT` (`int`)** — The limit for Transliterator errors.
+- **`U_PARSE_ERROR_START` (`int`)** — Start of Transliterator errors.
+- **`U_PATTERN_SYNTAX_ERROR` (`int`)** — Syntax error in format pattern.
+- **`U_PRIMARY_TOO_LONG_ERROR` (`int`)** — User tried to set variable top to a primary that is longer than two bytes.
+- **`U_REGEX_BAD_ESCAPE_SEQUENCE` (`int`)** — Unrecognized backslash escape sequence in pattern.
+- **`U_REGEX_BAD_INTERVAL` (`int`)** — Error in `{min,max}` interval.
+- **`U_REGEX_ERROR_LIMIT` (`int`)** — This must always be the last value to indicate the limit for regexp errors.
+- **`U_REGEX_ERROR_START` (`int`)** — Start of codes indicating Regexp failures.
+- **`U_REGEX_INTERNAL_ERROR` (`int`)** — An internal error (bug) was detected.
+- **`U_REGEX_INVALID_BACK_REF` (`int`)** — Back-reference to a non-existent capture group.
+- **`U_REGEX_INVALID_FLAG` (`int`)** — Invalid value for match mode flags.
+- **`U_REGEX_INVALID_STATE` (`int`)** — RegexMatcher in invalid state for requested operation.
+- **`U_REGEX_LOOK_BEHIND_LIMIT` (`int`)** — Look-Behind pattern matches must have a bounded maximum length.
+- **`U_REGEX_MAX_LT_MIN` (`int`)** — In `{min,max}`, max is less than min.
+- **`U_REGEX_MISMATCHED_PAREN` (`int`)** — Incorrectly nested parentheses in regexp pattern.
+- **`U_REGEX_NUMBER_TOO_BIG` (`int`)** — Decimal number is too large.
+- **`U_REGEX_PROPERTY_SYNTAX` (`int`)** — Incorrect Unicode property.
+- **`U_REGEX_RULE_SYNTAX` (`int`)** — Syntax error in regexp pattern.
+- **`U_REGEX_SET_CONTAINS_STRING` (`int`)** — Regexps cannot have UnicodeSets containing strings.
+- **`U_REGEX_UNIMPLEMENTED` (`int`)** — Use of regexp feature that is not yet implemented.
+- **`U_RESOURCE_TYPE_MISMATCH` (`int`)** — An operation is requested over a resource that does not support it.
+- **`U_RULE_MASK_ERROR` (`int`)** — A rule is hidden by an earlier more general rule.
+- **`U_SAFECLONE_ALLOCATED_WARNING` (`int`)** — A SafeClone operation required allocating memory (informational only).
+- **`U_SORT_KEY_TOO_SHORT_WARNING` (`int`)** — Number of levels requested in getBound is higher than the number of levels in the sort key.
+- **`U_STANDARD_ERROR_LIMIT` (`int`)** — This must always be the last value to indicate the limit for standard errors.
+- **`U_STATE_OLD_WARNING` (`int`)** — ICU has to use compatibility layer to construct the service. Expect performance/memory usage degradation.
+- **`U_STATE_TOO_OLD_ERROR` (`int`)** — ICU cannot construct a service from this state, as it is no longer supported.
+- **`U_STRING_NOT_TERMINATED_WARNING` (`int`)** — An output string could not be NUL-terminated because output length==destCapacity.
+- **`U_STRINGPREP_CHECK_BIDI_ERROR` (`int`)** — Alias of `U_IDNA_CHECK_BIDI_ERROR`.
+- **`U_STRINGPREP_PROHIBITED_ERROR` (`int`)** — Alias of `U_IDNA_PROHIBITED_ERROR`.
+- **`U_STRINGPREP_UNASSIGNED_ERROR` (`int`)** — Alias of `U_IDNA_UNASSIGNED_ERROR`.
+- **`U_TOO_MANY_ALIASES_ERROR` (`int`)** — There are too many aliases in the path to the requested resource. It is very possible that a circular alias definition has occurred.
+- **`U_TRAILING_BACKSLASH` (`int`)** — A dangling backslash.
+- **`U_TRUNCATED_CHAR_FOUND` (`int`)** — Character conversion: Incomplete input sequence.
+- **`U_UNCLOSED_SEGMENT` (`int`)** — A closing `')'` is missing.
+- **`U_UNDEFINED_SEGMENT_REFERENCE` (`int`)** — A segment reference does not correspond to a defined segment.
+- **`U_UNDEFINED_VARIABLE` (`int`)** — A variable reference does not correspond to a defined variable.
+- **`U_UNEXPECTED_TOKEN` (`int`)** — Syntax error in format pattern.
+- **`U_UNMATCHED_BRACES` (`int`)** — Braces do not match in message pattern.
+- **`U_UNQUOTED_SPECIAL` (`int`)** — A special character was not quoted or escaped.
+- **`U_UNSUPPORTED_ATTRIBUTE` (`int`)** — Unused as of ICU 2.4.
+- **`U_UNSUPPORTED_ERROR` (`int`)** — Requested operation not supported in current context.
+- **`U_UNSUPPORTED_ESCAPE_SEQUENCE` (`int`)** — ISO-2022 unsupported escape sequence.
+- **`U_UNSUPPORTED_PROPERTY` (`int`)** — Unused as of ICU 2.4.
+- **`U_UNTERMINATED_QUOTE` (`int`)** — A closing single quote is missing.
+- **`U_USELESS_COLLATOR_ERROR` (`int`)** — Collator is options only and no base is specified.
+- **`U_USING_DEFAULT_WARNING` (`int`)** — A resource bundle lookup returned a result from the root locale (not an error).
+- **`U_USING_FALLBACK_WARNING` (`int`)** — A resource bundle lookup returned a fallback result (not an error).
+- **`U_VARIABLE_RANGE_EXHAUSTED` (`int`)** — Too many stand-ins generated for the given variable range.
+- **`U_VARIABLE_RANGE_OVERLAP` (`int`)** — The variable range overlaps characters used in rules.
+- **`U_ZERO_ERROR` (`int`)** — No error, no warning.

@@ -1,0 +1,309 @@
+---
+id: "zh-php-guide-sockets-constants"
+language: "php"
+lang: "zh"
+category: "guide"
+name: "sockets.constants"
+title: "预定义常量"
+module: "sockets"
+source_url: "https://www.php.net/manual/zh/sockets.constants.php"
+license: "CC-BY-3.0"
+updated: "2026-10-01"
+---
+
+# 预定义常量
+
+下列常量由此扩展定义，且仅在此扩展编译入 PHP 或在运行时动态载入时可用。
+
+- **`AF_UNIX` (`int`)** — Unix 域文件系统路径名的套接字地址族。
+- **`AF_INET` (`int`)** — Internet 域的 IPv4 套接字地址族。
+- **`AF_INET6` (`int`)** — Internet 域的 IPv6 套接字地址族。仅在编译时启用 IPv6 支持时可用。
+- **`AF_DIVERT` (`int`)** — 自 PHP 8.3.0 起可用（仅 FreeBSD）
+- **`SOCK_STREAM` (`int`)**
+- **`SOCK_DGRAM` (`int`)**
+- **`SOCK_RAW` (`int`)**
+- **`SOCK_SEQPACKET` (`int`)**
+- **`SOCK_RDM` (`int`)**
+- **`SOCK_CONN_DGRAM` (`int`)** — 设置套接字为面向连接的数据报。自 PHP 8.4.0 起可用。（仅 NetBSD）
+- **`SOCK_DCCP` (`int`)** — 设置套接字为数据报拥塞控制协议。自 PHP 8.4.0 起可用。（仅 NetBSD）
+- **`SOCK_NONBLOCK` (`int`)** — 设置套接字的非阻塞状态 flag。自 PHP 8.4.0 起可用。
+- **`SOCK_CLOEXEC` (`int`)** — 设置套接字的执行时关闭（close-on-exec）状态 flag。自 PHP 8.4.0 起可用。
+- **`MSG_OOB` (`int`)**
+- **`MSG_WAITALL` (`int`)**
+- **`MSG_PEEK` (`int`)**
+- **`MSG_DONTROUTE` (`int`)**
+- **`MSG_EOR` (`int`)** — 在 Windows 平台上无效
+- **`MSG_EOF` (`int`)** — 在 Windows 平台上无效
+- **`MSG_ZEROCOPY` (`int`)** — 自 PHP 8.2.0 起可用
+- **`SO_DEBUG` (`int`)**
+- **`SO_REUSEADDR` (`int`)**
+- **`SO_REUSEPORT` (`int`)** — 该常量只在支持 `SO_REUSEPORT` socket 选项的平台上可用：这包括 Linux、macOS 和 *BSD，但不包括 Windows。
+- **`SO_KEEPALIVE` (`int`)**
+- **`SO_DONTROUTE` (`int`)**
+- **`SO_LINGER` (`int`)**
+- **`SO_BROADCAST` (`int`)**
+- **`SO_OOBINLINE` (`int`)**
+- **`SO_SNDBUF` (`int`)**
+- **`SO_RCVBUF` (`int`)**
+- **`SO_SNDLOWAT` (`int`)**
+- **`SO_RCVLOWAT` (`int`)**
+- **`SO_SNDTIMEO` (`int`)**
+- **`SO_RCVTIMEO` (`int`)**
+- **`SO_TYPE` (`int`)**
+- **`SO_ERROR` (`int`)**
+- **`SO_ZEROCOPY` (`int`)** — 自 PHP 8.2.0 起可用
+- **`TCP_NODELAY` (`int`)** — 用于禁用 Nagle TCP 算法。
+- **`TCP_KEEPCNT` (`int`)** — 自 PHP 8.2.0 起可用
+- **`TCP_KEEPIDLE` (`int`)** — 自 PHP 8.2.0 起可用
+- **`TCP_KEEPINTVL` (`int`)** — 自 PHP 8.2.0 起可用
+- **`TCP_KEEPALIVE` (`int`)** — 自 PHP 8.2.0 起可用
+- **`TCP_NOTSENT_LOWAT` (`int`)** — 自 PHP 8.2.0 起可用
+- **`SO_MARK` (`int`)** — 自 PHP 8.1.0 起可用
+- **`SO_USER_COOKIE` (`int`)** — 自 PHP 8.1.0 起可用
+- **`SO_RTABLE` (`int`)** — 从 PHP 8.2.0 起可用
+- **`SO_ACCEPTFILTER` (`int`)** — 自 PHP 8.1.0 起可用
+- **`SO_DONTTRUNC` (`int`)** — 自 PHP 8.1.0 起可用
+- **`SO_WANTMORE` (`int`)** — 自 PHP 8.1.0 起可用
+- **`SO_INCOMING_CPU` (`int`)** — 自 PHP 8.2.0 起可用
+- **`SO_MEMINFO` (`int`)** — 自 PHP 8.2.0 起可用
+- **`SO_BPF_EXTENSIONS` (`int`)** — 自 PHP 8.2.0 起可用
+- **`SO_SETFIB` (`int`)** — 自 PHP 8.2.0 起可用
+- **`SO_ATTACH_REUSEPORT_CBPF` (`int`)** — 自 PHP 8.3.0 起可用（仅 Linux）
+- **`SO_DETACH_BPF` (`int`)** — 自 PHP 8.3.0 起可用（仅 Linux）
+- **`SO_DETACH_FILTER` (`int`)** — 自 PHP 8.3.0 起可用（仅 Linux）
+- **`SO_RERROR` (`int`)** — 自 PHP 8.3.0 起可用（仅 NetBSD）
+- **`SO_ZEROIZE` (`int`)** — 自 PHP 8.3.0 起可用（仅 OpenBSD）
+- **`SO_SPLICE` (`int`)** — 自 PHP 8.3.0 起可用（仅 OpenBSD）
+- **`SO_REUSEPORT_LB` (`int`)** — 自 PHP 8.3.0 起可用（仅 FreeBSD）
+- **`SOL_FILTER` (`int`)** — 自 PHP 8.2.0 起可用
+- **`SOL_UDPLITE` (`int`)** — 自 PHP 8.3.0 起可用
+- **`UDPLITE_RECV_CSCOV` (`int`)** — 自 PHP 8.3.0 起可用
+- **`UDPLITE_SEND_CSCOV` (`int`)** — 自 PHP 8.3.0 起可用
+- **`TCP_DEFER_ACCEPT` (`int`)** — 自 PHP 8.1.0 起可用
+- **`TCP_CONGESTION` (`int`)** — 自 PHP 8.2.0 起可用
+- **`TCP_QUICKACK` (`int`)** — 自 PHP 8.3.0 起可用（仅 Linux）
+- **`TCP_REPAIR` (`int`)** — 自 PHP 8.3.0 起可用（仅 Linux）
+- **`TCP_SYNCNT` (`int`)** — 设置 TCP 在中止连接尝试之前应发送的 SYN 重新传输次数。自 PHP 8.4.0 起可用（仅 Linux）
+- **`IP_DONTFRAG` (`int`)** — 自 PHP 8.3.0 起可用（仅 FreeBSD）
+- **`IP_MTU_DISCOVER` (`int`)** — 自 PHP 8.3.0 起可用（仅 Linux）
+- **`IP_PMTUDISC_DO` (`int`)** — 自 PHP 8.3.0 起可用（仅 Linux）
+- **`IP_PMTUDISC_DONT` (`int`)** — 自 PHP 8.3.0 起可用（仅 Linux）
+- **`IP_PMTUDISC_WANT` (`int`)** — 自 PHP 8.3.0 起可用（仅 Linux）
+- **`IP_PMTUDISC_PROBE` (`int`)** — 自 PHP 8.3.0 起可用（仅 Linux）
+- **`IP_PMTUDISC_INTERFACE` (`int`)** — 自 PHP 8.3.0 起可用（仅 Linux）
+- **`IP_PMTUDISC_OMIT` (`int`)** — 自 PHP 8.3.0 起可用（仅 Linux）
+- **`IP_BIND_ADDRESS_NO_PORT` (`int`)** — 自 PHP 8.3.0 起可用（仅 Linux）
+- **`SOL_SOCKET` (`int`)**
+- **`PHP_NORMAL_READ` (`int`)**
+- **`PHP_BINARY_READ` (`int`)**
+- **`SOL_TCP` (`int`)**
+- **`SOL_UDP` (`int`)**
+
+以下常量在 Windows 和类 UNIX 平台下定义。每个常量仅在其平台上可用时定义。
+
+- **`SOCKET_EINTR` (`int`)** — 中断系统调用。
+- **`SOCKET_EBADF` (`int`)** — 错误的文件描述符编号。
+- **`SOCKET_EACCES` (`int`)** — 拒绝访问。
+- **`SOCKET_EFAULT` (`int`)** — 错误的地址。
+- **`SOCKET_EINVAL` (`int`)** — 无效的参数。
+- **`SOCKET_EMFILE` (`int`)** — 打开的文件太多。
+- **`SOCKET_ENAMETOOLONG` (`int`)** — 文件名过长。
+- **`SOCKET_ENOTEMPTY` (`int`)** — 目录不为空。
+- **`SOCKET_ELOOP` (`int`)** — 遇到了太多的符号链接。
+- **`SOCKET_EWOULDBLOCK` (`int`)** — 操作将阻塞。
+- **`SOCKET_EREMOTE` (`int`)** — 对象是远程。
+- **`SOCKET_EUSERS` (`int`)** — 太多用户。
+- **`SOCKET_ENOTSOCK` (`int`)** — 对非套接字进行套接字操作。
+- **`SOCKET_EDESTADDRREQ` (`int`)** — 需要目标地址。
+- **`SOCKET_EMSGSIZE` (`int`)** — 消息太长。
+- **`SOCKET_EPROTOTYPE` (`int`)** — socket 协议类型错误。
+- **`SOCKET_EPROTONOSUPPORT` (`int`)** — 不支持的协议。
+- **`SOCKET_ESOCKTNOSUPPORT` (`int`)** — 不支持的 socket 类型。
+- **`SOCKET_EOPNOTSUPP` (`int`)** — 传输端点不支持的操作。
+- **`SOCKET_EPFNOSUPPORT` (`int`)** — 不支持的协议族。
+- **`SOCKET_EAFNOSUPPORT` (`int`)** — 协议不支持的地址族。
+- **`SOCKET_EADDRNOTAVAIL` (`int`)** — 不能分配请求的地址。
+- **`SOCKET_ENETDOWN` (`int`)** — 网络中断。
+- **`SOCKET_ENETUNREACH` (`int`)** — 网络不可达。
+- **`SOCKET_ENETRESET` (`int`)** — 复位，网络掉线。
+- **`SOCKET_ECONNABORTED` (`int`)** — 软件导致连接中止。
+- **`SOCKET_ECONNRESET` (`int`)** — 对方重置连接。
+- **`SOCKET_ENOBUFS` (`int`)** — 无可用的缓存区空间。
+- **`SOCKET_EISCONN` (`int`)** — 传输端点已经连接。
+- **`SOCKET_ENOTCONN` (`int`)** — 传输端点未连接。
+- **`SOCKET_ESHUTDOWN` (`int`)** — 传输端点关闭，无法发送。
+- **`SOCKET_ETIMEDOUT` (`int`)** — 连接超时。
+- **`SOCKET_ECONNREFUSED` (`int`)** — 连接被拒绝。
+- **`SOCKET_EHOSTDOWN` (`int`)** — 主机已关闭。
+- **`SOCKET_EHOSTUNREACH` (`int`)** — 没有路由到主机。
+- **`SOCKET_EALREADY` (`int`)** — 操作已在进行中。
+- **`SOCKET_EINPROGRESS` (`int`)** — 操作正在进行中。
+
+以下常量只能在 Windows 中定义。
+
+- **`SOCKET_ENOPROTOOPT` (`int`)**
+- **`SOCKET_EADDRINUSE` (`int`)**
+- **`SOCKET_ETOOMYREFS` (`int`)**
+- **`SOCKET_EPROCLIM` (`int`)**
+- **`SOCKET_EDUOT` (`int`)**
+- **`SOCKET_ESTALE` (`int`)**
+- **`SOCKET_EDISCON` (`int`)**
+- **`SOCKET_SYSNOTREADY` (`int`)**
+- **`SOCKET_VERNOTSUPPORTED` (`int`)**
+- **`SOCKET_NOTINITIALISED` (`int`)**
+- **`SOCKET_HOST_NOT_FOUND` (`int`)**
+- **`SOCKET_TRY_AGAIN` (`int`)**
+- **`SOCKET_NO_RECOVERY` (`int`)**
+- **`SOCKET_NO_DATA` (`int`)**
+- **`SOCKET_NO_ADDRESS` (`int`)**
+
+以下常量仅在类 UNIX 平台上可用。每个常量仅在其平台上可用时定义。
+
+- **`SOCKET_EPERM` (`int`)** — 操作不允许。
+- **`SOCKET_ENOENT` (`int`)** — 文件或目录不存在。
+- **`SOCKET_EIO` (`int`)** — I/O 错误。
+- **`SOCKET_ENXIO` (`int`)** — 未找到设备或地址。
+- **`SOCKET_E2BIG` (`int`)** — 参数列表太长。
+- **`SOCKET_EAGAIN` (`int`)** — 请重试。
+- **`SOCKET_ENOMEM` (`int`)** — 内存不足。
+- **`SOCKET_ENOTBLK` (`int`)** — 需要块设备。
+- **`SOCKET_EBUSY` (`int`)** — 设备或资源忙。
+- **`SOCKET_EEXIST` (`int`)** — 文件存在。
+- **`SOCKET_EXDEV` (`int`)** — 跨设备链路。
+- **`SOCKET_ENODEV` (`int`)** — 设备不存在。
+- **`SOCKET_ENOTDIR` (`int`)** — 非目录。
+- **`SOCKET_EISDIR` (`int`)** — 是目录。
+- **`SOCKET_ENFILE` (`int`)** — 文件表溢出。
+- **`SOCKET_ENOTTY` (`int`)** — 在 ioctl 系统调用中指定了无效的 ioctl （I/O 控制）编号。
+- **`SOCKET_ENOSPC` (`int`)** — 设备上没有剩余空间。
+- **`SOCKET_ESPIPE` (`int`)** — 非法查找。
+- **`SOCKET_EROFS` (`int`)** — 文件系统只读。
+- **`SOCKET_EMLINK` (`int`)** — 链路太多。
+- **`SOCKET_EPIPE` (`int`)** — 管道断开（非正常关闭套接字）。
+- **`SOCKET_ENOLCK` (`int`)** — 无可用的记录锁。
+- **`SOCKET_ENOSYS` (`int`)** — 函数未实现。
+- **`SOCKET_ENOMSG` (`int`)** — 没有指定的消息类型。
+- **`SOCKET_EIDRM` (`int`)** — 标识符已删除。
+- **`SOCKET_ECHRNG` (`int`)** — 通道数超出范围。
+- **`SOCKET_EL2NSYNC` (`int`)** — 2 级未同步。
+- **`SOCKET_EL3HLT` (`int`)** — 3 级停止。
+- **`SOCKET_EL3RST` (`int`)** — 3 级重置。
+- **`SOCKET_ELNRNG` (`int`)** — 链接数超出范围。
+- **`SOCKET_EUNATCH` (`int`)** — 协议驱动没有安装（attached）。
+- **`SOCKET_ENOCSI` (`int`)** — 没有可用的 CSI 结构。
+- **`SOCKET_EL2HLT` (`int`)** — 2 级停止。
+- **`SOCKET_EBADE` (`int`)** — 无效的交换。
+- **`SOCKET_EBADR` (`int`)** — 无效的请求描述符。
+- **`SOCKET_EXFULL` (`int`)** — 交换满了。
+- **`SOCKET_ENOANO` (`int`)** — 无阳极（anode）。
+- **`SOCKET_EBADRQC` (`int`)** — 无效的请求代码。
+- **`SOCKET_EBADSLT` (`int`)** — 无效的插槽。
+- **`SOCKET_ENOSTR` (`int`)** — 设备不是流。
+- **`SOCKET_ENODATA` (`int`)** — 无可用的数据。
+- **`SOCKET_ETIME` (`int`)** — 计时器过期。
+- **`SOCKET_ENOSR` (`int`)** — 流资源不够用。
+- **`SOCKET_ENONET` (`int`)** — 机器不在网络上。
+- **`SOCKET_ENOLINK` (`int`)** — 链接已被切断。
+- **`SOCKET_EADV` (`int`)** — 通知错误。
+- **`SOCKET_ESRMNT` (`int`)** — Srmount 错误。
+- **`SOCKET_ECOMM` (`int`)** — 发送时通信错误。
+- **`SOCKET_EPROTO` (`int`)** — 协议错误。
+- **`SOCKET_EMULTIHOP` (`int`)** — 多跳尝试。
+- **`SOCKET_EBADMSG` (`int`)** — 不是数据消息。
+- **`SOCKET_ENOTUNIQ` (`int`)** — 名称在网络上不唯一。
+- **`SOCKET_EBADFD` (`int`)** — 文件描述符处于错误状态。
+- **`SOCKET_EREMCHG` (`int`)** — 远程地址改变。
+- **`SOCKET_ERESTART` (`int`)** — 中断的系统调用应该被重新启动。
+- **`SOCKET_ESTRPIPE` (`int`)** — 流管道错误。
+- **`SOCKET_EPROTOOPT` (`int`)** — 协议不可用。
+- **`SOCKET_ADDRINUSE` (`int`)** — 地址已经被占用。
+- **`SOCKET_ETOOMANYREFS` (`int`)** — 过多的引用：无法接合。
+- **`SOCKET_EISNAM` (`int`)** — 是已命名类型的文件。
+- **`SOCKET_EREMOTEIO` (`int`)** — 远程 I/O 错误。
+- **`SOCKET_EDQUOT` (`int`)** — 超过配额。
+- **`SOCKET_ENOMEDIUM` (`int`)** — 未找到媒介。
+- **`SOCKET_EMEDIUMTYPE` (`int`)** — 错误的媒介类型。
+- **`SCM_RIGHTS` (`int`)** — 发送或接收一组来自另一个进程打开的文件描述符。
+- **`SCM_CREDENTIALS` (`int`)**
+- **`SCM_CREDS` (`int`)** — 自 PHP 8.2.0 起可用
+- **`SCM_CREDS2` (`int`)** — 自 PHP 8.2.0 起可用
+- **`LOCAL_CREDS` (`int`)** — 自 PHP 8.2.0 起可用
+- **`LOCAL_CREDS_PERSISTENT` (`int`)** — 自 PHP 8.2.0 起可用
+- **`SKF_AD_OFF` (`int`)** — 自 PHP 8.2.0 起可用
+- **`SKF_AD_PROTOCOL` (`int`)** — 自 PHP 8.2.0 起可用
+- **`SKF_AD_PKTTYPE` (`int`)** — 自 PHP 8.2.0 起可用
+- **`SKF_AD_IFINDEX` (`int`)** — 自 PHP 8.2.0 起可用
+- **`SKF_AD_NLATTR` (`int`)** — 自 PHP 8.2.0 起可用
+- **`SKF_AD_NLATTR_NEST` (`int`)** — 自 PHP 8.2.0 起可用
+- **`SKF_AD_MARK` (`int`)** — 自 PHP 8.2.0 起可用
+- **`SKF_AD_QUEUE` (`int`)** — 自 PHP 8.2.0 起可用
+- **`SKF_AD_HATYPE` (`int`)** — 自 PHP 8.2.0 起可用
+- **`SKF_AD_RXHASH` (`int`)** — 自 PHP 8.2.0 起可用
+- **`SKF_AD_CPU` (`int`)** — 自 PHP 8.2.0 起可用
+- **`SKF_AD_ALU_XOR_X` (`int`)** — 自 PHP 8.2.0 起可用
+- **`SKF_AD_VLAN_TAG` (`int`)** — 自 PHP 8.2.0 起可用
+- **`SKF_AD_VLAN_TAG_PRESENT` (`int`)** — 自 PHP 8.2.0 起可用
+- **`SKF_AD_PAY_OFFSET` (`int`)** — 自 PHP 8.2.0 起可用
+- **`SKF_AD_RANDOM` (`int`)** — 自 PHP 8.2.0 起可用
+- **`SKF_AD_VLAN_TPID` (`int`)** — 自 PHP 8.2.0 起可用
+- **`SKF_AD_MAX` (`int`)** — 自 PHP 8.2.0 起可用
+- **`AI_ADDRCONFIG` (`int`)**
+- **`AI_ALL` (`int`)**
+- **`AI_CANONIDN` (`int`)**
+- **`AI_CANONNAME` (`int`)**
+- **`AI_IDN` (`int`)**
+- **`AI_NUMERICHOST` (`int`)**
+- **`AI_NUMERICSERV` (`int`)**
+- **`AI_PASSIVE` (`int`)**
+- **`AI_V4MAPPED` (`int`)**
+- **`FIL_ATTACH` (`int`)**
+- **`FIL_DETACH` (`int`)**
+- **`IPPROTO_IP` (`int`)**
+- **`IPPROTO_IPV6` (`int`)**
+- **`IPV6_HOPLIMIT` (`int`)**
+- **`IPV6_MULTICAST_HOPS` (`int`)**
+- **`IPV6_MULTICAST_IF` (`int`)**
+- **`IPV6_MULTICAST_LOOP` (`int`)**
+- **`IPV6_PKTINFO` (`int`)**
+- **`IPV6_RECVHOPLIMIT` (`int`)**
+- **`IPV6_RECVPKTINFO` (`int`)**
+- **`IPV6_RECVTCLASS` (`int`)**
+- **`IPV6_TCLASS` (`int`)**
+- **`IPV6_UNICAST_HOPS` (`int`)**
+- **`IPV6_V6ONLY` (`int`)**
+- **`IP_MULTICAST_IF` (`int`)**
+- **`IP_MULTICAST_LOOP` (`int`)**
+- **`IP_MULTICAST_TTL` (`int`)**
+- **`IP_PORTRANGE` (`int`)** — 设置用于选择本地端口号的端口范围。自 PHP 8.4.0 起可用。（仅 FreeBSD/NetBSD/OpenBSD）
+- **`IP_PORTRANGE_DEFAULT` (`int`)** — 使用默认端口值范围。自 PHP 8.4.0 起可用。（仅 FreeBSD/NetBSD/OpenBSD）
+- **`IP_PORTRANGE_HIGH` (`int`)** — 使用高范围的端口值。自 PHP 8.4.0 起可用。（仅 FreeBSD/NetBSD/OpenBSD）
+- **`IP_PORTRANGE_LOW` (`int`)** — 使用低范围的端口值。自 PHP 8.4.0 起可用。（仅 FreeBSD/NetBSD/OpenBSD）
+- **`MCAST_BLOCK_SOURCE` (`int`)**
+- **`MCAST_JOIN_GROUP` (`int`)**
+- **`MCAST_JOIN_SOURCE_GROUP` (`int`)**
+- **`MCAST_LEAVE_GROUP` (`int`)**
+- **`MCAST_LEAVE_SOURCE_GROUP` (`int`)**
+- **`MCAST_UNBLOCK_SOURCE` (`int`)**
+- **`MSG_CMSG_CLOEXEC` (`int`)**
+- **`MSG_CONFIRM` (`int`)**
+- **`MSG_CTRUNC` (`int`)**
+- **`MSG_DONTWAIT` (`int`)**
+- **`MSG_ERRQUEUE` (`int`)**
+- **`MSG_MORE` (`int`)**
+- **`MSG_NOSIGNAL` (`int`)**
+- **`MSG_TRUNC` (`int`)**
+- **`MSG_WAITFORONE` (`int`)**
+- **`SOL_LOCAL` (`int`)**
+- **`SOMAXCONN` (`int`)**
+- **`SO_BINDTODEVICE` (`int`)**
+- **`SO_FAMILY` (`int`)**
+- **`SO_LABEL` (`int`)**
+- **`SO_LISTENQLEN` (`int`)**
+- **`SO_LISTENQLIMIT` (`int`)**
+- **`SO_PASSCRED` (`int`)**
+- **`SO_PEERLABEL` (`int`)**
+- **`SO_EXCLUSIVEADDRUSE` (`int`)** — 防止其他套接字强制绑定到相同的地址和端口。自 PHP 8.4.0 起可用。（仅 Windows）
+- **`SO_EXCLBIND` (`int`)** — 启用/禁用套接字的独占绑定。自 PHP 8.4.0 起可用。（仅 Solaris）
+- **`SO_NOSIGPIPE` (`int`)** — 控制套接字的 SIGPIPE 信号生成。自 PHP 8.4.0 起可用。（仅 MacOs 和 FreeBSD）
+- **`SO_LINGER_SEC` (`int`)** — 与 `SO_LINGER` 类似，但停留时间以秒为单位，而不是 MacOs 上的点击时间（time clicks）。自 PHP 8.4.0 起可用。（仅 MacOs）
+- **`SO_BINDTOIFINDEX` (`int`)** — 通过索引将套接字绑定到特定网络接口。自 PHP 8.4.0 起可用。

@@ -1,0 +1,69 @@
+---
+id: "en-php-function-function-xdiff-string-patch"
+language: "php"
+lang: "en"
+category: "function"
+name: "xdiff_string_patch"
+title: "Patch a string with an unified diff"
+signature: "string xdiff_string_patch(string $str, string $patch, [int $flags = ...], [string $error = ...])"
+module: "xdiff"
+source_url: "https://www.php.net/manual/en/function.xdiff-string-patch.php"
+license: "CC-BY-3.0"
+updated: "2026-10-01"
+---
+
+# Patch a string with an unified diff
+
+## Description
+
+```php
+string xdiff_string_patch(string $str, string $patch, [int $flags = ...], [string $error = ...])
+```
+
+Patches a `$str` string with an unified patch in `$patch` parameter and returns the result. `$patch` has to be an unified diff created by `xdiff_file_diff()`/`xdiff_string_diff()` function. An optional `$flags` parameter specifies mode of operation. Any rejected parts of the patch will be stored inside `$error` variable if it is provided.
+
+## Parameters
+
+- **`$str`** — The original string.
+- **`$patch`** — The unified patch string. It has to be created using `xdiff_string_diff()`, `xdiff_file_diff()` functions or compatible tools.
+- **`$flags`** — `$flags` can be either `XDIFF_PATCH_NORMAL` (default mode, normal patch) or `XDIFF_PATCH_REVERSE` (reversed patch). — Starting from version 1.5.0, you can also use binary OR to enable `XDIFF_PATCH_IGNORESPACE` flag.
+- **`$error`** — If provided then rejected parts are stored inside this variable.
+
+## Return Values
+
+Returns the patched string, or `false` on error.
+
+## Examples
+
+**`xdiff_string_patch()` example**
+
+The following code applies changes to some article.
+
+```php
+
+
+<?php
+$old_article = file_get_contents('./old_article.txt');
+$diff = $_SERVER['patch']; /* Let's say that someone pasted a patch to html form */
+
+$errors = '';
+
+$new_article = xdiff_string_patch($old_article, $diff, XDIFF_PATCH_NORMAL, $errors);
+if (is_string($new_article)) {
+    echo "New article:\n";
+    echo $new_article;
+}
+
+if (strlen($errors)) {
+    echo "Rejects: \n";
+    echo $errors;
+}
+
+?>
+
+    
+```
+
+## See Also
+
+`xdiff_string_diff()`

@@ -1,0 +1,603 @@
+---
+id: "zh-php-function-function-oci-bind-by-name"
+language: "php"
+lang: "zh"
+category: "function"
+name: "oci_bind_by_name"
+title: "绑定 PHP 变量到 Oracle 位置标志符"
+signature: "bool oci_bind_by_name(resource $statement, string $param, mixed $var, int $max_length = -1, int $type = 0)"
+module: "oci8"
+source_url: "https://www.php.net/manual/zh/function.oci-bind-by-name.php"
+license: "CC-BY-3.0"
+updated: "2026-10-01"
+---
+
+# 绑定 PHP 变量到 Oracle 位置标志符
+
+## 说明
+
+```php
+bool oci_bind_by_name(resource $statement, string $param, mixed $var, int $max_length = -1, int $type = 0)
+```
+
+将 PHP 变量 `$var` 绑定到 Oracle 位置占位符 `$param`。绑定对 Oracle 数据库性能很重要，同时也是避免 SQL 注入安全问题的一种方式。
+
+绑定允许数据库重用语句上下文和以前执行语句的缓存，即使另一个用户或进程最初（originally）执行它也是如此。绑定减少了 SQL 注入问题，因为与绑定变量关联的数据永远不会被视为 SQL 语句的一部分。不需要引用或转义。
+
+已经绑定的 PHP 变量可以改变，语句重新执行，而不需要重新解析语句或重新绑定。
+
+在 Oracle 中，绑定变量通常分为用于传递到数据库的值的 `IN` 绑定和用于返回给 PHP 的值的 `OUT` 绑定。绑定变量可以同时为 `IN` 和 `OUT`。绑定变量是用于输入还是输出是在运行时确定的。
+
+使用 `OUT` 绑定时必须指定 `$max_length` 以便 PHP 分配足够的内存来保存返回值。
+
+对于 `IN` 绑定，如果使用不同的 PHP 变量值多次重新执行该语句，建议设置 `$max_length` 长度。否则 Oracle 可能会将数据截断为初始 PHP 变量值的长度。如果不知道最大长度是多少，则在每次调用 `oci_execute()` 之前使用当前数据大小重新调用 `oci_bind_by_name()`。绑定不必要的大长度将对数据库中的进程内存产生影响。
+
+绑定调用告诉 Oracle 从哪个内存地址读取数据。对于 `IN` 绑定，调用 `oci_execute()` 时地址需要包含有效数据。这意味着变量绑定必须保留在作用域内直到执行。否则，可能会出现意外结果或错误，例如“ORA-01460：未实现或不合理的转换请求”。对于 `OUT` 绑定，一个问题是没有在 PHP 变量中设置值。
+
+对于重复执行的语句，永远不变的绑定值可能会降低 Oracle 优化器选择最佳语句执行计划的能力。很少重新执行的长时间运行的语句可能无法从绑定中获益。但是，在这两种情况下，绑定可能比将字符串连接到 SQL 语句中更安全，因为如果连接未过滤的用户文本，这可能会带来安全风险。
+
+## 参数
+
+- **`$statement`** — 有效的 OCI8 语句标识符。
+- **`$param`** — 语句中使用以冒号为前缀的绑定变量占位符。冒号在 `$param` 中是可选的。Oracle 不使用问号作为占位符。
+- **`$var`** — 与 `$param` 关联的 PHP 变量
+- **`$max_length`** — 设置数据的最大长度。如果将其设置为 -1，则此函数将使用 `$var` 的当前长度来设置最大长度。在这种情况下，`$var` 必须存在并且在调用 `oci_bind_by_name()` 时包含数据。
+- **`$type`** — Oracle 处理数据的数据类型。使用的默认 `$type` 是 `SQLT_CHR`。可能的话，Oracle 将在此类型和数据库列（或 PL/SQL 变量类型）之间转换数据。 — 如果要绑定抽象数据类型（LOB/ROWID/BFILE），需要先用 `oci_new_descriptor()` 函数分配空间。`$length` 没有用于抽象数据类型，应被设为 -1。 — `$type` 的可能值为： - `SQLT_BFILEE` 或 `OCI_B_BFILE` 对应 BFILE； - `SQLT_CFILEE` 或 `OCI_B_CFILEE` 对应 CFILE； - `SQLT_CLOB` 或 `OCI_B_CLOB` 对应 CLOB； - `SQLT_BLOB` 或 `OCI_B_BLOB` 对应 BLOB； - `SQLT_RDD` 或 `OCI_B_ROWID` 对应 ROWID； - `SQLT_NTY` 或 `OCI_B_NTY` 对应命名数据类型； - `SQLT_INT` 或 `OCI_B_INT` 对应整型； - `SQLT_CHR` 对应 VARCHAR； - `SQLT_BIN` 或 `OCI_B_BIN` 对应 RAW 列； - `SQLT_LNG` 对应 LONG 列； - `SQLT_LBI` 对应 LONG RAW 列； - `SQLT_RSET` 对应使用 `oci_new_cursor()` 创建的游标； - `SQLT_BOL` 或 `OCI_B_BOL` 对应 PL/SQL BOOLEAN（需要 Oracle Database 12c）
+
+## 返回值
+
+成功时返回 `true`， 或者在失败时返回 `false`。
+
+## 示例
+
+**使用 `oci_bind_by_name()` 插入数据**
+
+```php
+
+
+<?php
+
+// Create the table with:
+//   CREATE TABLE mytab (id NUMBER, text VARCHAR2(40));
+
+$conn = oci_connect('hr', 'welcome', 'localhost/XE');
+if (!$conn) {
+    $m = oci_error();
+    trigger_error(htmlentities($m['message']), E_USER_ERROR);
+}
+
+$stid = oci_parse($conn,"INSERT INTO mytab (id, text) VALUES(:id_bv, :text_bv)");
+
+$id = 1;
+$text = "Data to insert     ";
+oci_bind_by_name($stid, ":id_bv", $id);
+oci_bind_by_name($stid, ":text_bv", $text);
+oci_execute($stid);
+
+// Table now contains: 1, 'Data to insert     '
+
+?>
+
+    
+```
+
+**一次绑定多次执行**
+
+```php
+
+
+<?php
+
+// Create the table with:
+//   CREATE TABLE mytab (id NUMBER);
+
+$conn = oci_connect('hr', 'welcome', 'localhost/XE');
+if (!$conn) {
+    $m = oci_error();
+    trigger_error(htmlentities($m['message']), E_USER_ERROR);
+}
+
+$a = array(1,3,5,7,11);  // data to insert
+
+$stid = oci_parse($conn, 'INSERT INTO mytab (id) VALUES (:bv)');
+oci_bind_by_name($stid, ':bv', $v, 20);
+foreach ($a as $v) {
+    $r = oci_execute($stid, OCI_DEFAULT);  // don't auto commit
+}
+oci_commit($conn); // commit everything at once
+
+// Table contains five rows: 1, 3, 5, 7, 11
+
+oci_free_statement($stid);
+oci_close($conn);
+
+?>
+
+    
+```
+
+**使用 `foreach` 循环绑定**
+
+```php
+
+
+<?php
+
+$conn = oci_connect('hr', 'welcome', 'localhost/XE');
+if (!$conn) {
+    $m = oci_error();
+    trigger_error(htmlentities($m['message']), E_USER_ERROR);
+}
+
+$sql = 'SELECT * FROM departments WHERE department_name = :dname AND location_id = :loc';
+$stid = oci_parse($conn, $sql);
+
+$ba = array(':dname' => 'IT Support', ':loc' => 1700);
+
+foreach ($ba as $key => $val) {
+
+    // oci_bind_by_name($stid, $key, $val) does not work
+    // because it binds each placeholder to the same location: $val
+    // instead use the actual location of the data: $ba[$key]
+    oci_bind_by_name($stid, $key, $ba[$key]);
+}
+
+oci_execute($stid);
+$row = oci_fetch_array($stid, OCI_ASSOC+OCI_RETURN_NULLS);
+foreach ($row as $item) {
+    print $item."<br>\n";
+}
+
+oci_free_statement($stid);
+oci_close($conn);
+
+?>
+
+    
+```
+
+**在 WHERE 子句中绑定**
+
+```php
+
+
+<?php
+
+$conn = oci_connect("hr", "hrpwd", "localhost/XE");
+if (!$conn) {
+    $m = oci_error();
+    trigger_error(htmlentities($m['message']), E_USER_ERROR);
+}
+
+$sql = 'SELECT last_name FROM employees WHERE department_id = :didbv ORDER BY last_name';
+$stid = oci_parse($conn, $sql);
+$didbv = 60;
+oci_bind_by_name($stid, ':didbv', $didbv);
+oci_execute($stid);
+while (($row = oci_fetch_array($stid, OCI_ASSOC)) != false) {
+    echo $row['LAST_NAME'] ."<br>\n";
+}
+
+// Output is
+//    Austin
+//    Ernst
+//    Hunold
+//    Lorentz
+//    Pataballa
+
+oci_free_statement($stid);
+oci_close($conn);
+
+?>
+
+    
+```
+
+**使用 LIKE 子句绑定**
+
+```php
+
+
+<?php
+
+$conn = oci_connect('hr', 'welcome', 'localhost/XE');
+if (!$conn) {
+    $m = oci_error();
+    trigger_error(htmlentities($m['message']), E_USER_ERROR);
+}
+
+// Find all cities that begin with 'South'
+$stid = oci_parse($conn, "SELECT city FROM locations WHERE city LIKE :bv");
+$city = 'South%';  // '%' is a wildcard in SQL
+oci_bind_by_name($stid, ":bv", $city);
+oci_execute($stid);
+oci_fetch_all($stid, $res);
+
+foreach ($res['CITY'] as $c) {
+    print $c . "<br>\n";
+}
+// Output is
+//   South Brunswick
+//   South San Francisco
+//   Southlake
+
+oci_free_statement($stid);
+oci_close($conn);
+
+?>
+
+    
+```
+
+**与 REGEXP_LIKE 绑定**
+
+```php
+
+
+<?php
+
+$conn = oci_connect('hr', 'welcome', 'localhost/XE');
+if (!$conn) {
+    $m = oci_error();
+    trigger_error(htmlentities($m['message']), E_USER_ERROR);
+}
+
+// Find all cities that contain 'ing'
+$stid = oci_parse($conn, "SELECT city FROM locations WHERE REGEXP_LIKE(city, :bv)");
+$city = '.*ing.*';
+oci_bind_by_name($stid, ":bv", $city);
+oci_execute($stid);
+oci_fetch_all($stid, $res);
+
+foreach ($res['CITY'] as $c) {
+    print $c . "<br>\n";
+}
+// Output is
+//   Beijing
+//   Singapore
+
+oci_free_statement($stid);
+oci_close($conn);
+
+?>
+
+    
+```
+
+对于少量固定数量的 IN 子句条件，请使用单独的绑定变量。运行时未知的值可以设置为 NULL。这允许所有应用程序用户使用单个语句，从而最大限度地提高 Oracle 数据库缓存效率。
+
+**在 IN 子句中绑定多个值**
+
+```php
+
+
+<?php
+
+$conn = oci_connect('hr', 'welcome', 'localhost/XE');
+if (!$conn) {
+    $m = oci_error();
+    trigger_error(htmlentities($m['message']), E_USER_ERROR);
+}
+
+$sql = 'SELECT last_name FROM employees WHERE employee_id in (:e1, :e2, :e3)';
+$stid = oci_parse($conn, $sql);
+$mye1 = 103;
+$mye2 = 104;
+$mye3 = NULL; // pretend we were not given this value
+oci_bind_by_name($stid, ':e1', $mye1);
+oci_bind_by_name($stid, ':e2', $mye2);
+oci_bind_by_name($stid, ':e3', $mye3);
+oci_execute($stid);
+oci_fetch_all($stid, $res);
+foreach ($res['LAST_NAME'] as $name) {
+    print $name ."<br>\n";
+}
+
+// Output is
+//   Ernst
+//   Hunold
+
+oci_free_statement($stid);
+oci_close($conn);
+
+?>
+
+    
+```
+
+**Binding a ROWID returned by a query**
+
+```php
+
+
+<?php
+
+// Create the table with:
+//   CREATE TABLE mytab (id NUMBER, salary NUMBER, name VARCHAR2(40));
+//   INSERT INTO mytab (id, salary, name) VALUES (1, 100, 'Chris');
+//   COMMIT;
+
+$conn = oci_connect('hr', 'welcome', 'localhost/XE');
+if (!$conn) {
+    $m = oci_error();
+    trigger_error(htmlentities($m['message']), E_USER_ERROR);
+}
+
+$stid = oci_parse($conn, 'SELECT ROWID, name FROM mytab WHERE id = :id_bv FOR UPDATE');
+$id = 1;
+oci_bind_by_name($stid, ':id_bv', $id);
+oci_execute($stid);
+$row = oci_fetch_array($stid, OCI_ASSOC+OCI_RETURN_NULLS);
+$rid = $row['ROWID'];
+$name = $row['NAME'];
+
+// Change name to upper case & save the changes
+$name = strtoupper($name);
+$stid = oci_parse($conn, 'UPDATE mytab SET name = :n_bv WHERE ROWID = :r_bv');
+oci_bind_by_name($stid, ':n_bv', $name);
+oci_bind_by_name($stid, ':r_bv', $rid, -1, OCI_B_ROWID);
+oci_execute($stid);
+
+// The table now contains 1, 100, CHRIS
+
+oci_free_statement($stid);
+oci_close($conn);
+
+?>
+
+    
+```
+
+**INSERT 时绑定 ROWID**
+
+```php
+
+
+<?php
+
+// This example inserts an id & name, and then updates the salary
+// Create the table with:
+//   CREATE TABLE mytab (id NUMBER, salary NUMBER, name VARCHAR2(40));
+//
+// Based on original ROWID example by thies at thieso dot net (980221)
+
+$conn = oci_connect('hr', 'welcome', 'localhost/XE');
+if (!$conn) {
+    $m = oci_error();
+    trigger_error(htmlentities($m['message']), E_USER_ERROR);
+}
+
+$sql = "INSERT INTO mytab (id, name) VALUES(:id_bv, :name_bv)
+        RETURNING ROWID INTO :rid";
+
+$ins_stid = oci_parse($conn, $sql);
+
+$rowid = oci_new_descriptor($conn, OCI_D_ROWID);
+oci_bind_by_name($ins_stid, ":id_bv",   $id,    10);
+oci_bind_by_name($ins_stid, ":name_bv", $name,  32);
+oci_bind_by_name($ins_stid, ":rid",     $rowid, -1, OCI_B_ROWID);
+
+$sql = "UPDATE mytab SET salary = :salary WHERE ROWID = :rid";
+$upd_stid = oci_parse($conn, $sql);
+oci_bind_by_name($upd_stid, ":rid", $rowid, -1, OCI_B_ROWID);
+oci_bind_by_name($upd_stid, ":salary", $salary,   32);
+
+// ids and names to insert
+$data = array(1111 => "Larry",
+              2222 => "Bill",
+              3333 => "Jim");
+
+// Salary of each person
+$salary = 10000;
+
+// Insert and immediately update each row
+foreach ($data as $id => $name) {
+    oci_execute($ins_stid);
+    oci_execute($upd_stid);
+}
+
+$rowid->free();
+oci_free_statement($upd_stid);
+oci_free_statement($ins_stid);
+
+// Show the new rows
+$stid = oci_parse($conn, "SELECT * FROM mytab");
+oci_execute($stid);
+while ($row = oci_fetch_array($stid, OCI_ASSOC+OCI_RETURN_NULLS)) {
+    var_dump($row);
+}
+
+oci_free_statement($stid);
+oci_close($conn);
+
+?>
+
+    
+```
+
+**为 PL/SQL 存储函数绑定**
+
+```php
+
+
+<?php
+
+//  Before running the PHP program, create a stored function in
+//  SQL*Plus or SQL Developer:
+//
+//  CREATE OR REPLACE FUNCTION myfunc(p IN NUMBER) RETURN NUMBER AS
+//  BEGIN
+//      RETURN p * 3;
+//  END;
+
+$conn = oci_connect('hr', 'welcome', 'localhost/XE');
+if (!$conn) {
+    $e = oci_error();
+    trigger_error(htmlentities($e['message']), E_USER_ERROR);
+}
+
+$p = 8;
+
+$stid = oci_parse($conn, 'begin :r := myfunc(:p); end;');
+oci_bind_by_name($stid, ':p', $p);
+
+// The return value is an OUT bind. The default type will be a string
+// type so binding a length 40 means that at most 40 digits will be
+// returned.
+oci_bind_by_name($stid, ':r', $r, 40);
+
+oci_execute($stid);
+
+print "$r\n";   // prints 24
+
+oci_free_statement($stid);
+oci_close($conn);
+
+?>
+
+    
+```
+
+**为 PL/SQL 存储过程绑定参数**
+
+```php
+
+
+<?php
+
+//  Before running the PHP program, create a stored procedure in
+//  SQL*Plus or SQL Developer:
+//
+//  CREATE OR REPLACE PROCEDURE myproc(p1 IN NUMBER, p2 OUT NUMBER) AS
+//  BEGIN
+//      p2 := p1 * 2;
+//  END;
+
+$conn = oci_connect('hr', 'welcome', 'localhost/XE');
+if (!$conn) {
+    $e = oci_error();
+    trigger_error(htmlentities($e['message']), E_USER_ERROR);
+}
+
+$p1 = 8;
+
+$stid = oci_parse($conn, 'begin myproc(:p1, :p2); end;');
+oci_bind_by_name($stid, ':p1', $p1);
+
+// The second procedure parameter is an OUT bind. The default type
+// will be a string type so binding a length 40 means that at most 40
+// digits will be returned.
+oci_bind_by_name($stid, ':p2', $p2, 40);
+
+oci_execute($stid);
+
+print "$p2\n";   // prints 16
+
+oci_free_statement($stid);
+oci_close($conn);
+
+?>
+
+    
+```
+
+**绑定 CLOB 列**
+
+```php
+
+
+<?php
+
+// Before running, create the table:
+//     CREATE TABLE mytab (mykey NUMBER, myclob CLOB);
+
+$conn = oci_connect('hr', 'welcome', 'localhost/XE');
+if (!$conn) {
+    $e = oci_error();
+    trigger_error(htmlentities($e['message']), E_USER_ERROR);
+}
+
+$mykey = 12343;  // arbitrary key for this example;
+
+$sql = "INSERT INTO mytab (mykey, myclob)
+        VALUES (:mykey, EMPTY_CLOB())
+        RETURNING myclob INTO :myclob";
+
+$stid = oci_parse($conn, $sql);
+$clob = oci_new_descriptor($conn, OCI_D_LOB);
+oci_bind_by_name($stid, ":mykey", $mykey, 5);
+oci_bind_by_name($stid, ":myclob", $clob, -1, OCI_B_CLOB);
+oci_execute($stid, OCI_DEFAULT);
+$clob->save("A very long string");
+
+oci_commit($conn);
+
+// Fetching CLOB data
+
+$query = 'SELECT myclob FROM mytab WHERE mykey = :mykey';
+
+$stid = oci_parse ($conn, $query);
+oci_bind_by_name($stid, ":mykey", $mykey, 5);
+oci_execute($stid);
+
+print '<table border="1">';
+while ($row = oci_fetch_array($stid, OCI_ASSOC+OCI_RETURN_LOBS)) {
+    print '<tr><td>'.$row['MYCLOB'].'</td></tr>';
+    // In a loop, freeing the large variable before the 2nd fetch reduces PHP's peak memory usage
+    unset($row);  
+}
+print '</table>';
+
+?>
+
+   
+```
+
+**绑定 PL/SQL BOOLEAN**
+
+```php
+
+
+<?php
+
+$conn = oci_connect('hr', 'welcome', 'localhost/XE');
+if (!$conn) {
+    $e = oci_error();
+    trigger_error(htmlentities($e['message']), E_USER_ERROR);
+}
+
+$plsql = 
+  "begin
+    :output1 := true;
+    :output2 := false;
+   end;";
+
+$s = oci_parse($c, $plsql);
+oci_bind_by_name($s, ':output1', $output1, -1, OCI_B_BOL);
+oci_bind_by_name($s, ':output2', $output2, -1, OCI_B_BOL);
+oci_execute($s);
+var_dump($output1);  // true
+var_dump($output2);  // false
+
+?>
+
+   
+```
+
+## 注释
+
+> 不要同时使用 `addslashes()` 和 `oci_bind_by_name()`，因为不需要引号。任何应用的引号都将写入数据库，因为 `oci_bind_by_name()` 逐字插入数据并且不会删除引号或转义字符。
+
+> 如果将字符串绑定到 `WHERE` 子句中的 `CHAR` 列，请记住 Oracle 对 `CHAR` 列使用空白填充的比较语义。PHP 变量使用空格填充到与成功的 `WHERE` 子句的列相同的宽度。
+
+> PHP `$var` 参数是引用。某些形式的循环无法按预期工作：
+>
+> ```php <?php foreach ($myarray as $key => $value) { oci_bind_by_name($stid, $key, $value); } ?> ```
+>
+> 这会将每个键绑定到 $value 的位置，因此所有绑定变量最终都指向最后一个循环迭代的值。应该使用以下内容：
+>
+> ```php <?php foreach ($myarray as $key => $value) { oci_bind_by_name($stid, $key, $myarray[$key]); } ?> ```
+
+## 参见
+
+`oci_bind_array_by_name()` `oci_parse()`

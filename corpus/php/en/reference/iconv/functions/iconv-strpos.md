@@ -1,0 +1,53 @@
+---
+id: "en-php-function-function-iconv-strpos"
+language: "php"
+lang: "en"
+category: "function"
+name: "iconv_strpos"
+title: "Finds position of first occurrence of a needle within a haystack"
+signature: "int|false iconv_strpos(string $haystack, string $needle, int $offset = 0, string|null $encoding = null)"
+module: "iconv"
+source_url: "https://www.php.net/manual/en/function.iconv-strpos.php"
+license: "CC-BY-3.0"
+updated: "2026-10-01"
+---
+
+# Finds position of first occurrence of a needle within a haystack
+
+## Description
+
+```php
+int|false iconv_strpos(string $haystack, string $needle, int $offset = 0, string|null $encoding = null)
+```
+
+Finds position of first occurrence of a `$needle` within a `$haystack`.
+
+In contrast to `strpos()`, the return value of `iconv_strpos()` is the number of characters that appear before the needle, rather than the offset in bytes to the position where the needle has been found. The characters are counted on the basis of the specified character set `$encoding`.
+
+## Parameters
+
+- **`$haystack`** — The entire string.
+- **`$needle`** — The searched substring.
+- **`$offset`** — The optional `$offset` parameter specifies the position from which the search should be performed. If the offset is negative, it is counted from the end of the string.
+- **`$encoding`** — If `$encoding` parameter is omitted or `null`, `$string` are assumed to be encoded in iconv.internal_encoding.
+
+If `$haystack` or `$needle` is not a string, it is converted to a string and applied as the ordinal value of a character.
+
+## Return Values
+
+Returns the numeric position of the first occurrence of `$needle` in `$haystack`.
+
+If `$needle` is not found, `iconv_strpos()` will return `false`.
+
+> This function may return Boolean `false`, but may also return a non-Boolean value which evaluates to `false`. Please read the section on Booleans for more information. Use the === operator for testing the return value of this function.
+
+## Changelog
+
+|  |  |
+| --- | --- |
+| 8.0.0 | `$encoding` is nullable now. |
+| 7.1.0 | Support for negative `$offset`s has been added. |
+
+## See Also
+
+`strpos()` `iconv_strrpos()` `mb_strpos()`

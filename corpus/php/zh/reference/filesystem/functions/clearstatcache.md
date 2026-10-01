@@ -1,0 +1,81 @@
+---
+id: "zh-php-function-function-clearstatcache"
+language: "php"
+lang: "zh"
+category: "function"
+name: "clearstatcache"
+title: "清除文件状态缓存"
+signature: "void clearstatcache(bool $clear_realpath_cache = false, string $filename = \"\")"
+module: "filesystem"
+source_url: "https://www.php.net/manual/zh/function.clearstatcache.php"
+license: "CC-BY-3.0"
+updated: "2026-10-01"
+---
+
+# 清除文件状态缓存
+
+## 说明
+
+```php
+void clearstatcache(bool $clear_realpath_cache = false, string $filename = "")
+```
+
+当使用 `stat()`，`lstat()` 或者任何列在受影响函数表（见下面）中的函数时，PHP 将缓存这些函数的返回信息以提供更快的性能。然而在某些情况下，你可能想清除被缓存的信息。例如如果在一个脚本中多次检查同一个文件，而该文件在此脚本执行期间有被删除或修改的危险时，你需要清除文件状态缓存。这种情况下，可以用 `clearstatcache()` 函数来清除被 PHP 缓存的该文件信息。
+
+必须注意的是，对于不存在的文件，PHP 并不会缓存其信息。所以如果调用 `file_exists()` 来检查不存在的文件，在该文件没有被创建之前，它都会返回 `false`。如果该文件被创建了，就算以后被删除，它都会返回 `true` 函数 `unlink()` 会自动清除该缓存.
+
+> 本函数缓存特定文件名的信息，因此只在对同一个文件名进行多次操作并且需要该文件信息不被缓存时才需要调用 `clearstatcache()`。
+
+受影响的函数包括 `stat()`， `lstat()`， `file_exists()`， `is_writable()`， `is_readable()`， `is_executable()`， `is_file()`， `is_dir()`， `is_link()`， `filectime()`， `fileatime()`， `filemtime()`， `fileinode()`， `filegroup()`， `fileowner()`， `filesize()`， `filetype()` 和 `fileperms()`。
+
+## 参数
+
+- **`$clear_realpath_cache`** — 是否*也*清除真实路径缓存
+- **`$filename`** — 仅清除指定文件名的真实路径缓存; 只在 `$clear_realpath_cache` 为 `true` 时启用。
+
+## 返回值
+
+没有返回值。
+
+## 示例
+
+**`clearstatcache()` 例子**
+
+```php
+
+
+<?php
+$file = 'output_log.txt';
+
+function get_owner($file)
+{
+    $stat = stat($file);
+    $user = posix_getpwuid($stat['uid']);
+    return $user['name'];
+}
+
+$format = "UID @ %s: %s\n";
+
+printf($format, date('r'), get_owner($file));
+
+chown($file, 'ross');
+printf($format, date('r'), get_owner($file));
+
+clearstatcache();
+printf($format, date('r'), get_owner($file));
+?>
+
+    
+```
+
+以上示例的输出类似于：
+
+```text
+
+
+UID @ Sun, 12 Oct 2008 20:48:28 +0100: root
+UID @ Sun, 12 Oct 2008 20:48:28 +0100: root
+UID @ Sun, 12 Oct 2008 20:48:28 +0100: ross
+
+    
+```

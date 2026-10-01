@@ -1,0 +1,98 @@
+---
+id: "en-php-function-function-db2-client-info"
+language: "php"
+lang: "en"
+category: "function"
+name: "db2_client_info"
+title: "Returns an object with properties that describe the DB2 database client"
+signature: "stdClass|false db2_client_info(resource $connection)"
+module: "ibm_db2"
+source_url: "https://www.php.net/manual/en/function.db2-client-info.php"
+license: "CC-BY-3.0"
+updated: "2026-10-01"
+---
+
+# Returns an object with properties that describe the DB2 database client
+
+## Description
+
+```php
+stdClass|false db2_client_info(resource $connection)
+```
+
+This function returns an object with read-only properties that return information about the DB2 database client. The following table lists the DB2 client properties:
+
+| Property name | Return type | Description |
+| --- | --- | --- |
+| APPL_CODEPAGE | int | The application code page. |
+| CONN_CODEPAGE | int | The code page for the current connection. |
+| DATA_SOURCE_NAME | string | The data source name (DSN) used to create the current connection to the database. |
+| DRIVER_NAME | string | The name of the library that implements the DB2 Call Level Interface (CLI) specification. |
+| DRIVER_ODBC_VER | string | The version of ODBC that the DB2 client supports. This returns a string "MM.mm" where `MM` is the major version and `mm` is the minor version. The DB2 client always returns "03.51". |
+| DRIVER_VER | string | The version of the client, in the form of a string "MM.mm.uuuu" where `MM` is the major version, `mm` is the minor version, and `uuuu` is the update. For example, "08.02.0001" represents major version 8, minor version 2, update 1. |
+| ODBC_SQL_CONFORMANCE | string | The level of ODBC SQL grammar supported by the client: 
+- **MINIMUM** — Supports the minimum ODBC SQL grammar.
+- **CORE** — Supports the core ODBC SQL grammar.
+- **EXTENDED** — Supports extended ODBC SQL grammar. |
+| ODBC_VER | string | The version of ODBC that the ODBC driver manager supports. This returns a string "MM.mm.rrrr" where `MM` is the major version, `mm` is the minor version, and `rrrr` is the release. The DB2 client always returns "03.01.0000". |
+
+## Parameters
+
+- **`$connection`** — Specifies an active DB2 client connection.
+
+## Return Values
+
+Returns an object on a successful call, or `false` on failure
+
+## Examples
+
+**A `db2_client_info()` example**
+
+To retrieve information about the client, you must pass a valid database connection resource to `db2_client_info()`.
+
+```php
+
+<?php
+$conn = db2_connect( 'SAMPLE', 'db2inst1', 'ibmdb2' );
+$client = db2_client_info( $conn );
+
+if ($client) {
+    echo "DRIVER_NAME: ";           var_dump( $client->DRIVER_NAME );
+    echo "DRIVER_VER: ";            var_dump( $client->DRIVER_VER );
+    echo "DATA_SOURCE_NAME: ";      var_dump( $client->DATA_SOURCE_NAME );
+    echo "DRIVER_ODBC_VER: ";       var_dump( $client->DRIVER_ODBC_VER );
+    echo "ODBC_VER: ";              var_dump( $client->ODBC_VER );
+    echo "ODBC_SQL_CONFORMANCE: ";  var_dump( $client->ODBC_SQL_CONFORMANCE );
+    echo "APPL_CODEPAGE: ";         var_dump( $client->APPL_CODEPAGE );
+    echo "CONN_CODEPAGE: ";         var_dump( $client->CONN_CODEPAGE );
+}
+else {
+    echo "Error retrieving client information.
+     Perhaps your database connection was invalid.";
+}
+db2_close($conn);
+
+?>
+   
+```
+
+The above example will output:
+
+```text
+
+
+DRIVER_NAME: string(8) "libdb2.a"
+DRIVER_VER: string(10) "08.02.0001"
+DATA_SOURCE_NAME: string(6) "SAMPLE"
+DRIVER_ODBC_VER: string(5) "03.51"
+ODBC_VER: string(10) "03.01.0000"
+ODBC_SQL_CONFORMANCE: string(8) "EXTENDED"
+APPL_CODEPAGE: int(819)
+CONN_CODEPAGE: int(819)
+
+   
+```
+
+## See Also
+
+ `db2_server_info()`

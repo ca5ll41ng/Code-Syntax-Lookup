@@ -1,0 +1,183 @@
+---
+id: "en-php-function-function-date-sun-info"
+language: "php"
+lang: "en"
+category: "function"
+name: "date_sun_info"
+title: "Returns an array with information about sunset/sunrise and twilight begin/end"
+signature: "array date_sun_info(int $timestamp, float $latitude, float $longitude)"
+module: "datetime"
+source_url: "https://www.php.net/manual/en/function.date-sun-info.php"
+license: "CC-BY-3.0"
+updated: "2026-10-01"
+---
+
+# Returns an array with information about sunset/sunrise and twilight begin/end
+
+## Description
+
+```php
+array date_sun_info(int $timestamp, float $latitude, float $longitude)
+```
+
+## Parameters
+
+- **`$timestamp`** — Unix timestamp.
+- **`$latitude`** — Latitude in degrees.
+- **`$longitude`** — Longitude in degrees.
+
+## Return Values
+
+Returns an array whose structure is detailed in the following list:
+
+- **`sunrise`** — The timestamp of the sunrise (zenith angle = 90°35').
+- **`sunset`** — The timestamp of the sunset (zenith angle = 90°35').
+- **`transit`** — The timestamp when the sun is at its zenith, i.e. has reached its topmost point.
+- **`civil_twilight_begin`** — The start of the civil dawn (zenith angle = 96°). It ends at `sunrise`.
+- **`civil_twilight_end`** — The end of the civil dusk (zenith angle = 96°). It starts at `sunset`.
+- **`nautical_twilight_begin`** — The start of the nautical dawn (zenith angle = 102°). It ends at `civil_twilight_begin`.
+- **`nautical_twilight_end`** — The end of the nautical dusk (zenith angle = 102°). It starts at `civil_twilight_end`.
+- **`astronomical_twilight_begin`** — The start of the astronomical dawn (zenith angle = 108°). It ends at `nautical_twilight_begin`.
+- **`astronomical_twilight_end`** — The end of the astronomical dusk (zenith angle = 108°). It starts at `nautical_twilight_end`.
+
+The values of the array elements are either UNIX timestamps, `false` if the sun is below the respective zenith for the whole day, or `true` if the sun is above the respective zenith for the whole day.
+
+## Changelog
+
+|  |  |
+| --- | --- |
+| 7.2.0 | The calculation was fixed with regards to local midnight instead of local noon, which changes the results slightly. |
+
+## Examples
+
+**A `date_sun_info()` example**
+
+```php
+
+
+<?php
+date_default_timezone_set('Asia/Jerusalem');
+$sun_info = date_sun_info(strtotime("2006-12-12"), 31.7667, 35.2333);
+foreach ($sun_info as $key => $val) {
+    echo "$key: " . date("H:i:s", $val) . "\n";
+}
+
+    
+```
+
+The above example will output:
+
+```text
+
+
+sunrise: 06:29:21
+sunset: 16:36:00
+transit: 11:32:41
+civil_twilight_begin: 06:02:36
+civil_twilight_end: 17:02:45
+nautical_twilight_begin: 05:32:14
+nautical_twilight_end: 17:33:08
+astronomical_twilight_begin: 05:02:31
+astronomical_twilight_end: 18:02:51
+
+    
+```
+
+**Polar night, with some processing**
+
+```php
+
+
+<?php
+$tz = new \DateTimeZone('America/Anchorage');
+
+$si = date_sun_info(strtotime("2022-12-21"), 70.21, -148.51);
+foreach ($si as $key => $value) {
+    echo
+        match ($value) {
+            true => 'always',
+            false => 'never',
+            default => date_create("@{$value}")->setTimeZone($tz)->format( 'H:i:s T' ),
+        },
+        ": {$key}",
+        "\n";
+}
+
+    
+```
+
+The above example will output:
+
+```text
+
+
+never: sunrise
+never: sunset
+12:52:18 AKST: transit
+10:53:19 AKST: civil_twilight_begin
+14:51:17 AKST: civil_twilight_end
+09:01:47 AKST: nautical_twilight_begin
+16:42:48 AKST: nautical_twilight_end
+07:40:47 AKST: astronomical_twilight_begin
+18:03:49 AKST: astronomical_twilight_end
+
+    
+```
+
+**Midnight sun (Tromsø, Norway)**
+
+```php
+
+
+<?php
+$si = date_sun_info(strtotime("2022-06-26"), 69.68, 18.94);
+print_r($si);
+
+    
+```
+
+The above example will output:
+
+```text
+
+
+Array
+(
+    [sunrise] => 1
+    [sunset] => 1
+    [transit] => 1656240426
+    [civil_twilight_begin] => 1
+    [civil_twilight_end] => 1
+    [nautical_twilight_begin] => 1
+    [nautical_twilight_end] => 1
+    [astronomical_twilight_begin] => 1
+    [astronomical_twilight_end] => 1
+)
+
+    
+```
+
+**Calculating length of day (Kyiv)**
+
+```php
+
+
+<?php
+$si = date_sun_info(strtotime('2022-08-26'), 50.45, 30.52);
+$diff = $si['sunset'] - $si['sunrise'];
+echo "Length of day: ",
+    floor($diff / 3600), "h ",
+    floor(($diff % 3600) / 60), "m\n";
+
+    
+```
+
+The above example will output:
+
+```text
+
+
+Length of day: 13h 53m
+
+    
+```

@@ -1,0 +1,38 @@
+---
+id: "en-php-function-function-ibase-fetch-row"
+language: "php"
+lang: "en"
+category: "function"
+name: "ibase_fetch_row"
+title: "Fetch a row from an InterBase database"
+signature: "array ibase_fetch_row(resource $result_identifier, int $fetch_flag = 0)"
+module: "ibase"
+source_url: "https://www.php.net/manual/en/function.ibase-fetch-row.php"
+license: "CC-BY-3.0"
+updated: "2026-10-01"
+---
+
+# Fetch a row from an InterBase database
+
+## Description
+
+```php
+array ibase_fetch_row(resource $result_identifier, int $fetch_flag = 0)
+```
+
+`ibase_fetch_row()` fetches one row of data from the given result set.
+
+Subsequent calls to `ibase_fetch_row()` return the next row in the result set, or `false` if there are no more rows.
+
+## Parameters
+
+- **`$result_identifier`** — An InterBase result identifier.
+- **`$fetch_flag`** — `$fetch_flag` is a combination of the constants `IBASE_TEXT` and `IBASE_UNIXTIME` ORed together. Passing `IBASE_TEXT` will cause this function to return BLOB contents instead of BLOB ids. Passing `IBASE_UNIXTIME` will cause this function to return date/time values as Unix timestamps instead of as formatted strings.
+
+## Return Values
+
+Returns an array that corresponds to the fetched row, or `false` if there are no more rows. Each result column is stored in an array offset, starting at offset 0.
+
+## See Also
+
+ `ibase_fetch_assoc()` `ibase_fetch_object()`

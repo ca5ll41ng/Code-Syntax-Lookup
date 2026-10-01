@@ -1,0 +1,62 @@
+---
+id: "en-php-function-function-cubrid-lob-get"
+language: "php"
+lang: "en"
+category: "function"
+name: "cubrid_lob_get"
+title: "Get BLOB/CLOB data"
+signature: "array cubrid_lob_get(resource $conn_identifier, string $sql)"
+module: "cubrid"
+source_url: "https://www.php.net/manual/en/function.cubrid-lob-get.php"
+license: "CC-BY-3.0"
+updated: "2026-10-01"
+---
+
+# Get BLOB/CLOB data
+
+## Description
+
+```php
+array cubrid_lob_get(resource $conn_identifier, string $sql)
+```
+
+`cubrid_lob_get()` is used to get BLOB/CLOB meta info from CUBRID database, CUBRID gets BLOB/CLOB by executing the SQL statement, and returns all LOBs as a resource array. Be sure that the SQL retrieves only one column and its data type is BLOB or CLOB.
+
+Remember to use `cubrid_lob_close()` to release the LOBs if you don't need it any more.
+
+## Parameters
+
+- **`$conn_identifier`** — Connection identifier.
+- **`$sql`** — SQL statement to be executed.
+
+## Return Values
+
+Return an array of LOB resources, when process is successful, or `false` on failure.
+
+## Examples
+
+**`cubrid_lob_get()` example**
+
+```php
+
+
+<?php
+$conn = cubrid_connect ("localhost", 33000, "demodb", "dba");
+
+cubrid_execute($conn,"DROP TABLE if exists doc");
+cubrid_execute($conn,"CREATE TABLE doc (id INT, doc_content CLOB)");
+cubrid_execute($conn,"INSERT INTO doc VALUES (5,'hello,cubrid')");
+
+$lobs = cubrid_lob_get($conn, "SELECT doc_content FROM doc WHERE id=5");
+echo "Doc size: ".cubrid_lob_size($lobs[0])." bytes";
+cubrid_lob_export($conn, $lobs[0], "doc_5.txt");
+cubrid_lob_close($lobs);
+cubrid_disconnect($conn);
+?>
+
+   
+```
+
+## See Also
+
+ `cubrid_lob_close()` `cubrid_lob_size()` `cubrid_lob_export()` `cubrid_lob_send()`

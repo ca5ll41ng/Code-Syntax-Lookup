@@ -1,0 +1,49 @@
+---
+id: "zh-php-function-function-mb-strrichr"
+language: "php"
+lang: "zh"
+category: "function"
+name: "mb_strrichr"
+title: "大小写不敏感地查找指定字符在另一个字符串中最后一次的出现"
+signature: "string|false mb_strrichr(string $haystack, string $needle, bool $before_needle = false, string|null $encoding = null)"
+module: "mbstring"
+source_url: "https://www.php.net/manual/zh/function.mb-strrichr.php"
+license: "CC-BY-3.0"
+updated: "2026-10-01"
+---
+
+# 大小写不敏感地查找指定字符在另一个字符串中最后一次的出现
+
+## 说明
+
+```php
+string|false mb_strrichr(string $haystack, string $needle, bool $before_needle = false, string|null $encoding = null)
+```
+
+`mb_strrichr()` 大小写不敏感地查找指定 `$needle` 在 `$haystack` 中最后一次的出现，并返回 `$haystack` 的一部分。 和 `mb_strrchr()` 不同的是，`mb_strrichr()` 是大小写不敏感的。 如果 `$needle` 没有找到，它将返回 `false`。
+
+## 参数
+
+- **`$haystack`** — 在该字符串中查找 `$needle` 的最后出现位置。
+- **`$needle`** — 在 `$needle` 中查找该字符串。
+- **`$before_needle`** — 决定这个函数返回 `$haystack` 的哪一部分。 如果设置为 `true`，它将返回的字符是从 `$haystack` 的开始到 `$needle` 最后出现的位置。 如果设置为 `false`，它将返回的字符是从 `$needle` 最后出现的位置到 `$haystack` 的末尾。
+- **`$encoding`** — `$encoding` 参数为字符编码。如果省略或是 `null`，则使用内部字符编码。
+
+## 返回值
+
+返回 `$haystack` 的一部分。或者在没有找到 `$needle` 时返回 `false`。
+
+ Use when ERRORS exist <refsect1 role="errors"> <title xmlns="http://docbook.org/ns/docbook">错误／异常</title> <para> When does this function throw E_* level errors, or exceptions? </para> </refsect1> 
+
+## 更新日志
+
+| 版本 | 说明 |
+| --- | --- |
+| 8.0.0 | 现在 `$needle` 接受空字符串。 |
+| 8.0.0 | 现在 `$encoding` 可以为 null。 |
+
+ Use when examples exist <refsect1 role="examples"> <title xmlns="http://docbook.org/ns/docbook">示例</title> <para> <example> <title>A <function>mb_strrichr</function> example</title> <para> Any text that describes the purpose of the example, or what goes on in the example should go here (inside the <example> tag, not out </para> <programlisting role="php"> <![CDATA[ <?php if ($anexample === true) { echo 'Use the PEAR Coding Standards'; } ?> ]]> </programlisting> <simpara xmlns="http://docbook.org/ns/docbook">以上示例会输出：</simpara> <screen> <![CDATA[ Use the PEAR Coding Standards ]]> </screen> </example> </para> </refsect1> 
+
+## 参见
+
+`mb_stristr()` `mb_strrchr()`

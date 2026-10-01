@@ -1,0 +1,252 @@
+---
+id: "zh-php-function-function-array-column"
+language: "php"
+lang: "zh"
+category: "function"
+name: "array_column"
+title: "返回输入数组中指定列的值"
+signature: "array array_column(array $array, int|string|null $column_key, int|string|null $index_key = null)"
+module: "array"
+source_url: "https://www.php.net/manual/zh/function.array-column.php"
+license: "CC-BY-3.0"
+updated: "2026-10-01"
+---
+
+# 返回输入数组中指定列的值
+
+## 说明
+
+```php
+array array_column(array $array, int|string|null $column_key, int|string|null $index_key = null)
+```
+
+`array_column()` 返回 `$array` 中键名为 `$column_key` 的一列值。 如果指定了可选参数 `$index_key`，则使用输入数组中 `$index_key` 列的值将作为返回数组中对应值的键。
+
+## 参数
+
+- **`$array`** — 多维数组或对象数组，从中提取一列值。 如果提供的是对象数组，只有 public 的属性会被直接取出。 如果想取出 private 和 protected 的属性，类必须实现 `__get()` 和 `__isset()` 魔术方法。
+- **`$column_key`** — 需要返回值的列。它可以是索引数组的列索引，或者是关联数组的列的键，也可以是属性名。 也可以是 `null` ，此时将返回整个数组（配合 `$index_key` 参数来重新索引数组时非常好用）。
+- **`$index_key`** — 作为返回数组的索引/键的列。它可以是该列的整数索引，或者字符串键值。 该值会像数组键一样被 强制转换 （但是，在 PHP 8.0.0 之前，也被允许支持转换为字符串对象）。
+
+## 返回值
+
+返回输入数组中单列值的数组。
+
+## 更新日志
+
+| 版本 | 说明 |
+| --- | --- |
+| 8.0.0 | `$index_key` 参数指定的列中的对象不再强制转换为字符串，而是会抛出 `TypeError`。 |
+
+## 示例
+
+**从结果集中取出 first_name 列**
+
+```php
+
+
+<?php
+
+// 表示从数据库返回的记录集的数组
+$records = [
+    [
+        'id' => 2135,
+        'first_name' => 'John',
+        'last_name' => 'Doe',
+    ],
+    [
+        'id' => 3245,
+        'first_name' => 'Sally',
+        'last_name' => 'Smith',
+    ],
+    [
+        'id' => 5342,
+        'first_name' => 'Jane',
+        'last_name' => 'Jones',
+    ],
+    [
+        'id' => 5623,
+        'first_name' => 'Peter',
+        'last_name' => 'Doe',
+    ]
+];
+ 
+$first_names = array_column($records, 'first_name');
+print_r($first_names);
+
+?>
+
+    
+```
+
+以上示例会输出：
+
+```php
+
+
+Array
+(
+    [0] => John
+    [1] => Sally
+    [2] => Jane
+    [3] => Peter
+)
+
+    
+```
+
+**从结果集中总取出 last_name 列，用相应的“id”作为键值**
+
+```php
+
+
+<?php
+
+// 使用示例 #1 中的 $records 数组
+$records = [
+    [
+        'id' => 2135,
+        'first_name' => 'John',
+        'last_name' => 'Doe',
+    ],
+    [
+        'id' => 3245,
+        'first_name' => 'Sally',
+        'last_name' => 'Smith',
+    ],
+    [
+        'id' => 5342,
+        'first_name' => 'Jane',
+        'last_name' => 'Jones',
+    ],
+    [
+        'id' => 5623,
+        'first_name' => 'Peter',
+        'last_name' => 'Doe',
+    ]
+];
+
+$last_names = array_column($records, 'last_name', 'id');
+print_r($last_names);
+
+?>
+
+    
+```
+
+以上示例会输出：
+
+```php
+
+
+Array
+(
+    [2135] => Doe
+    [3245] => Smith
+    [5342] => Jones
+    [5623] => Doe
+)
+
+    
+```
+
+**username 列是从对象获取 public 的 "username" 属性**
+
+```php
+
+
+<?php
+
+class User
+{
+    public $username;
+
+    public function __construct(string $username)
+    {
+        $this->username = $username;
+    }
+}
+
+$users = [
+    new User('user 1'),
+    new User('user 2'),
+    new User('user 3'),
+];
+
+print_r(array_column($users, 'username'));
+
+?>
+
+    
+```
+
+以上示例会输出：
+
+```php
+
+
+Array
+(
+    [0] => user 1
+    [1] => user 2
+    [2] => user 3
+)
+
+    
+```
+
+**通过 `__isset()` 和 `__get()` 魔术方法从对象中获取 private 属性的 "name" 列。**
+
+```php
+
+
+<?php
+
+class Person
+{
+    private $name;
+
+    public function __construct(string $name)
+    {
+        $this->name = $name;
+    }
+
+    public function __get($prop)
+    {
+        return $this->$prop;
+    }
+
+    public function __isset($prop) : bool
+    {
+        return isset($this->$prop);
+    }
+}
+
+$people = [
+    new Person('Fred'),
+    new Person('Jane'),
+    new Person('John'),
+];
+
+print_r(array_column($people, 'name'));
+?>
+
+    
+```
+
+以上示例会输出：
+
+```php
+
+
+Array
+(
+    [0] => Fred
+    [1] => Jane
+    [2] => John
+)
+
+    
+```
+
+如果不提供 `__isset()`，会返回空数组。

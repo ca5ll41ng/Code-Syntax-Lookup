@@ -1,0 +1,79 @@
+---
+id: "en-php-function-function-wincache-ocache-meminfo"
+language: "php"
+lang: "en"
+category: "function"
+name: "wincache_ocache_meminfo"
+title: "Retrieves information about opcode cache memory usage"
+signature: "array|false wincache_ocache_meminfo()"
+module: "wincache"
+source_url: "https://www.php.net/manual/en/function.wincache-ocache-meminfo.php"
+license: "CC-BY-3.0"
+updated: "2026-10-01"
+---
+
+# Retrieves information about opcode cache memory usage
+
+## Description
+
+```php
+array|false wincache_ocache_meminfo()
+```
+
+Retrieves information about memory usage by opcode cache.
+
+## Parameters
+
+This function has no parameters.
+
+## Return Values
+
+Array of meta data about opcode cache memory usage or `false` on failure
+
+The array returned by this function contains the following elements:
+
+- `memory_total` - amount of memory in bytes allocated for the opcode cache
+- `memory_free` - amount of free memory in bytes available for the opcode cache
+- `num_used_blks` - number of memory blocks used by the opcode cache
+- `num_free_blks` - number of free memory blocks available for the opcode cache
+- `memory_overhead` - amount of memory in bytes used for the opcode cache internal structures
+
+> This function was *REMOVED* in PHP 7.0.0.
+
+## Examples
+
+**A `wincache_ocache_meminfo()` example**
+
+```php
+
+
+<pre>
+<?php
+print_r(wincache_ocache_meminfo());
+?>
+</pre>
+
+
+    
+```
+
+The above example will output:
+
+```text
+
+
+Array
+(
+    [memory_total] => 134217728
+    [memory_free] => 112106972
+    [num_used_blks] => 15469
+    [num_free_blks] => 4
+    [memory_overhead] => 247600
+)
+
+    
+```
+
+## See Also
+
+`wincache_fcache_fileinfo()` `wincache_fcache_meminfo()` `wincache_ocache_fileinfo()` `wincache_rplist_fileinfo()` `wincache_rplist_meminfo()` `wincache_refresh_if_changed()` `wincache_ucache_meminfo()` `wincache_ucache_info()` `wincache_scache_info()` `wincache_scache_meminfo()`

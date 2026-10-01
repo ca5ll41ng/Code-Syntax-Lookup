@@ -1,0 +1,87 @@
+---
+id: "en-php-function-function-expect-expectl"
+language: "php"
+lang: "en"
+category: "function"
+name: "expect_expectl"
+title: "Waits until the output from a process matches one of the patterns, a specified time period has passed, or an EOF is seen"
+signature: "int expect_expectl(resource $expect, array $cases, [array $match = ...])"
+module: "expect"
+source_url: "https://www.php.net/manual/en/function.expect-expectl.php"
+license: "CC-BY-3.0"
+updated: "2026-10-01"
+---
+
+# Waits until the output from a process matches one of the patterns, a specified time period has passed, or an EOF is seen
+
+## Description
+
+```php
+int expect_expectl(resource $expect, array $cases, [array $match = ...])
+```
+
+Waits until the output from a process matches one of the patterns, a specified time period has passed, or an EOF is seen.
+
+If `$match` is provided, then it is filled with the result of search. The matched string can be found in `$match[0]`. The match substrings (according to the parentheses) in the original pattern can be found in `$match[1]`, `$match[2]`, and so on, up to `$match[9]` (the limitation of libexpect).
+
+## Parameters
+
+- **`$expect`** — An Expect stream, previously opened with `expect_popen()`.
+- **`$cases`** — An array of expect cases. Each expect case is an indexed array, as described in the following table: | Index Key | Value Type | Description | Is Mandatory | Default Value | | --- | --- | --- | --- | --- | | 0 | string | pattern, that will be matched against the output from the stream | yes | | | 1 | mixed | value, that will be returned by this function, if the pattern matches | yes | | | 2 | integer | pattern type, one of: `EXP_GLOB`, `EXP_EXACT` or `EXP_REGEXP` | no | `EXP_GLOB` |
+
+## Return Values
+
+Returns value associated with the pattern that was matched.
+
+On failure this function returns: `EXP_EOF`, `EXP_TIMEOUT` or `EXP_FULLBUFFER`
+
+## Changelog
+
+|  |  |
+| --- | --- |
+| PECL expect 0.2.1 | Prior to version 0.2.1, in `$match` parameter a match string was returned, not an array of match substrings. |
+
+## Examples
+
+**`expect_expectl()` example**
+
+```php
+
+
+<?php
+// Copies file from remote host:
+ini_set("expect.timeout", 30);
+
+$stream = fopen("expect://scp user@remotehost:/var/log/messages /home/user/messages.txt", "r");
+
+$cases = array(
+    // array(pattern, value to return if pattern matched)
+    array("password:", "asked for password"),
+    array("yes/no)?",  "asked for yes/no")
+);
+
+while (true) {
+    switch (expect_expectl($stream, $cases)) {
+        case "asked for password":
+            fwrite($stream, "my password\n");
+            break;
+        case "asked for yes/no":
+            fwrite($stream, "yes\n");
+            break;
+        case EXP_TIMEOUT:
+        case EXP_EOF:
+            break 2; // break both the switch statement and the while loop
+        default:
+            die("Error has occurred!");
+    }
+}
+
+fclose($stream);
+?>
+
+   
+```
+
+## See Also
+
+ `expect_popen()`

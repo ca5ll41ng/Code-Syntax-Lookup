@@ -1,0 +1,305 @@
+---
+id: "en-php-guide-rpminfo-constants"
+language: "php"
+lang: "en"
+category: "guide"
+name: "rpminfo.constants"
+title: "Predefined Constants"
+module: "rpminfo"
+source_url: "https://www.php.net/manual/en/rpminfo.constants.php"
+license: "CC-BY-3.0"
+updated: "2026-10-01"
+---
+
+# Predefined Constants
+
+The constants below are defined by this extension, and will only be available when the extension has either been compiled into PHP or dynamically loaded at runtime.
+
+- **`RPMVERSION` (`string`)** — System librpm version.
+
+- **`RPMSENSE_ANY` (`int`)**
+- **`RPMSENSE_LESS` (`int`)**
+- **`RPMSENSE_GREATER` (`int`)**
+- **`RPMSENSE_EQUAL` (`int`)**
+- **`RPMSENSE_POSTTRANS` (`int`)**
+- **`RPMSENSE_PREREQ` (`int`)**
+- **`RPMSENSE_PRETRANS` (`int`)**
+- **`RPMSENSE_INTERP` (`int`)**
+- **`RPMSENSE_SCRIPT_PRE` (`int`)**
+- **`RPMSENSE_SCRIPT_POST` (`int`)**
+- **`RPMSENSE_SCRIPT_PREUN` (`int`)**
+- **`RPMSENSE_SCRIPT_POSTUN` (`int`)**
+- **`RPMSENSE_SCRIPT_VERIFY` (`int`)**
+- **`RPMSENSE_FIND_REQUIRES` (`int`)**
+- **`RPMSENSE_FIND_PROVIDES` (`int`)**
+- **`RPMSENSE_TRIGGERIN` (`int`)**
+- **`RPMSENSE_TRIGGERUN` (`int`)**
+- **`RPMSENSE_TRIGGERPOSTUN` (`int`)**
+- **`RPMSENSE_MISSINGOK` (`int`)**
+- **`RPMSENSE_RPMLIB` (`int`)**
+- **`RPMSENSE_TRIGGERPREIN` (`int`)**
+- **`RPMSENSE_KEYRING` (`int`)**
+- **`RPMSENSE_CONFIG` (`int`)**
+
+- **`RPMMIRE_DEFAULT` (`int`)** — Search pattern is a regular expression with `\.`, `.*`, and `^...$` added.
+- **`RPMMIRE_STRCMP` (`int`)** — Search pattern is a `string`, using strcmp(3).
+- **`RPMMIRE_REGEX` (`int`)** — Search pattern is a regular expression, using regcomp(3).
+- **`RPMMIRE_GLOB` (`int`)** — Search pattern is a glob expression, using fnmatch(3).
+
+- **`RPMTAG_ARCH` (`int`)**
+- **`RPMTAG_ARCHSUFFIX` (`int`)** — Requires librpm >= 4.18
+- **`RPMTAG_ARCHIVESIZE` (`int`)**
+- **`RPMTAG_BASENAMES` (`int`)** — Name (not path) of files, with database index.
+- **`RPMTAG_BUGURL` (`int`)**
+- **`RPMTAG_BUILDARCHS` (`int`)**
+- **`RPMTAG_BUILDHOST` (`int`)**
+- **`RPMTAG_BUILDTIME` (`int`)**
+- **`RPMTAG_C` (`int`)**
+- **`RPMTAG_CHANGELOGNAME` (`int`)**
+- **`RPMTAG_CHANGELOGTEXT` (`int`)**
+- **`RPMTAG_CHANGELOGTIME` (`int`)**
+- **`RPMTAG_CLASSDICT` (`int`)**
+- **`RPMTAG_CONFLICTFLAGS` (`int`)**
+- **`RPMTAG_CONFLICTNAME` (`int`)** — Conflicting dependencies, with database index.
+- **`RPMTAG_CONFLICTNEVRS` (`int`)**
+- **`RPMTAG_CONFLICTS` (`int`)**
+- **`RPMTAG_CONFLICTVERSION` (`int`)**
+- **`RPMTAG_COOKIE` (`int`)**
+- **`RPMTAG_DBINSTANCE` (`int`)**
+- **`RPMTAG_DEPENDSDICT` (`int`)**
+- **`RPMTAG_DESCRIPTION` (`int`)**
+- **`RPMTAG_DIRINDEXES` (`int`)**
+- **`RPMTAG_DIRNAMES` (`int`)** — Directory of files, with database index.
+- **`RPMTAG_DISTRIBUTION` (`int`)**
+- **`RPMTAG_DISTTAG` (`int`)**
+- **`RPMTAG_DISTURL` (`int`)**
+- **`RPMTAG_DSAHEADER` (`int`)**
+- **`RPMTAG_E` (`int`)**
+- **`RPMTAG_ENCODING` (`int`)**
+- **`RPMTAG_ENHANCEFLAGS` (`int`)**
+- **`RPMTAG_ENHANCENAME` (`int`)** — Weak dependencies, with database index, requires librpm >= 4.13.
+- **`RPMTAG_ENHANCENEVRS` (`int`)**
+- **`RPMTAG_ENHANCES` (`int`)**
+- **`RPMTAG_ENHANCEVERSION` (`int`)**
+- **`RPMTAG_EPOCH` (`int`)**
+- **`RPMTAG_EPOCHNUM` (`int`)**
+- **`RPMTAG_EVR` (`int`)**
+- **`RPMTAG_EXCLUDEARCH` (`int`)**
+- **`RPMTAG_EXCLUDEOS` (`int`)**
+- **`RPMTAG_EXCLUSIVEARCH` (`int`)**
+- **`RPMTAG_EXCLUSIVEOS` (`int`)**
+- **`RPMTAG_FILECAPS` (`int`)**
+- **`RPMTAG_FILECLASS` (`int`)**
+- **`RPMTAG_FILECOLORS` (`int`)**
+- **`RPMTAG_FILECONTEXTS` (`int`)**
+- **`RPMTAG_FILEDEPENDSN` (`int`)**
+- **`RPMTAG_FILEDEPENDSX` (`int`)**
+- **`RPMTAG_FILEDEVICES` (`int`)**
+- **`RPMTAG_FILEDIGESTALGO` (`int`)**
+- **`RPMTAG_FILEDIGESTS` (`int`)**
+- **`RPMTAG_FILEFLAGS` (`int`)**
+- **`RPMTAG_FILEGROUPNAME` (`int`)**
+- **`RPMTAG_FILEINODES` (`int`)**
+- **`RPMTAG_FILELANGS` (`int`)**
+- **`RPMTAG_FILELINKTOS` (`int`)**
+- **`RPMTAG_FILEMD5S` (`int`)**
+- **`RPMTAG_FILEMODES` (`int`)**
+- **`RPMTAG_FILEMTIMES` (`int`)**
+- **`RPMTAG_FILENAMES` (`int`)**
+- **`RPMTAG_FILENLINKS` (`int`)**
+- **`RPMTAG_FILEPROVIDE` (`int`)**
+- **`RPMTAG_FILERDEVS` (`int`)**
+- **`RPMTAG_FILEREQUIRE` (`int`)**
+- **`RPMTAG_FILESIGNATURELENGTH` (`int`)**
+- **`RPMTAG_FILESIGNATURES` (`int`)**
+- **`RPMTAG_FILESIZES` (`int`)**
+- **`RPMTAG_FILESTATES` (`int`)**
+- **`RPMTAG_FILETRIGGERCONDS` (`int`)**
+- **`RPMTAG_FILETRIGGERFLAGS` (`int`)**
+- **`RPMTAG_FILETRIGGERINDEX` (`int`)**
+- **`RPMTAG_FILETRIGGERNAME` (`int`)** — File trigger name, with database index, requires librpm >= 4.13.
+- **`RPMTAG_FILETRIGGERPRIORITIES` (`int`)**
+- **`RPMTAG_FILETRIGGERSCRIPTFLAGS` (`int`)**
+- **`RPMTAG_FILETRIGGERSCRIPTPROG` (`int`)**
+- **`RPMTAG_FILETRIGGERSCRIPTS` (`int`)**
+- **`RPMTAG_FILETRIGGERTYPE` (`int`)**
+- **`RPMTAG_FILETRIGGERVERSION` (`int`)**
+- **`RPMTAG_FILEUSERNAME` (`int`)**
+- **`RPMTAG_FILEVERIFYFLAGS` (`int`)**
+- **`RPMTAG_FSCONTEXTS` (`int`)**
+- **`RPMTAG_GIF` (`int`)**
+- **`RPMTAG_GROUP` (`int`)** — Group of the package, with database index.
+- **`RPMTAG_HDRID` (`int`)** — Deprecated, use `RPMTAG_SHA1HEADER` instead. Removed in librpm 6.
+- **`RPMTAG_HEADERCOLOR` (`int`)**
+- **`RPMTAG_HEADERI18NTABLE` (`int`)**
+- **`RPMTAG_HEADERIMAGE` (`int`)**
+- **`RPMTAG_HEADERIMMUTABLE` (`int`)**
+- **`RPMTAG_HEADERREGIONS` (`int`)**
+- **`RPMTAG_HEADERSIGNATURES` (`int`)**
+- **`RPMTAG_ICON` (`int`)**
+- **`RPMTAG_INSTALLCOLOR` (`int`)**
+- **`RPMTAG_INSTALLTID` (`int`)** — Installation transaction ID, with database index.
+- **`RPMTAG_INSTALLTIME` (`int`)**
+- **`RPMTAG_INSTFILENAMES` (`int`)** — Path of files, with database index.
+- **`RPMTAG_INSTPREFIXES` (`int`)**
+- **`RPMTAG_LICENSE` (`int`)**
+- **`RPMTAG_LONGARCHIVESIZE` (`int`)**
+- **`RPMTAG_LONGFILESIZES` (`int`)**
+- **`RPMTAG_LONGSIGSIZE` (`int`)**
+- **`RPMTAG_LONGSIZE` (`int`)**
+- **`RPMTAG_MODULARITYLABEL` (`int`)**
+- **`RPMTAG_N` (`int`)**
+- **`RPMTAG_NAME` (`int`)** — Package name, with database index.
+- **`RPMTAG_NEVR` (`int`)**
+- **`RPMTAG_NEVRA` (`int`)**
+- **`RPMTAG_NOPATCH` (`int`)**
+- **`RPMTAG_NOSOURCE` (`int`)**
+- **`RPMTAG_NVR` (`int`)**
+- **`RPMTAG_NVRA` (`int`)**
+- **`RPMTAG_O` (`int`)**
+- **`RPMTAG_OBSOLETEFLAGS` (`int`)**
+- **`RPMTAG_OBSOLETENAME` (`int`)** — Obsoleted packages, with database index.
+- **`RPMTAG_OBSOLETENEVRS` (`int`)**
+- **`RPMTAG_OBSOLETES` (`int`)**
+- **`RPMTAG_OBSOLETEVERSION` (`int`)**
+- **`RPMTAG_OLDENHANCES` (`int`)**
+- **`RPMTAG_OLDENHANCESFLAGS` (`int`)**
+- **`RPMTAG_OLDENHANCESNAME` (`int`)**
+- **`RPMTAG_OLDENHANCESVERSION` (`int`)**
+- **`RPMTAG_OLDFILENAMES` (`int`)**
+- **`RPMTAG_OLDSUGGESTS` (`int`)**
+- **`RPMTAG_OLDSUGGESTSFLAGS` (`int`)**
+- **`RPMTAG_OLDSUGGESTSNAME` (`int`)**
+- **`RPMTAG_OLDSUGGESTSVERSION` (`int`)**
+- **`RPMTAG_OPTFLAGS` (`int`)**
+- **`RPMTAG_ORDERFLAGS` (`int`)**
+- **`RPMTAG_ORDERNAME` (`int`)**
+- **`RPMTAG_ORDERVERSION` (`int`)**
+- **`RPMTAG_ORIGBASENAMES` (`int`)**
+- **`RPMTAG_ORIGDIRINDEXES` (`int`)**
+- **`RPMTAG_ORIGDIRNAMES` (`int`)**
+- **`RPMTAG_ORIGFILENAMES` (`int`)**
+- **`RPMTAG_OS` (`int`)**
+- **`RPMTAG_P` (`int`)**
+- **`RPMTAG_PACKAGER` (`int`)**
+- **`RPMTAG_PATCH` (`int`)**
+- **`RPMTAG_PATCHESFLAGS` (`int`)**
+- **`RPMTAG_PATCHESNAME` (`int`)**
+- **`RPMTAG_PATCHESVERSION` (`int`)**
+- **`RPMTAG_PAYLOADCOMPRESSOR` (`int`)**
+- **`RPMTAG_PAYLOADDIGEST` (`int`)**
+- **`RPMTAG_PAYLOADDIGESTALT` (`int`)** — With librpm >= 4.16.
+- **`RPMTAG_PAYLOADDIGESTALGO` (`int`)**
+- **`RPMTAG_PAYLOADFLAGS` (`int`)**
+- **`RPMTAG_PAYLOADFORMAT` (`int`)**
+- **`RPMTAG_PKGID` (`int`)** — Deprecated, use `RPMTAG_SIGMD5` instead. Removed in librpm 6.
+- **`RPMTAG_PLATFORM` (`int`)**
+- **`RPMTAG_POLICIES` (`int`)**
+- **`RPMTAG_POLICYFLAGS` (`int`)**
+- **`RPMTAG_POLICYNAMES` (`int`)**
+- **`RPMTAG_POLICYTYPES` (`int`)**
+- **`RPMTAG_POLICYTYPESINDEXES` (`int`)**
+- **`RPMTAG_POSTIN` (`int`)**
+- **`RPMTAG_POSTINFLAGS` (`int`)**
+- **`RPMTAG_POSTINPROG` (`int`)**
+- **`RPMTAG_POSTTRANS` (`int`)**
+- **`RPMTAG_POSTTRANSFLAGS` (`int`)**
+- **`RPMTAG_POSTTRANSPROG` (`int`)**
+- **`RPMTAG_POSTUN` (`int`)**
+- **`RPMTAG_POSTUNFLAGS` (`int`)**
+- **`RPMTAG_POSTUNPROG` (`int`)**
+- **`RPMTAG_POSTUNTRANS` (`int`)** — Requires librpm >= 4.19
+- **`RPMTAG_POSTUNTRANSFLAGS` (`int`)** — Requires librpm >= 4.19
+- **`RPMTAG_POSTUNTRANSPROG` (`int`)** — Requires librpm >= 4.19
+- **`RPMTAG_PREFIXES` (`int`)**
+- **`RPMTAG_PREIN` (`int`)**
+- **`RPMTAG_PREINFLAGS` (`int`)**
+- **`RPMTAG_PREINPROG` (`int`)**
+- **`RPMTAG_PRETRANS` (`int`)**
+- **`RPMTAG_PRETRANSFLAGS` (`int`)**
+- **`RPMTAG_PRETRANSPROG` (`int`)**
+- **`RPMTAG_PREUN` (`int`)**
+- **`RPMTAG_PREUNFLAGS` (`int`)**
+- **`RPMTAG_PREUNPROG` (`int`)**
+- **`RPMTAG_PREUNTRANS` (`int`)** — Requires librpm >= 4.19
+- **`RPMTAG_PREUNTRANSFLAGS` (`int`)** — Requires librpm >= 4.19
+- **`RPMTAG_PREUNTRANSPROG` (`int`)** — Requires librpm >= 4.19
+- **`RPMTAG_PROVIDEFLAGS` (`int`)**
+- **`RPMTAG_PROVIDENAME` (`int`)** — Provided dependencies, with database index.
+- **`RPMTAG_PROVIDENEVRS` (`int`)**
+- **`RPMTAG_PROVIDES` (`int`)**
+- **`RPMTAG_PROVIDEVERSION` (`int`)**
+- **`RPMTAG_PUBKEYS` (`int`)**
+- **`RPMTAG_R` (`int`)**
+- **`RPMTAG_RECOMMENDFLAGS` (`int`)**
+- **`RPMTAG_RECOMMENDNAME` (`int`)** — Recommended weak dependencies, with database index, requires librpm >= 4.13.
+- **`RPMTAG_RECOMMENDNEVRS` (`int`)**
+- **`RPMTAG_RECOMMENDS` (`int`)**
+- **`RPMTAG_RECOMMENDVERSION` (`int`)**
+- **`RPMTAG_RECONTEXTS` (`int`)**
+- **`RPMTAG_RELEASE` (`int`)**
+- **`RPMTAG_REMOVETID` (`int`)**
+- **`RPMTAG_REQUIREFLAGS` (`int`)**
+- **`RPMTAG_REQUIRENAME` (`int`)** — Required dependencies, with database index.
+- **`RPMTAG_REQUIRENEVRS` (`int`)**
+- **`RPMTAG_REQUIRES` (`int`)**
+- **`RPMTAG_REQUIREVERSION` (`int`)**
+- **`RPMTAG_RPMVERSION` (`int`)**
+- **`RPMTAG_RSAHEADER` (`int`)**
+- **`RPMTAG_SHA1HEADER` (`int`)** — SHA1 signature, with database index.
+- **`RPMTAG_SHA256HEADER` (`int`)**
+- **`RPMTAG_SIGGPG` (`int`)**
+- **`RPMTAG_SIGMD5` (`int`)** — MD5 signature, with database index.
+- **`RPMTAG_SIGPGP` (`int`)**
+- **`RPMTAG_SIGSIZE` (`int`)**
+- **`RPMTAG_SIZE` (`int`)**
+- **`RPMTAG_SOURCE` (`int`)**
+- **`RPMTAG_SOURCEPACKAGE` (`int`)**
+- **`RPMTAG_SOURCEPKGID` (`int`)**
+- **`RPMTAG_SOURCERPM` (`int`)**
+- **`RPMTAG_SPEC` (`int`)** — Requires librpm >= 4.18
+- **`RPMTAG_SUGGESTFLAGS` (`int`)**
+- **`RPMTAG_SUGGESTNAME` (`int`)** — Suggested weak dependencies, with database index, requires librpm >= 4.13.
+- **`RPMTAG_SUGGESTNEVRS` (`int`)**
+- **`RPMTAG_SUGGESTS` (`int`)**
+- **`RPMTAG_SUGGESTVERSION` (`int`)**
+- **`RPMTAG_SUMMARY` (`int`)**
+- **`RPMTAG_SUPPLEMENTFLAGS` (`int`)**
+- **`RPMTAG_SUPPLEMENTNAME` (`int`)** — Weak dependencies, with database index, requires librpm >= 4.13.
+- **`RPMTAG_SUPPLEMENTNEVRS` (`int`)**
+- **`RPMTAG_SUPPLEMENTS` (`int`)**
+- **`RPMTAG_SUPPLEMENTVERSION` (`int`)**
+- **`RPMTAG_SYSUSERS` (`int`)** — Requires librpm >= 4.19
+- **`RPMTAG_TRANSFILETRIGGERCONDS` (`int`)**
+- **`RPMTAG_TRANSFILETRIGGERFLAGS` (`int`)**
+- **`RPMTAG_TRANSFILETRIGGERINDEX` (`int`)**
+- **`RPMTAG_TRANSFILETRIGGERNAME` (`int`)** — Transaction file trigger name, with database index, requires librpm >= 4.13.
+- **`RPMTAG_TRANSFILETRIGGERPRIORITIES` (`int`)**
+- **`RPMTAG_TRANSFILETRIGGERSCRIPTFLAGS` (`int`)**
+- **`RPMTAG_TRANSFILETRIGGERSCRIPTPROG` (`int`)**
+- **`RPMTAG_TRANSFILETRIGGERSCRIPTS` (`int`)**
+- **`RPMTAG_TRANSFILETRIGGERTYPE` (`int`)**
+- **`RPMTAG_TRANSFILETRIGGERVERSION` (`int`)**
+- **`RPMTAG_TRANSLATIONURL` (`int`)** — Requires librpm >= 4.18
+- **`RPMTAG_TRIGGERCONDS` (`int`)**
+- **`RPMTAG_TRIGGERFLAGS` (`int`)**
+- **`RPMTAG_TRIGGERINDEX` (`int`)**
+- **`RPMTAG_TRIGGERNAME` (`int`)** — Trigger name, with database index.
+- **`RPMTAG_TRIGGERSCRIPTFLAGS` (`int`)**
+- **`RPMTAG_TRIGGERSCRIPTPROG` (`int`)**
+- **`RPMTAG_TRIGGERSCRIPTS` (`int`)**
+- **`RPMTAG_TRIGGERTYPE` (`int`)**
+- **`RPMTAG_TRIGGERVERSION` (`int`)**
+- **`RPMTAG_UPSTREAMRELEASES` (`int`)** — Requires librpm >= 4.18
+- **`RPMTAG_URL` (`int`)**
+- **`RPMTAG_V` (`int`)**
+- **`RPMTAG_VCS` (`int`)**
+- **`RPMTAG_VENDOR` (`int`)**
+- **`RPMTAG_VERBOSE` (`int`)**
+- **`RPMTAG_VERIFYSCRIPT` (`int`)**
+- **`RPMTAG_VERIFYSCRIPTFLAGS` (`int`)**
+- **`RPMTAG_VERIFYSCRIPTPROG` (`int`)**
+- **`RPMTAG_VERITYSIGNATUREALGO` (`int`)** — With librpm >= 4.17.
+- **`RPMTAG_VERITYSIGNATURES` (`int`)** — With librpm >= 4.17.
+- **`RPMTAG_VERSION` (`int`)**
+- **`RPMTAG_XPM` (`int`)**

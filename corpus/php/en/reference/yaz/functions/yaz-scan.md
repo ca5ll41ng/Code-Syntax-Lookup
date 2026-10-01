@@ -1,0 +1,70 @@
+---
+id: "en-php-function-function-yaz-scan"
+language: "php"
+lang: "en"
+category: "function"
+name: "yaz_scan"
+title: "Prepares for a scan"
+signature: "void yaz_scan(resource $id, string $type, string $startterm, [array $flags = ...])"
+module: "yaz"
+source_url: "https://www.php.net/manual/en/function.yaz-scan.php"
+license: "CC-BY-3.0"
+updated: "2026-10-01"
+---
+
+# Prepares for a scan
+
+## Description
+
+```php
+void yaz_scan(resource $id, string $type, string $startterm, [array $flags = ...])
+```
+
+This function prepares for a Z39.50 Scan Request on the specified connection.
+
+To actually transfer the Scan Request to the server and receive the Scan Response, `yaz_wait()` must be called. Upon completion of `yaz_wait()` call `yaz_error()` and `yaz_scan_result()` to handle the response.
+
+## Parameters
+
+- **`$id`** — The connection resource returned by `yaz_connect()`.
+- **`$type`** — Currently only type `rpn` is supported.
+- **`$startterm`** — Starting term point for the scan. — The form in which the starting term is specified is given by parameter `$type`. — The syntax this parameter is similar to the RPN query as described in `yaz_search()`. It consists of zero or more `@attr`-operator specifications, then followed by exactly one token.
+- **`$flags`** — This optional parameter specifies additional information to control the behaviour of the scan request. Three indexes are currently read from the flags array: `number` (number of terms requested), `position` (preferred position of term) and `stepSize` (preferred step size).
+
+## Return Values
+
+No value is returned.
+
+## Examples
+
+**PHP function that scans titles**
+
+```php
+
+
+<?php
+function scan_titles($id, $startterm) 
+{
+  yaz_scan($id, "rpn", "@attr 1=4 " . $startterm);
+  yaz_wait();
+  $errno = yaz_errno($id);
+  if ($errno == 0) {
+    $ar = yaz_scan_result($id, $options);
+    echo 'Scan ok; ';
+    foreach ($options as $key => $val) {
+      echo "$key = $val ";
+    }
+    echo '<br /><table>';
+    while (list($key, list($k, $term, $tcount)) = each($ar)) {
+      if (empty($k)) continue;
+      echo "<tr><td>$term</td><td>$tcount</td></tr>";
+    }
+    echo '</table>';
+  } else {
+    echo "Scan failed. Error: " . yaz_error($id) . "<br />";
+  }
+}
+?>
+
+    
+```

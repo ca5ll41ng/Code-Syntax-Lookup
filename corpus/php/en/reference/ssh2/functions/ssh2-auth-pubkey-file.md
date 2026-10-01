@@ -1,0 +1,65 @@
+---
+id: "en-php-function-function-ssh2-auth-pubkey-file"
+language: "php"
+lang: "en"
+category: "function"
+name: "ssh2_auth_pubkey_file"
+title: "Authenticate using a public key read from a file"
+signature: "bool ssh2_auth_pubkey_file(resource $session, string $username, string $pubkeyfile, string $privkeyfile, [string $passphrase = ...])"
+module: "ssh2"
+source_url: "https://www.php.net/manual/en/function.ssh2-auth-pubkey-file.php"
+license: "CC-BY-3.0"
+updated: "2026-10-01"
+---
+
+# Authenticate using a public key read from a file
+
+## Description
+
+```php
+bool ssh2_auth_pubkey_file(resource $session, string $username, string $pubkeyfile, string $privkeyfile, [string $passphrase = ...])
+```
+
+Authenticate using a public key read from a file.
+
+## Parameters
+
+- **`$session`** — An SSH connection link identifier, obtained from a call to `ssh2_connect()`.
+- **`$username`** — Name of the user to authenticate as on the remote server.
+- **`$pubkeyfile`** — The public key file needs to be in OpenSSH's format. It should look something like: — ssh-rsa AAAAB3NzaC1yc2EAAA....NX6sqSnHA8= rsa-key-20121110
+- **`$privkeyfile`**
+- **`$passphrase`** — If `$privkeyfile` is encrypted (which it should be), the `$passphrase` must be provided.
+
+## Return Values
+
+Returns `true` on success or `false` on failure.
+
+## Examples
+
+**Authentication using a public key**
+
+```php
+
+
+<?php
+$connection = ssh2_connect('shell.example.com', 22, array('hostkey'=>'ssh-rsa'));
+
+if (ssh2_auth_pubkey_file($connection, 'username',
+                          '/home/username/.ssh/id_rsa.pub',
+                          '/home/username/.ssh/id_rsa', 'secret')) {
+  echo "Public Key Authentication Successful\n";
+} else {
+  die('Public Key Authentication Failed');
+}
+?>
+
+   
+```
+
+## Notes
+
+> The underlying libssh2 library doesn't support partial auths very cleanly. That is, if you need to supply both a public key and a password it will appear as if this function has failed. In this particular case a failure from this call may just mean that auth hasn't been completed yet. You would need to ignore this failure and continue on and call `ssh2_auth_password()` in order to complete authentication.
+
+## See Also
+
+ `ssh2_auth_pubkey()`

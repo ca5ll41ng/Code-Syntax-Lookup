@@ -1,0 +1,95 @@
+---
+id: "en-php-function-function-cubrid-set-drop"
+language: "php"
+lang: "en"
+category: "function"
+name: "cubrid_set_drop"
+title: "Delete an element from set type column using OID"
+signature: "bool cubrid_set_drop(resource $conn_identifier, string $oid, string $attr_name, string $set_element)"
+module: "cubrid"
+source_url: "https://www.php.net/manual/en/function.cubrid-set-drop.php"
+license: "CC-BY-3.0"
+updated: "2026-10-01"
+---
+
+# Delete an element from set type column using OID
+
+## Description
+
+```php
+bool cubrid_set_drop(resource $conn_identifier, string $oid, string $attr_name, string $set_element)
+```
+
+The `cubrid_set_drop()` function is used to delete an element that you request from the given set type (set, multiset) attribute of the database.
+
+## Parameters
+
+- **`$conn_identifier`** — Connection identifier.
+- **`$oid`** — OID of the instance you want to work with.
+- **`$attr_name`** — Name of the attribute you want to delete an element from.
+- **`$set_element`** — Content of the element you want to delete.
+
+## Return Values
+
+Returns `true` on success or `false` on failure.
+
+## Examples
+
+**`cubrid_set_drop()` example**
+
+```php
+
+
+<?php
+$conn = cubrid_connect("localhost", 33000, "demodb", "dba");
+
+@cubrid_execute($conn, "DROP TABLE foo");
+cubrid_execute($conn, "CREATE TABLE foo(a int AUTO_INCREMENT, b set(int), c list(int), d char(10))");
+cubrid_execute($conn, "INSERT INTO foo(a, b, c, d) VALUES(1, {1,2,3}, {11,22,33,333}, 'a')");
+
+$req = cubrid_execute($conn, "SELECT * FROM foo", CUBRID_INCLUDE_OID);
+
+cubrid_move_cursor($req, 1, CUBRID_CURSOR_FIRST);
+$oid = cubrid_current_oid($req);
+
+$attr = cubrid_col_get($conn, $oid, "b");
+var_dump($attr);
+
+cubrid_set_drop($conn, $oid, "b", "1");
+
+$attr = cubrid_col_get($conn, $oid, "b");
+var_dump($attr);
+
+cubrid_close_request($req);
+cubrid_disconnect($conn);
+?>
+
+   
+```
+
+The above example will output:
+
+```text
+
+
+array(3) {
+  [0]=>
+  string(1) "1"
+  [1]=>
+  string(1) "2"
+  [2]=>
+  string(1) "3"
+}
+array(2) {
+  [0]=>
+  string(1) "2"
+  [1]=>
+  string(1) "3"
+}
+
+   
+```
+
+## See Also
+
+ `cubrid_set_add()`

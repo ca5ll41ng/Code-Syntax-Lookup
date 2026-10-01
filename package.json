@@ -1,0 +1,23 @@
+{
+  "name": "code-syntax-lookup",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "白盒审计用多语言语法与安全知识库（人可搜索，AI 可读取）",
+  "license": "MIT",
+  "scripts": {
+    "adapter": "node sources/php_adapter.mjs",
+    "enrich": "node pipeline/enrich.mjs",
+    "index": "node pipeline/index.mjs",
+    "llmstxt": "node pipeline/llmstxt.mjs",
+    "site:build": "node pipeline/build_site.mjs && cd docs-site && npx pagefind --site dist",
+    "site:preview": "cd docs-site && npx pagefind --site dist --serve",
+    "build": "npm run adapter && npm run enrich && npm run index && npm run llmstxt && npm run site:build",
+    "test": "node test/mcp_smoke.mjs",
+    "mcp": "node server/mcp_server.mjs"
+  },
+  "dependencies": {
+    "fast-xml-parser": "^5.11.2",
+    "markdown-it": "^15.0.2"
+  }
+}

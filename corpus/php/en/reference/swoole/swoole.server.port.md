@@ -1,0 +1,18 @@
+---
+id: "en-php-guide-class-swoole-server-port"
+language: "php"
+lang: "en"
+category: "guide"
+name: "class.swoole-server-port"
+title: "The Swoole\\Server\\Port class"
+module: "swoole"
+source_url: "https://www.php.net/manual/en/class.swoole-server-port.php"
+license: "CC-BY-3.0"
+updated: "2026-10-01"
+---
+
+# The Swoole\Server\Port class
+
+Swoole\Server\Port
+
+   Introduction       Class Synopsis   `Swoole\Server\Port`    `Swoole\Server\Port`

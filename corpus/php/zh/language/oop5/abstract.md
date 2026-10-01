@@ -1,0 +1,220 @@
+---
+id: "zh-php-syntax-language-oop5-abstract"
+language: "php"
+lang: "zh"
+category: "syntax"
+name: "language.oop5.abstract"
+title: "抽象类"
+module: "language"
+source_url: "https://www.php.net/manual/zh/language.oop5.abstract.php"
+license: "CC-BY-3.0"
+updated: "2026-10-01"
+---
+
+# 抽象类
+
+PHP 有抽象类、抽象方法和抽象属性。定义为抽象的类无法实例化。任何一个类，如果它里面有一个方法或者属性是声明为抽象，那么这个类就必须被声明为抽象。定义为抽象的方法仅声明方法的签名以及它是 public 还是 protected；但无法定义实现。定义为抽象的属性可以声明 `get` 或 `set` 行为的要求，并且可以为一个（但不是全部）操作提供实现。
+
+继承一个抽象类的时候，子类必须定义父类中的所有抽象方法， 并遵循常规的 继承 签名兼容性 规则。
+
+自 PHP 8.4 起，抽象类可以声明抽象属性，可以是 public，也可以是 protected。protected 抽象属性可以从 protected 或 public 作用域读取/写入的属性满足。
+
+抽象属性可以由标准属性或挂钩属性来满足，与所需的操作相对应。
+
+**抽象方法示例**
+
+```php
+
+
+<?php
+
+abstract class AbstractClass
+{
+    // 强制要求子类定义这些方法
+    abstract protected function getValue();
+    abstract protected function prefixValue($prefix);
+
+    // 普通方法（非抽象方法）
+    public function printOut()
+    {
+        print $this->getValue() . "\n";
+    }
+}
+
+class ConcreteClass1 extends AbstractClass
+{
+    protected function getValue()
+    {
+        return "ConcreteClass1";
+    }
+
+    public function prefixValue($prefix)
+    {
+        return "{$prefix}ConcreteClass1";
+    }
+}
+
+class ConcreteClass2 extends AbstractClass
+{
+    public function getValue()
+    {
+        return "ConcreteClass2";
+    }
+
+    public function prefixValue($prefix)
+    {
+        return "{$prefix}ConcreteClass2";
+    }
+}
+
+$class1 = new ConcreteClass1();
+$class1->printOut();
+echo $class1->prefixValue('FOO_'), "\n";
+
+$class2 = new ConcreteClass2();
+$class2->printOut();
+echo $class2->prefixValue('FOO_'), "\n";
+
+?>
+
+   
+```
+
+以上示例会输出：
+
+```text
+
+
+ConcreteClass1
+FOO_ConcreteClass1
+ConcreteClass2
+FOO_ConcreteClass2
+
+   
+```
+
+**抽象方法示例**
+
+```php
+
+
+<?php
+
+abstract class AbstractClass
+{
+    // 抽象方法仅需要定义需要的参数
+    abstract protected function prefixName($name);
+}
+
+class ConcreteClass extends AbstractClass
+{
+    // 子类可以定义父类签名中不存在的可选参数
+    public function prefixName($name, $separator = ".")
+    {
+        if ($name == "Pacman") {
+            $prefix = "Mr";
+        } elseif ($name == "Pacwoman") {
+            $prefix = "Mrs";
+        } else {
+            $prefix = "";
+        }
+
+        return "{$prefix}{$separator} {$name}";
+    }
+}
+
+$class = new ConcreteClass();
+echo $class->prefixName("Pacman"), "\n";
+echo $class->prefixName("Pacwoman"), "\n";
+
+?>
+
+   
+```
+
+以上示例会输出：
+
+```text
+
+
+Mr. Pacman
+Mrs. Pacwoman
+
+   
+```
+
+**抽象属性示例**
+
+```php
+
+
+<?php
+
+abstract class A
+{
+    // 继承类必须具有可 public get 的属性
+    abstract public string $readable {
+        get;
+    }
+
+    // 继承类必须具有 protected 或 public set 的属性
+    abstract protected string $writeable {
+        set;
+    }
+
+    // 继承类必须具有 protected 或 public 的对称属性。
+    abstract protected string $both {
+        get;
+        set;
+    }
+}
+
+class C extends A
+{
+    // 这满足了要求，也使其可 set，这是有效的
+    public string $readable;
+
+    // 这不能满足要求，因为它不能 public 可读
+    protected string $readable;
+
+    // 这正好满足要求，所以足够了。
+    // 它只能被写入，并且只能从 protected 作用域进行写入。
+    protected string $writeable {
+        set => $value;
+    }
+
+    // 这将访问控制从 protected 继承为 public，这很好
+    public string $both;
+}
+
+?>
+
+   
+```
+
+抽象类上的抽象属性可以为任何挂钩提供实现，必须声明 `get` 或 `set` 但是没有定义（如上例所示）。
+
+**带有挂钩的抽象属性示例**
+
+```php
+
+
+<?php
+
+abstract class A
+{
+    // 这提供了默认（但可覆盖）set 实现，
+    // 并要求子类提供 get 实现
+    abstract public string $foo {
+        get;
+
+        set {
+            $this->foo = $value;
+        }
+    }
+}
+
+?>
+ 
+   
+```
