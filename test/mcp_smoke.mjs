@@ -55,7 +55,7 @@ const l1 = await rpc('tools/call', { name: 'list_dangerous', arguments: { langua
 check('list_dangerous sink CWE-78', (text(l1).match(/^- /gm) || []).length >= 5, text(l1).split('\n').slice(0, 2).join(' / '));
 
 const st = await rpc('tools/call', { name: 'kb_stats', arguments: {} });
-check('kb_stats', /"total":\s*2\d\d\d\d/.test(text(st)), text(st).replace(/\s+/g, ' ').slice(0, 80));
+check('kb_stats', /"total":\s*39\d\d\d/.test(text(st)), text(st).replace(/\s+/g, ' ').slice(0, 80));
 
 const s3 = await rpc('tools/call', { name: 'search_syntax', arguments: { language: 'python', query: 'eval', limit: 3 } });
 check('search_syntax python[eval] B307', /B307|CWE-78/.test(text(s3)), text(s3).split('\n').filter((l) => l.startsWith('1.'))[0]);
@@ -65,6 +65,15 @@ check('get_entry python[pickle.loads]', /pickle|loads/i.test(text(g2)) && text(g
 
 const l2 = await rpc('tools/call', { name: 'list_dangerous', arguments: { language: 'python', type: 'sink', limit: 20 } });
 check('list_dangerous python sink', (text(l2).match(/^- /gm) || []).length >= 10, text(l2).split('\n').slice(0, 2).join(' / '));
+
+const s4 = await rpc('tools/call', { name: 'search_syntax', arguments: { language: 'java', query: 'Runtime.exec', limit: 3 } });
+check('search_syntax java[Runtime.exec] CWE-78', /CWE-78|command/.test(text(s4)), text(s4).split('\n').filter((l) => l.startsWith('1.'))[0]);
+
+const g3 = await rpc('tools/call', { name: 'get_entry', arguments: { language: 'java', name: 'java.sql.Statement.executeQuery' } });
+check('get_entry java[Statement.executeQuery]', /executeQuery/i.test(text(g3)) && /CWE-89|sql/i.test(text(g3)), text(g3).split('\n')[0]);
+
+const l3 = await rpc('tools/call', { name: 'list_dangerous', arguments: { language: 'java', cwe: 'CWE-78', limit: 10 } });
+check('list_dangerous java CWE-78', (text(l3).match(/^- /gm) || []).length >= 2, text(l3).split('\n').slice(0, 2).join(' / '));
 
 proc.kill();
 const failed = results.filter((r) => !r.ok);

@@ -1,0 +1,38 @@
+---
+id: "java-en-function-linkedblockingdeque-toarray"
+language: "java"
+lang: "en"
+category: "function"
+name: "LinkedBlockingDeque.toArray"
+signature: "public Object[] toArray()"
+title: "LinkedBlockingDeque.toArray"
+directive: "method"
+module: "java.base/java.util.concurrent"
+source_url: "https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/LinkedBlockingDeque.html"
+license: "GPL-2.0-with-classpath-exception"
+updated: "2026-10-01"
+---
+
+# LinkedBlockingDeque.toArray
+
+```java
+public Object[] toArray()
+```
+
+Returns an array containing all of the elements in this deque, in
+ proper sequence (from first to last element).
+
+ 
+
+The returned array will be "safe" in that no references to it are
+ maintained by this deque.  (In other words, this method must allocate
+ a new array).  The caller is thus free to modify the returned array.
+
+ 
+
+This method acts as bridge between array-based and collection-based
+ APIs.
+
+**返回**
+
+- an array containing all of the elements in this deque

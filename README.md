@@ -5,7 +5,7 @@
 - **人**：轻量静态站点 + Pagefind 搜索（中文分词，纯静态可离线部署）
 - **AI**：MCP 服务器（`search_syntax` / `get_entry` / `list_dangerous` / `kb_stats`）+ [llms.txt](llms.txt) 标准导出 + SQLite 双索引（FTS5 全文，向量层预留）
 
-当前状态：**PHP + Python 全链路已打通**（Java 的 source adapter 按 [完整方案](完整方案.md) 的 M3 计划接入）。
+当前状态：**PHP + Python + Java 三语言全链路已打通**。
 
 ## 语料
 
@@ -15,13 +15,15 @@
 | PHP 危险函数标注（sink/source/sanitizer/validator + CWE） | [designsecurity/progpilot](https://github.com/designsecurity/progpilot) | MIT |
 | Python 标准库/语言参考/PEG 语法（中文 .po 段落级对齐，无翻译回退英文） | [python/cpython](https://github.com/python/cpython) Doc/ + [python-docs-zh-cn](https://github.com/python/python-docs-zh-cn) 3.14 分支 | PSF |
 | Python 危险调用/导入（B3xx 规则 + CWE） | [PyCQA/bandit](https://github.com/PyCQA/bandit) | Apache-2.0 |
+| Java API（javadoc 提取，审计核心模块白名单）+ JLS 语法（ANTLR 移植） | [openjdk/jdk](https://github.com/openjdk/jdk) src/ + [antlr/grammars-v4](https://github.com/antlr/grammars-v4) java/ | GPLv2+CE / MIT |
+| Java 污点 sink（按漏洞类型×框架细分 + 参数位 + CWE） | [find-sec-bugs/find-sec-bugs](https://github.com/find-sec-bugs/find-sec-bugs) | LGPL-3.0 |
 
-规模：**21,360 条**，其中 PHP 11,177（中文 3,150）+ Python 10,184（中文 2,829）；317 条带危险标注。
+规模：**39,628 条**（PHP 11,177 · Python 10,184 · Java 18,268），367 条带危险标注。Java 无官方中文，条目 lang=en，中文提问靠多语言 embedding 跨语言检索（M4）。
 
 ## 快速开始
 
 ```bash
-# 0) 拉取源仓库（浅克隆；cpython 稀疏克隆只取 Doc 与 Grammar）
+# 0) 拉取源仓库（浅克隆；cpython/openjdk/grammars-v4 稀疏克隆只取所需目录）
 git clone --depth 1 https://github.com/php/doc-en raw/doc-en
 git clone --depth 1 https://github.com/php/doc-zh raw/doc-zh
 git clone --depth 1 https://github.com/designsecurity/progpilot raw/progpilot
@@ -30,6 +32,10 @@ git -C raw/cpython sparse-checkout set Doc Grammar
 git clone --depth 1 https://github.com/python/python-docs-zh-cn raw/python-docs-zh-cn
 git -C raw/python-docs-zh-cn fetch --depth 1 origin 3.14 && git -C raw/python-docs-zh-cn checkout FETCH_HEAD
 git clone --depth 1 https://github.com/PyCQA/bandit raw/bandit
+git clone --depth 1 --filter=blob:none --sparse https://github.com/openjdk/jdk raw/openjdk
+git -C raw/openjdk sparse-checkout set src
+git clone --depth 1 --filter=blob:none --sparse https://github.com/antlr/grammars-v4 raw/grammars-v4
+git -C raw/grammars-v4 sparse-checkout set java php python
 
 # 1) 全量构建（转换 → 危险标注 → SQLite → llms.txt → 静态站点）
 npm install && (cd docs-site && npm install)
@@ -53,6 +59,7 @@ knowledge.db                 # 【产物】SQLite：docs 表 + docs_fts 全文�
 llms.txt / corpus/*/llms*    # 【产物】llmstxt.org v2 导出
 sources/php_adapter.mjs      # DocBook XML → Markdown 转换器（中文优先合并）
 sources/python_adapter.mjs   # reST/Sphinx → Markdown（按指令切条目 + .po 中文对齐）
+sources/java_adapter.mjs     # javadoc 提取器（源码掩码状态机）+ ANTLR 语法条目
 pipeline/enrich.mjs          # progpilot(PHP) / bandit(Python) → danger/CWE 标注注入
 pipeline/index.mjs           # SQLite 建库（CJK bigram + unicode61）
 pipeline/llmstxt.mjs         # llms.txt 导出

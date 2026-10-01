@@ -1,0 +1,62 @@
+---
+id: "java-en-function-locksupport-parknanos"
+language: "java"
+lang: "en"
+category: "function"
+name: "LockSupport.parkNanos"
+signature: "public static void parkNanos(Object blocker, long nanos)"
+title: "LockSupport.parkNanos"
+directive: "method"
+module: "java.base/java.util.concurrent.locks"
+source_url: "https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/locks/LockSupport.html"
+license: "GPL-2.0-with-classpath-exception"
+updated: "2026-10-01"
+---
+
+# LockSupport.parkNanos
+
+```java
+public static void parkNanos(Object blocker, long nanos)
+```
+
+Disables the current thread for thread scheduling purposes, for up to
+ the specified waiting time, unless the permit is available.
+
+ 
+
+If the specified waiting time is zero or negative, the
+ method does nothing. Otherwise, if the permit is available then
+ it is consumed and the call returns immediately; otherwise the
+ current thread becomes disabled for thread scheduling purposes
+ and lies dormant until one of four things happens:
+
+ 
+ 
+- Some other thread invokes `unpark unpark` with the
+ current thread as the target; or
+
+ 
+- Some other thread `interrupt interrupts`
+ the current thread; or
+
+ 
+- The specified waiting time elapses; or
+
+ 
+- The call spuriously (that is, for no reason) returns.
+ 
+
+ 
+
+This method does not report which of these caused the
+ method to return. Callers should re-check the conditions which caused
+ the thread to park in the first place. Callers may also determine,
+ for example, the interrupted status of the thread, or the elapsed time
+ upon return.
+
+**参数**
+
+- **blocker** — the synchronization object responsible for this thread parking
+- **nanos** — the maximum number of nanoseconds to wait
+
+> *Since 1.6*

@@ -1,0 +1,78 @@
+---
+id: "java-en-function-java-util-concurrent-concurrentskiplistmap"
+language: "java"
+lang: "en"
+category: "function"
+name: "java.util.concurrent.ConcurrentSkipListMap"
+title: "ConcurrentSkipListMap"
+directive: "type"
+module: "java.base/java.util.concurrent"
+source_url: "https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/ConcurrentSkipListMap.html"
+license: "GPL-2.0-with-classpath-exception"
+updated: "2026-10-01"
+---
+
+# ConcurrentSkipListMap
+
+A scalable concurrent `ConcurrentNavigableMap` implementation.
+ The map is sorted according to the `Comparable natural
+ ordering` of its keys, or by a `Comparator` provided at map
+ creation time, depending on which constructor is used.
+
+ 
+
+This class implements a concurrent variant of SkipLists
+ providing expected average log(n) time cost for the
+ `containsKey`, `get`, `put` and
+ `remove` operations and their variants.  Insertion, removal,
+ update, and access operations safely execute concurrently by
+ multiple threads.
+
+ 
+
+Iterators and spliterators are
+ weakly consistent.
+
+ 
+
+Ascending key ordered views and their iterators are faster than
+ descending ones.
+
+ 
+
+All `Map.Entry` pairs returned by methods in this class
+ and its views represent snapshots of mappings at the time they were
+ produced. They do not support the `Entry.setValue`
+ method. (Note however that it is possible to change mappings in the
+ associated map using `put`, `putIfAbsent`, or
+ `replace`, depending on exactly which effect you need.)
+
+ 
+
+Beware that bulk operations `putAll`, `equals`,
+ `toArray`, `containsValue`, and `clear` are
+ not guaranteed to be performed atomically. For example, an
+ iterator operating concurrently with a `putAll` operation
+ might view only some of the added elements.
+
+ 
+
+This class and its views and iterators implement all of the
+ optional methods of the `Map` and `Iterator`
+ interfaces. Like most other concurrent collections, this class does
+ not permit the use of `null` keys or values because some
+ null return values cannot be reliably distinguished from the absence of
+ elements.
+
+ 
+
+This class is a member of the
+ 
+ Java Collections Framework.
+
+**参数**
+
+- **the** — type of keys maintained by this map
+- **the** — type of mapped values
+
+> *Since 1.6*

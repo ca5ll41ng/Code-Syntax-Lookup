@@ -1,0 +1,26 @@
+---
+id: "java-en-function-submissionpublisher-getnumberofsubscribers"
+language: "java"
+lang: "en"
+category: "function"
+name: "SubmissionPublisher.getNumberOfSubscribers"
+signature: "public int getNumberOfSubscribers()"
+title: "SubmissionPublisher.getNumberOfSubscribers"
+directive: "method"
+module: "java.base/java.util.concurrent"
+source_url: "https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/SubmissionPublisher.html"
+license: "GPL-2.0-with-classpath-exception"
+updated: "2026-10-01"
+---
+
+# SubmissionPublisher.getNumberOfSubscribers
+
+```java
+public int getNumberOfSubscribers()
+```
+
+Returns the number of current subscribers.
+
+**返回**
+
+- the number of current subscribers

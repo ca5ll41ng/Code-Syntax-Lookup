@@ -126,9 +126,55 @@ function banditProvider() {
   return map;
 }
 
+// ---------- java：FindSecBugs injection-sinks/*.txt（LGPL-3.0，保留出处） ----------
+// 行格式：java/sql/Statement.executeQuery(Ljava/lang/String;)Ljava/sql/ResultSet;:0
+// = FQCN.方法(JVM描述符):污点参数位
+const SINK_CWE = [
+  ['sql', 'CWE-89'], ['command', 'CWE-78'], ['xss', 'CWE-79'], ['path-traversal', 'CWE-22'],
+  ['ldap', 'CWE-90'], ['xpath', 'CWE-643'], ['ssrf', 'CWE-918'], ['el', 'CWE-94'], ['spel', 'CWE-94'],
+  ['script-engine', 'CWE-94'], ['seam-el', 'CWE-94'], ['deserialization', 'CWE-502'], ['crlf', 'CWE-117'],
+  ['formatter', 'CWE-134'], ['smtp', 'CWE-93'], ['trust-boundary', 'CWE-501'], ['response-splitting', 'CWE-113'],
+  ['http-parameter-pollution', 'CWE-472'], ['beans', 'CWE-15'],
+];
+function sinkCwe(fileBase) {
+  const f = fileBase.toLowerCase();
+  for (const [k, v] of SINK_CWE) if (f.includes(k)) return v;
+  return null;
+}
+
+function findsecbugsProvider() {
+  const DIR = path.join(RAW, 'find-sec-bugs', 'findsecbugs-plugin', 'src', 'main', 'resources', 'injection-sinks');
+  const map = new Map();
+  if (!fs.existsSync(DIR)) return map;
+  for (const f of fs.readdirSync(DIR)) {
+    if (!f.endsWith('.txt')) continue;
+    const base = f.replace(/\.txt$/, '');
+    const cwe = sinkCwe(base);
+    const attack = base;
+    for (const rawLine of fs.readFileSync(path.join(DIR, f), 'utf8').split('\n')) {
+      const line = rawLine.trim();
+      if (!line || line.startsWith('#')) continue;
+      const colon = line.lastIndexOf(':');
+      if (colon < 0) continue;
+      const sig = line.slice(0, colon);
+      const params = line.slice(colon + 1).split(',').map((x) => parseInt(x, 10)).filter((x) => !isNaN(x));
+      const paren = sig.indexOf('(');
+      const cls = sig.slice(0, paren).split('/').slice(0, -1).join('.');
+      const method = sig.slice(0, paren).split('/').pop();
+      if (!cls || !method) continue;
+      const key = `${cls}.${method}`.toLowerCase();
+      const entry = { type: 'sink', attack, ...(cwe ? { cwe } : {}), ...(params.length ? { params } : {}) };
+      if (!map.has(key)) map.set(key, []);
+      map.get(key).push(entry);
+    }
+  }
+  return map;
+}
+
 const PROVIDERS = {
   php: progpilotProvider,
   python: banditProvider,
+  java: findsecbugsProvider,
 };
 
 // ---------- 合并同名多条记录 ----------
@@ -198,6 +244,12 @@ for (const [language, provider] of Object.entries(PROVIDERS)) {
       const { fm, order, body } = parsed;
       const candidates = [String(fm.name || '').toLowerCase()];
       if (Array.isArray(fm.aliases)) for (const a of fm.aliases) candidates.push(String(a).toLowerCase());
+      // java 条目：module = "java.base/java.sql"，取包部分拼出全限定名 java.sql.Statement.executeQuery
+      if (fm.module) {
+        const modPart = String(fm.module);
+        const pkgPart = modPart.includes('/') ? modPart.split('/').pop() : modPart;
+        if (pkgPart && candidates[0]) candidates.push(`${pkgPart}.${candidates[0]}`.toLowerCase());
+      }
       if (fm.module && candidates[0] && !candidates[0].includes('.')) candidates.push(`${fm.module}.${candidates[0]}`.toLowerCase());
       const records = [];
       for (const c of candidates) if (dangerMap.has(c)) records.push(...dangerMap.get(c));

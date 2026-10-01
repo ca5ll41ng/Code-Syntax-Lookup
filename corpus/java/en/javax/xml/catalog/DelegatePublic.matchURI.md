@@ -1,0 +1,33 @@
+---
+id: "java-en-function-delegatepublic-matchuri"
+language: "java"
+lang: "en"
+category: "function"
+name: "DelegatePublic.matchURI"
+signature: "public URI matchURI(String publicId, int currentMatch)"
+title: "DelegatePublic.matchURI"
+directive: "method"
+module: "java.xml/javax.xml.catalog"
+source_url: "https://docs.oracle.com/en/java/javase/21/docs/api/java.xml/javax/xml/catalog/DelegatePublic.html"
+license: "GPL-2.0-with-classpath-exception"
+updated: "2026-10-01"
+---
+
+# DelegatePublic.matchURI
+
+```java
+public URI matchURI(String publicId, int currentMatch)
+```
+
+Try to match the specified publicId with the entry. Return the match if it
+ is successful and the length of the publicIdStartString is longer than the
+ longest of any previous match.
+
+**参数**
+
+- **publicId** — The publicId to be matched.
+- **currentMatch** — The length of publicIdStartString of previous match if any.
+
+**返回**
+
+- The replacement URI if the match is successful, null if not.

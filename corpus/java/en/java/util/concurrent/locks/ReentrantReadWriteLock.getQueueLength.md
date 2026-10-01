@@ -1,0 +1,31 @@
+---
+id: "java-en-function-reentrantreadwritelock-getqueuelength"
+language: "java"
+lang: "en"
+category: "function"
+name: "ReentrantReadWriteLock.getQueueLength"
+signature: "public final int getQueueLength()"
+title: "ReentrantReadWriteLock.getQueueLength"
+directive: "method"
+module: "java.base/java.util.concurrent.locks"
+source_url: "https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/locks/ReentrantReadWriteLock.html"
+license: "GPL-2.0-with-classpath-exception"
+updated: "2026-10-01"
+---
+
+# ReentrantReadWriteLock.getQueueLength
+
+```java
+public final int getQueueLength()
+```
+
+Returns an estimate of the number of threads waiting to acquire
+ either the read or write lock.  The value is only an estimate
+ because the number of threads may change dynamically while this
+ method traverses internal data structures.  This method is
+ designed for use in monitoring system state, not for
+ synchronization control.
+
+**返回**
+
+- the estimated number of threads waiting for this lock

@@ -1,0 +1,22 @@
+---
+id: "java-en-function-httpurlconnection-http_not_found"
+language: "java"
+lang: "en"
+category: "function"
+name: "HttpURLConnection.HTTP_NOT_FOUND"
+signature: "public static final int HTTP_NOT_FOUND = 404"
+title: "HttpURLConnection.HTTP_NOT_FOUND"
+directive: "field"
+module: "java.base/java.net"
+source_url: "https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/net/HttpURLConnection.html"
+license: "GPL-2.0-with-classpath-exception"
+updated: "2026-10-01"
+---
+
+# HttpURLConnection.HTTP_NOT_FOUND
+
+```java
+public static final int HTTP_NOT_FOUND = 404
+```
+
+HTTP Status-Code 404: Not Found.

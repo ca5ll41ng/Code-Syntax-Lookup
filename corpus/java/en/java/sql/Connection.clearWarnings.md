@@ -1,0 +1,29 @@
+---
+id: "java-en-function-connection-clearwarnings"
+language: "java"
+lang: "en"
+category: "function"
+name: "Connection.clearWarnings"
+signature: "void clearWarnings() throws SQLException"
+title: "Connection.clearWarnings"
+directive: "method"
+module: "java.sql/java.sql"
+source_url: "https://docs.oracle.com/en/java/javase/21/docs/api/java.sql/java/sql/Connection.html"
+license: "GPL-2.0-with-classpath-exception"
+updated: "2026-10-01"
+---
+
+# Connection.clearWarnings
+
+```java
+void clearWarnings() throws SQLException
+```
+
+Clears all warnings reported for this `Connection` object.
+ After a call to this method, the method `getWarnings`
+ returns `null` until a new warning is
+ reported for this `Connection` object.
+
+**异常**
+
+- **SQLException** — if a database access error occurs or this method is called on a closed connection

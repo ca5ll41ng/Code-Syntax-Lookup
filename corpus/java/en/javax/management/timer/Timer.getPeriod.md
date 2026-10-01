@@ -1,0 +1,30 @@
+---
+id: "java-en-function-timer-getperiod"
+language: "java"
+lang: "en"
+category: "function"
+name: "Timer.getPeriod"
+signature: "public synchronized Long getPeriod(Integer id)"
+title: "Timer.getPeriod"
+directive: "method"
+module: "java.management/javax.management.timer"
+source_url: "https://docs.oracle.com/en/java/javase/21/docs/api/java.management/javax/management/timer/Timer.html"
+license: "GPL-2.0-with-classpath-exception"
+updated: "2026-10-01"
+---
+
+# Timer.getPeriod
+
+```java
+public synchronized Long getPeriod(Integer id)
+```
+
+Gets a copy of the period (in milliseconds) associated to a timer notification.
+
+**参数**
+
+- **id** — The timer notification identifier.
+
+**返回**
+
+- A copy of the period or null if the identifier is not mapped to any timer notification registered for this timer MBean.

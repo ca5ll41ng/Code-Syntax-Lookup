@@ -72,7 +72,7 @@ export function getEntry({ language = 'php', name } = {}) {
   const row = db.prepare(
     `SELECT * FROM docs WHERE language = ? AND (
        lower(name) = ?
-       OR lower(module || '.' || name) = ?
+       OR lower(substr(module, instr(module, '/') + 1) || '.' || name) = ?
        OR (aliases IS NOT NULL AND instr(lower(aliases), '"' || ? || '"') > 0)
      )
      ORDER BY CASE lang WHEN 'zh' THEN 0 ELSE 1 END LIMIT 1`
