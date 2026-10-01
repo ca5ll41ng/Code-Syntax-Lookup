@@ -1,0 +1,25 @@
+# ---- Python（pipeline/sources/server）----
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.egg-info/
+
+# ---- Node / VitePress 站点 ----
+node_modules/
+docs-site/.vitepress/cache/
+docs-site/.vitepress/dist/
+
+# ---- 构建产物（由 make build 重新生成）----
+knowledge.db
+*.sqlite
+
+# ---- 环境与密钥 ----
+.env
+*.token
+
+# ---- 系统/编辑器 ----
+Thumbs.db
+.DS_Store
+.idea/
+.vscode/
