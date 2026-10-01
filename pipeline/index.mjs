@@ -58,7 +58,8 @@ export function dangerList(d) {
 }
 
 // ---------- 建库 ----------
-if (import.meta.url === `file://${process.argv[1].replace(/\\/g, '/')}` || process.argv[1].endsWith('index.mjs')) {
+const IS_MAIN = process.argv[1] && (process.argv[1].endsWith('index.mjs') || import.meta.url === `file://${process.argv[1].replace(/\\/g, '/')}`);
+if (IS_MAIN) {
   fs.rmSync(DB_PATH, { force: true });
   const db = new DatabaseSync(DB_PATH);
   db.exec('PRAGMA journal_mode = OFF;');

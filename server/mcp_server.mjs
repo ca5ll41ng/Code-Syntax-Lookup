@@ -2,6 +2,7 @@
 // 零依赖，newline-delimited JSON-RPC 2.0；工具：search_syntax / get_entry / list_dangerous / kb_stats
 import readline from 'node:readline';
 import * as kb from './kb.mjs';
+import * as rag from './rag.mjs';
 
 const SERVER_INFO = { name: 'code-syntax-lookup', version: '0.1.0' };
 
@@ -48,6 +49,18 @@ const TOOL_DEFS = [
     },
   },
   {
+    name: 'ask_audit',
+    description: '审计问答（RAG）：基于知识库混合检索（关键词+语义向量）回答审计问题，如"怎么防反序列化"。若本地 Ollama 可用则生成总结回答，否则返回检索结果。',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        language: { type: 'string', enum: ['php', 'python', 'java'], default: 'php' },
+        question: { type: 'string', description: '审计问题，中英文皆可' },
+      },
+      required: ['question'],
+    },
+  },
+  {
     name: 'kb_stats',
     description: '返回知识库统计（条目数、语言/分类/危险类型分布）。',
     inputSchema: { type: 'object', properties: {} },
@@ -63,10 +76,10 @@ function fmtDanger(d) {
   return parts.length ? '【' + parts.join(' | ') + '】' : '';
 }
 
-function handleTool(name, args) {
+async function handleTool(name, args) {
   switch (name) {
     case 'search_syntax': {
-      const rows = kb.searchSyntax(args);
+      const rows = await kb.searchSyntax(args);
       if (!rows.length) return '未找到匹配条目。可尝试英文关键词或函数名。';
       const lines = rows.map((r, i) => {
         let s = `${i + 1}. **${r.name}**${r.title ? ' — ' + r.title : ''}${r.lang ? ` [${r.lang}]` : ''}${r.danger_type ? ' ⚠ ' + fmtDanger({ type: r.danger_type, cwe: (r.cwe || '').split(',').filter(Boolean) }) : ''}`;
@@ -91,6 +104,10 @@ function handleTool(name, args) {
       if (!rows.length) return '无匹配的危险条目。';
       return rows.map((r) => `- **${r.name}** [${r.danger_type}${r.cwe ? ' | ' + r.cwe : ''}] ${r.title || ''}`).join('\n');
     }
+    case 'ask_audit': {
+      const r = await rag.askAudit(args);
+      return r.text;
+    }
     case 'kb_stats': {
       const s = kb.kbStats();
       return JSON.stringify(s, null, 2);
@@ -103,7 +120,7 @@ function handleTool(name, args) {
 const rl = readline.createInterface({ input: process.stdin, terminal: false });
 const send = (msg) => process.stdout.write(JSON.stringify(msg) + '\n');
 
-rl.on('line', (line) => {
+rl.on('line', async (line) => {
   const trimmed = line.trim();
   if (!trimmed) return;
   let msg;
@@ -130,7 +147,7 @@ rl.on('line', (line) => {
       case 'tools/call': {
         const { name, arguments: args } = params || {};
         try {
-          const text = handleTool(name, args || {});
+          const text = await handleTool(name, args || {});
           reply({ content: [{ type: 'text', text: String(text) }], isError: false });
         } catch (e) {
           reply({ content: [{ type: 'text', text: '工具执行失败: ' + e.message }], isError: true });

@@ -39,7 +39,7 @@ check('initialize 握手', init.result?.serverInfo?.name === 'code-syntax-lookup
 proc.stdin.write(JSON.stringify({ jsonrpc: '2.0', method: 'notifications/initialized' }) + '\n');
 
 const tools = await rpc('tools/list', {});
-check('tools/list', tools.result?.tools?.length === 4, tools.result?.tools?.map((t) => t.name).join(','));
+check('tools/list', tools.result?.tools?.length === 5, tools.result?.tools?.map((t) => t.name).join(','));
 
 const s1 = await rpc('tools/call', { name: 'search_syntax', arguments: { language: 'php', query: '上传文件', limit: 5 } });
 const s1First = text(s1).split('\n').filter((l) => l.startsWith('1.'))[0] || '';
@@ -74,6 +74,12 @@ check('get_entry java[Statement.executeQuery]', /executeQuery/i.test(text(g3)) &
 
 const l3 = await rpc('tools/call', { name: 'list_dangerous', arguments: { language: 'java', cwe: 'CWE-78', limit: 10 } });
 check('list_dangerous java CWE-78', (text(l3).match(/^- /gm) || []).length >= 2, text(l3).split('\n').slice(0, 2).join(' / '));
+
+const s5 = await rpc('tools/call', { name: 'search_syntax', arguments: { language: 'php', query: 'deserialization', limit: 8 } });
+check('search_syntax 命中 OWASP multi 条目', /Abuse|Deserialization|Cheat/i.test(text(s5)) || /Deserialization/i.test(text(s5)), text(s5).split('\n').filter((l) => l.startsWith('1.') || l.startsWith('2.'))[0]);
+
+const a1 = await rpc('tools/call', { name: 'ask_audit', arguments: { language: 'python', question: 'pickle 反序列化怎么防' } });
+check('ask_audit 降级为检索结果', /pickle|反序列化|检索/i.test(text(a1)) && !a1.result?.isError, text(a1).split('\n').slice(0, 2).join(' / '));
 
 proc.kill();
 const failed = results.filter((r) => !r.ok);

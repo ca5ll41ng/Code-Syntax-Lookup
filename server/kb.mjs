@@ -15,11 +15,57 @@ function toFtsQuery(text) {
   return bigram(text).split(/\s+/).filter(Boolean).map((w) => '"' + w.replace(/"/g, '""') + '"').join(' ');
 }
 
-// 检索：精确名命中 + FTS 全文（中文 bigram），zh 优先排序
-export function searchSyntax({ language = 'php', query = '', category, danger, lang, limit = 10 } = {}) {
+// ---------- 向量层（M4）：懒加载嵌入模型，查询侧余弦相似度，暴力扫描 ----------
+const EMBED_MODEL = 'Xenova/multilingual-e5-small';
+const MODELS_DIR = path.join(ROOT, '.models');
+let _embedder = null;
+
+async function getEmbedder() {
+  if (!_embedder) {
+    const { pipeline } = await import('@huggingface/transformers');
+    _embedder = await pipeline('feature-extraction', EMBED_MODEL, { dtype: 'q8', cache_dir: MODELS_DIR });
+  }
+  return _embedder;
+}
+
+async function embedQuery(q) {
+  const ex = await getEmbedder();
+  const out = await ex(['query: ' + q], { pooling: 'cls', normalize: true });
+  const [n, dim] = out.dims;
+  return new Float32Array(out.data.buffer, out.data.byteOffset, dim);
+}
+
+export function vectorEnabled() {
+  try {
+    return openKb().prepare('SELECT COUNT(*) c FROM doc_vectors').get().c > 0;
+  } catch {
+    return false;
+  }
+}
+
+function vectorSearchSync(qv, language, limit) {
+  const db = openKb();
+  const rows = db.prepare(
+    `SELECT d.id, d.name, d.title, d.signature, d.category, d.danger_type, d.cwe, d.source_url, d.lang, v.embedding
+     FROM doc_vectors v JOIN docs d ON d.id = v.doc_id
+     WHERE d.language = ? OR d.language = 'multi'`
+  ).all(language);
+  const scored = [];
+  for (const r of rows) {
+    const v = new Float32Array(r.embedding.buffer, r.embedding.byteOffset, qv.length);
+    let dot = 0;
+    for (let k = 0; k < qv.length; k++) dot += qv[k] * v[k];
+    scored.push({ ...r, vscore: dot, score: 0 });
+  }
+  scored.sort((a, b) => b.vscore - a.vscore);
+  return scored.slice(0, limit);
+}
+
+// 检索：精确名命中 + FTS 全文（中文 bigram）+ 向量语义（RRF 融合），zh 优先
+export async function searchSyntax({ language = 'php', query = '', category, danger, lang, limit = 10 } = {}) {
   const db = openKb();
   const limitN = Math.min(Math.max(1, limit | 0 || 10), 50);
-  const conds = ['d.language = ?'];
+  const conds = ["(d.language = ? OR d.language = 'multi')"];
   const args = [language];
   if (category) { conds.push('d.category = ?'); args.push(category); }
   if (danger) { conds.push('d.danger_type = ?'); args.push(danger); }
@@ -53,7 +99,22 @@ export function searchSyntax({ language = 'php', query = '', category, danger, l
         hits.set(r.id, r);
       }
     }
-  } else {
+  }
+
+  // 向量语义召回（RRF 融合；向量索引为空或未命中时自动退化为 FTS）
+  if (query && vectorEnabled()) {
+    try {
+      const qv = await embedQuery(query);
+      const vrows = vectorSearchSync(qv, language, limitN * 4);
+      vrows.forEach((r, rank) => {
+        const rrf = 1 / (60 + rank + 1);
+        if (hits.has(r.id)) hits.get(r.id).score += rrf;
+        else hits.set(r.id, { ...r, score: rrf });
+      });
+    } catch (e) {
+      // 模型加载失败（如首次下载无网络）：静默退化为 FTS
+    }
+  } else if (!query) {
     const rows = db.prepare(
       `SELECT id, name, title, signature, category, danger_type, cwe, source_url, lang
        FROM docs d WHERE ${where} LIMIT ?`).all(...args, limitN);
@@ -63,7 +124,7 @@ export function searchSyntax({ language = 'php', query = '', category, danger, l
   return [...hits.values()]
     .sort((a, b) => (b.score - a.score) || (a.lang === 'zh' ? -1 : 1) - (b.lang === 'zh' ? -1 : 1))
     .slice(0, limitN)
-    .map(({ id, score, snip, ...r }) => ({ ...r, ...(snip ? { snippet: snip } : {}) }));
+    .map(({ id, score, snip, vscore, ...r }) => ({ ...r, ...(snip ? { snippet: snip } : {}) }));
 }
 
 export function getEntry({ language = 'php', name } = {}) {

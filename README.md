@@ -105,19 +105,37 @@ license: "CC-BY-3.0"
 { "mcpServers": { "code-syntax-lookup": { "command": "node", "args": ["/path/to/server/mcp_server.mjs"] } } }
 ```
 
-详见站点 `/mcp` 页面或 [完整方案](完整方案.md) 第 7 章。
+工具：`search_syntax`（混合检索）、`get_entry`、`list_dangerous`、`ask_audit`（RAG 问答）、`kb_stats`。
+
+## RAG 问答（M4）
+
+混合检索 = FTS5 关键词 + e5-small 语义向量（RRF 融合）。向量默认覆盖**危险标注 + 安全条目**（505 条），`npm run embed -- --all` 可扩展到全量。
+
+```bash
+# 本地模型生成总结回答（需 Ollama + qwen2.5:7b，模型/地址可用环境变量覆盖）
+npm run ask -- "怎么防止反序列化漏洞" python
+
+# 未配置 Ollama 时自动降级为纯检索结果（跨语言：中文提问命中英文语料）
+OLLAMA_MODEL=qwen2.5:14b OLLAMA_URL=http://127.0.0.1:11434 node server/ask.mjs "命令注入有哪些 sink" java
+```
+
+## 语料更新（M6）
+
+```bash
+npm run update   # 拉取全部上游仓库最新版 → 自动全量重建（语料/索引/llms.txt/站点）
+```
 
 ## 路线图
 
 - [x] M0-M1：PHP 全链路（语料/索引/MCP/llms.txt/站点）
 - [x] M2：Python（cpython Doc/ reST + .po 中文对齐 + bandit 危险标注 + PEG 语法）
-- [ ] M3：Java（OpenJDK javadoc 提取 + JLS 语法条目化）
-- [ ] M4：RAG 向量层（BGE-M3 + sqlite-vec + reranker）
-- [ ] M5：审计层增强（OWASP CheatSheetSeries 语料、payload 参考）
-- [ ] M6：Tauri 桌面打包、语料定时更新
+- [x] M3：Java（OpenJDK javadoc 提取 + FindSecBugs 污点标注 + ANTLR 语法条目）
+- [x] M4：RAG 向量层（e5-small 多语言嵌入 + 余弦检索 + RRF 混合 + Ollama 问答；升级路径：BGE-M3 / sqlite-vec / Qdrant）
+- [x] M5：审计层增强（OWASP CheatSheetSeries 127 篇语料，multi 语言条目）
+- [x] M6：语料更新机制（npm run update）；Tauri 桌面壳可选后续
 
 ## 许可证说明
 
 - 本仓库代码：MIT
-- 语料内容：PHP 手册 CC BY 3.0（署名 The PHP Documentation Group）；危险标注数据来自 progpilot（MIT）
+- 语料内容：PHP 手册 CC BY 3.0（署名 The PHP Documentation Group）；Python 文档 PSF；OpenJDK javadoc GPLv2+Classpath；危险标注数据来自 progpilot（MIT）/ bandit（Apache-2.0）/ FindSecBugs（LGPL-3.0）；OWASP Cheat Sheet Series CC BY-SA 4.0
 - 不可入语料的来源及红线见 [完整方案](完整方案.md) 第 3.5 节
