@@ -1,12 +1,23 @@
 // server/kb.mjs — 知识库查询层（MCP server 与本地 CLI 共用）
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { DatabaseSync } from 'node:sqlite';
+import { createRequire } from 'node:module';
+const nodeRequire = createRequire(import.meta.url);
+let DatabaseSync;
+try { DatabaseSync = nodeRequire('node:sqlite').DatabaseSync; }
+catch { DatabaseSync = nodeRequire('better-sqlite3'); }
 import { bigram, dangerList } from '../pipeline/index.mjs';
 
-import { isSea } from 'node:sea';
 const HERE = typeof __filename === 'string' ? path.dirname(__filename) : path.dirname(fileURLToPath(import.meta.url));
-const ROOT = process.env.CSL_ROOT || (isSea() ? path.dirname(process.execPath) : path.resolve(HERE, '..'));
+let _seaCache = null;
+function inSeaMode() {
+  if (_seaCache === null) {
+    try { _seaCache = nodeRequire('node:sea').isSea(); } catch { _seaCache = false; }
+  }
+  return _seaCache;
+}
+
+const ROOT = process.env.CSL_ROOT || (inSeaMode() ? path.dirname(process.execPath) : path.resolve(HERE, '..'));
 let _db = null;
 export function openKb() {
   if (!_db) _db = new DatabaseSync(path.join(ROOT, 'knowledge.db'), { readOnly: true });

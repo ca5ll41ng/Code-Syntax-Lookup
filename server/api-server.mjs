@@ -58,7 +58,8 @@ export async function startApiServer({ root, port = 8421 }) {
     }
   });
 
-  return new Promise((resolve) => {
+  return new Promise((resolve, reject) => {
+    server.on('error', reject);
     server.listen(port, '127.0.0.1', () => resolve({ server, port }));
   });
 }

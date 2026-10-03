@@ -4,11 +4,21 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { DatabaseSync } from 'node:sqlite';
-import { isSea } from 'node:sea';
+import { createRequire } from 'node:module';
+const nodeRequire = createRequire(import.meta.url);
+let DatabaseSync;
+try { DatabaseSync = nodeRequire('node:sqlite').DatabaseSync; }
+catch { DatabaseSync = nodeRequire('better-sqlite3'); }
+let _seaCache = null;
+function inSeaMode() {
+  if (_seaCache === null) {
+    try { _seaCache = nodeRequire('node:sea').isSea(); } catch { _seaCache = false; }
+  }
+  return _seaCache;
+}
 
 const HERE = typeof __filename === 'string' ? path.dirname(__filename) : path.dirname(fileURLToPath(import.meta.url));
-const ROOT = isSea() ? path.dirname(process.execPath) : path.resolve(HERE, '..');
+const ROOT = process.env.CSL_ROOT || (inSeaMode() ? path.dirname(process.execPath) : path.resolve(HERE, '..'));
 const CORPUS = path.join(ROOT, 'corpus');
 const DB_PATH = path.join(ROOT, 'knowledge.db');
 
@@ -60,7 +70,7 @@ export function dangerList(d) {
 }
 
 // ---------- 建库 ----------
-const IS_MAIN = !isSea() && !!process.argv[1] && process.argv[1].endsWith('index.mjs');
+const IS_MAIN = !inSeaMode() && !!process.argv[1] && process.argv[1].endsWith('index.mjs');
 if (IS_MAIN) {
   fs.rmSync(DB_PATH, { force: true });
   const db = new DatabaseSync(DB_PATH);

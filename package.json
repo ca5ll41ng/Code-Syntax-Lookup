@@ -21,7 +21,8 @@
     "mcp": "node server/mcp_server.mjs",
     "ask": "node server/ask.mjs",
     "update": "node pipeline/update.mjs",
-    "build:exe": "node pipeline/build_exe.mjs"
+    "build:exe": "node pipeline/build_exe.mjs",
+    "app": "electron ."
   },
   "dependencies": {
     "@huggingface/transformers": "^4.3.0",
@@ -29,7 +30,7 @@
     "markdown-it": "^15.0.2"
   },
   "devDependencies": {
-    "electron": "^33.4.11",
+    "electron": "^44.5.1",
     "electron-builder": "^25.1.8",
     "esbuild": "^0.28.2",
     "postject": "^1.0.0-alpha.6"
@@ -70,6 +71,7 @@
       "createStartMenuShortcut": true,
       "shortcutName": "CodeSyntaxLookup",
       "deleteAppDataOnUninstall": false
-    }
+    },
+    "npmRebuild": false
   }
 }
