@@ -1,6 +1,7 @@
-// pipeline/build_site.mjs — 轻量静态站点生成器
-// corpus/**/*.md → docs-site/dist/**/*.html（零框架，秒级构建），搜索由 Pagefind 索引 dist 提供
-// 页面含 highlight.js 本地高亮；每语言附危险函数专页
+// pipeline/build_site.mjs — 站点生成器
+// 首页 = 搜索优先（调 /api/search）；官方手册整站拉取进 /manual/（PHP 中文 / Python 中文）
+// corpus/**.md 保留为语料详情页；危险函数专页；Pagefind 保留为静态搜索兜底
+import { execSync } from 'node:child_process';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -10,6 +11,7 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const CORPUS = path.join(ROOT, 'corpus');
 const DIST = path.join(ROOT, 'docs-site', 'dist');
 const SITE_ASSETS = path.join(ROOT, 'docs-site', 'assets');
+const MANUALS_RAW = path.join(ROOT, 'raw', 'manuals');
 
 const md = new MarkdownIt({ html: false, linkify: false });
 
@@ -24,7 +26,7 @@ function parseFrontmatter(text) {
   for (const line of m[1].split('\n')) {
     const km = line.match(/^([A-Za-z_]+):\s*(.*)$/);
     if (!km) continue;
-    try { fm[km[1]] = JSON.parse(km[1] === 'danger' ? '[' + km[2].replace(/^\[|\]$/g, '') + ']' : km[2]); } catch { fm[km[1]] = km[2]; }
+    try { fm[km[1]] = JSON.parse(km[2]); } catch { fm[km[1]] = km[2]; }
   }
   return { fm, body: text.slice(m[0].length) };
 }
@@ -48,21 +50,24 @@ const HL_HEAD = (hasCode) => (hasCode
 <script>window.addEventListener('DOMContentLoaded',function(){if(window.hljs)document.querySelectorAll('pre code').forEach(function(el){hljs.highlightElement(el)})})</script>`
   : '');
 
+const NAV = `<header class="topbar">
+  <a class="brand" href="/">⌘ CodeSyntaxLookup</a>
+  <nav>
+    <a href="/">搜索</a> · <a href="/manual/php/">PHP 手册</a> · <a href="/manual/python/">Python 文档</a> · <a href="/manual/java-corpus/">Java</a> · <a href="/mcp.html">MCP</a>
+  </nav>
+</header>`;
+
 const SHELL = (title, body, opts = {}) => `<!doctype html>
 <html lang="zh-CN">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>${esc(title)} · Code-Syntax-Lookup</title>
+<title>${esc(title)} · CodeSyntaxLookup</title>
 <link rel="stylesheet" href="/style.css">
 ${HL_HEAD(opts.hasCode ?? body.includes('<pre'))}
-${opts.extraHead || ''}
 </head>
 <body>
-<header class="topbar">
-  <a class="brand" href="/">Code-Syntax-Lookup</a>
-  <nav><a href="/">首页</a> · <a href="/search.html">搜索</a> · <a href="/mcp.html">MCP</a></nav>
-</header>
+${NAV}
 <main>
 ${body}
 </main>
@@ -85,8 +90,8 @@ fs.rmSync(DIST, { recursive: true, force: true });
 fs.mkdirSync(DIST, { recursive: true });
 if (fs.existsSync(path.join(SITE_ASSETS, 'vendor'))) fs.cpSync(SITE_ASSETS, path.join(DIST, 'assets'), { recursive: true });
 
-const pagesByDir = new Map(); // dir(相对) → [{href, label}]
-const dangerByLang = new Map(); // lang → [{name, title, danger, href}]
+const pagesByDir = new Map();
+const dangerByLang = new Map();
 
 for (const lang of fs.existsSync(CORPUS) ? fs.readdirSync(CORPUS).filter((d) => fs.statSync(path.join(CORPUS, d)).isDirectory()) : []) {
   const langDir = path.join(CORPUS, lang);
@@ -106,6 +111,7 @@ for (const lang of fs.existsSync(CORPUS) ? fs.readdirSync(CORPUS).filter((d) => 
       </div>
       ${fm.signature ? `<pre class="signature">${esc(fm.signature)}</pre>` : ''}
       ${md.render(body)}`,
+      { hasCode: true },
     );
     const outPath = path.join(DIST, 'corpus', lang, rel + '.html');
     fs.mkdirSync(path.dirname(outPath), { recursive: true });
@@ -132,25 +138,24 @@ for (const [dirKey, items] of pagesByDir) {
   fs.writeFileSync(path.join(DIST, dirKey, 'index.html'), SHELL(dirKey, `<h1>${esc(dirKey)}</h1><p>${items.length} 条</p><ul class="dirlist">\n${ul}\n</ul>`));
 }
 
-// 顶层目录索引（语言层）
+// 语言层索引 + 危险函数专页
 for (const lang of fs.existsSync(CORPUS) ? fs.readdirSync(CORPUS).filter((d) => fs.statSync(path.join(CORPUS, d)).isDirectory()) : []) {
   const count = (pagesByDir.get(`corpus/${lang}`) || []).length;
   const dangerHref = dangerByLang.has(lang) ? `<li><a href="/corpus/${lang}/danger.html">⚠ 危险函数专页</a></li>` : '';
   const subs = [...pagesByDir.keys()].filter((k) => k.startsWith(`corpus/${lang}/`)).map((k) => ({ href: '/' + k + '/', label: k.replace(`corpus/${lang}`, lang) }));
   const lis = [`<li><a href="/corpus/${lang}/">${lang}（${count} 条直系条目）</a></li>`, dangerHref, ...subs.map((s) => `<li><a href="${s.href}">${esc(s.label)}</a></li>`)].filter(Boolean).join('\n');
-  fs.writeFileSync(path.join(DIST, 'corpus', lang, 'index.html'), SHELL(lang, `<h1>${esc(lang)} 知识库</h1><ul class="dirlist">\n${lis}\n</ul>`));
+  fs.writeFileSync(path.join(DIST, 'corpus', lang, 'index.html'), SHELL(lang, `<h1>${esc(lang)} 语料</h1><ul class="dirlist">\n${lis}\n</ul>`));
+
+  if (dangerByLang.has(lang)) {
+    const rows = dangerByLang.get(lang)
+      .sort((a, b) => a.name.localeCompare(b.name))
+      .map((it) => `<li><a href="${it.href}">${esc(it.name)}</a> ${dangerBadges(it)}</li>`)
+      .join('\n');
+    fs.writeFileSync(path.join(DIST, 'corpus', lang, 'danger.html'), SHELL(`${lang} 危险函数`, `<h1>⚠ ${esc(lang)} 危险函数（${dangerByLang.get(lang).length}）</h1><p>来源：progpilot / bandit / FindSecBugs 污点数据。</p><ul class="dirlist">\n${rows}\n</ul>`));
+  }
 }
 
-// 危险函数专页（按语言）
-for (const [lang, items] of dangerByLang) {
-  const rows = items
-    .sort((a, b) => a.name.localeCompare(b.name))
-    .map((it) => `<li><a href="${it.href}">${esc(it.name)}</a> ${dangerBadges(it)}</li>`)
-    .join('\n');
-  fs.writeFileSync(path.join(DIST, 'corpus', lang, 'danger.html'), SHELL(`${lang} 危险函数`, `<h1>⚠ ${esc(lang)} 危险函数（${items.length}）</h1><p>来自 progpilot / bandit / FindSecBugs 污点数据，含 CWE 与污点参数位。</p><ul class="dirlist">\n${rows}\n</ul>`));
-}
-
-// llms.txt 同步进站点
+// llms.txt 同步
 for (const lang of fs.existsSync(CORPUS) ? fs.readdirSync(CORPUS).filter((d) => fs.statSync(path.join(CORPUS, d)).isDirectory()) : []) {
   for (const f of ['llms.txt', 'llms-full.txt']) {
     const s = path.join(CORPUS, lang, f);
@@ -158,42 +163,134 @@ for (const lang of fs.existsSync(CORPUS) ? fs.readdirSync(CORPUS).filter((d) => 
   }
 }
 
-// 首页
-const langLinks = fs.existsSync(CORPUS)
-  ? fs.readdirSync(CORPUS).filter((d) => fs.statSync(path.join(CORPUS, d)).isDirectory())
-      .map((l) => {
-        const dLink = dangerByLang.has(l) ? ` · <a href="/corpus/${l}/danger.html">⚠ 危险函数</a>` : '';
-        return `<li><a href="/corpus/${l}/">${esc(l.toUpperCase())}</a>${dLink}</li>`;
-      })
-      .join('\n')
-  : '';
-fs.writeFileSync(
-  path.join(DIST, 'index.html'),
-  SHELL('首页', `<h1>白盒审计语法知识库</h1>
-<p>人可搜索 · AI 可读取 · 中文优先 · 离线可用。</p>
-<ul>
-<li><a href="/search.html">全文搜索</a>（中文分词 + 危险函数）</li>
-${langLinks}
-<li><a href="/mcp.html">MCP / RAG 接入说明</a></li>
-<li><a href="/llms.txt">llms.txt 总索引</a></li>
-</ul>`),
-);
+// ---------- 官方手册整站接入 ----------
+const MANUAL_TARGET = path.join(DIST, 'manual');
+fs.mkdirSync(MANUAL_TARGET, { recursive: true });
+const manualCards = [];
 
-// 搜索页
-fs.writeFileSync(
-  path.join(DIST, 'search.html'),
-  SHELL('搜索', `<h1>搜索</h1><div id="search"></div>
-<script src="/pagefind/pagefind-ui.js"></script>
-<link rel="stylesheet" href="/pagefind/pagefind-ui.css">
+const phpTgz = path.join(MANUALS_RAW, 'php_manual_zh.tar.gz');
+if (fs.existsSync(phpTgz)) {
+  const dest = path.join(MANUAL_TARGET, 'php');
+  fs.mkdirSync(dest, { recursive: true });
+  try {
+    execSync(`tar -xzf php_manual_zh.tar.gz -C "${dest}"`, { cwd: MANUALS_RAW, stdio: 'pipe' });
+    // tar 包内层目录 php-chunked-xhtml 上提
+    const inner = fs.readdirSync(dest).find((d) => d === 'php-chunked-xhtml');
+    if (inner) {
+      const innerDir = path.join(dest, inner);
+      for (const e of fs.readdirSync(innerDir)) fs.renameSync(path.join(innerDir, e), path.join(dest, e));
+      fs.rmSync(innerDir, { recursive: true, force: true });
+    }
+    manualCards.push({ href: '/manual/php/', title: 'PHP 官方手册', desc: '简体中文 · php.net 官方离线整包', badge: '官方中文' });
+    console.log('PHP 中文手册已解压');
+  } catch (e) { console.error('PHP 手册解压失败:', e.message); }
+}
+
+const pyZip = path.join(MANUALS_RAW, 'python-docs-html-zh.zip');
+if (fs.existsSync(pyZip)) {
+  const dest = path.join(MANUAL_TARGET, 'python');
+  fs.mkdirSync(dest, { recursive: true });
+  try {
+    execSync(`powershell -NoProfile -Command "Expand-Archive -LiteralPath '${pyZip}' -DestinationPath '${dest}' -Force"`, { stdio: 'pipe' });
+    // zip 内有顶层目录（python-3.x/），把内容上提一层
+    const inner = fs.readdirSync(dest).find((d) => d.startsWith('python-'));
+    if (inner && fs.statSync(path.join(dest, inner)).isDirectory()) {
+      const innerDir = path.join(dest, inner);
+      for (const e of fs.readdirSync(innerDir)) fs.renameSync(path.join(innerDir, e), path.join(dest, e));
+      fs.rmSync(path.join(dest, inner), { recursive: true, force: true });
+    }
+    manualCards.push({ href: '/manual/python/', title: 'Python 官方文档', desc: '简体中文 · docs.python.org 官方离线整包（含官方搜索）', badge: '官方中文' });
+    console.log('Python 中文文档已解压');
+  } catch (e) { console.error('Python 文档解压失败:', e.message); }
+}
+
+if (!manualCards.some((c) => c.href.includes('php'))) manualCards.unshift({ href: '/manual/php/', title: 'PHP 官方手册', desc: '下载 php_manual_zh.tar.gz 后自动解压', badge: '待就绪' });
+manualCards.push({ href: 'https://docs.oracle.com/en/java/javase/21/docs/api/index.html', title: 'Java API（在线）', desc: 'Oracle 官方 Javadoc；Java 无官方中文，离线内容见搜索（英文）', badge: '在线', external: true });
+
+const manualCardHtml = manualCards
+  .map((c) => `<a class="card" href="${c.href}"${c.external ? ' target="_blank" rel="noreferrer"' : ''}>
+    <div class="card-title">${esc(c.title)} <span class="badge">${esc(c.badge)}</span></div>
+    <div class="card-desc">${esc(c.desc)}</div>
+  </a>`)
+  .join('\n');
+
+// ---------- 搜索优先首页 ----------
+const INDEX_BODY = `
+<section class="hero">
+  <h1>白盒审计语法知识库</h1>
+  <p class="sub">39,755 条 · PHP / Python / Java · 危险函数标注 · 中文优先 · 离线可用</p>
+  <div class="searchbar">
+    <input id="q" type="search" placeholder="搜索函数、语法、危险用法…（如：文件上传 / eval / Runtime.exec）" autofocus>
+  </div>
+  <div class="tabs" id="tabs">
+    <button data-lang="php" class="active">PHP</button>
+    <button data-lang="python">Python</button>
+    <button data-lang="java">Java</button>
+  </div>
+  <label class="onlydanger"><input type="checkbox" id="onlydanger"> 仅看危险函数</label>
+</section>
+<section id="results" class="results"></section>
+<section class="manuals">
+  <h2>官方手册（整站离线）</h2>
+  <div class="cards">
+  ${manualCardHtml}
+  </div>
+</section>
+<section class="links">
+  <a href="/corpus/php/danger.html">⚠ PHP 危险函数</a> ·
+  <a href="/corpus/python/danger.html">⚠ Python 危险函数</a> ·
+  <a href="/corpus/java/danger.html">⚠ Java 危险函数</a> ·
+  <a href="/llms.txt">llms.txt</a> ·
+  <a href="/mcp.html">MCP 接入</a>
+</section>
 <script>
-  window.addEventListener('DOMContentLoaded', function () {
-    if (window.PagefindUI) new PagefindUI({ element: '#search', pageSize: 15, showImages: false,
-      translations: { placeholder: '搜索函数 / 语法 / 危险函数…' } });
+(function () {
+  var lang = 'php', onlyDanger = false, timer = null, last = '';
+  var q = document.getElementById('q'), tabs = document.getElementById('tabs'), od = document.getElementById('onlydanger'), out = document.getElementById('results');
+  function badge(d) {
+    var bits = [];
+    if (d.type) bits.push(d.type.toUpperCase());
+    if (d.cwe) bits.push((Array.isArray(d.cwe) ? d.cwe : [d.cwe]).join('/'));
+    if (d.attack) bits.push((Array.isArray(d.attack) ? d.attack : [d.attack]).join('/'));
+    if (d.params) bits.push('污点参数位 ' + (Array.isArray(d.params) ? d.params : [d.params]).join(','));
+    return '<span class="badge danger">⚠ ' + bits.join(' · ') + '</span>';
+  }
+  function esc(s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+  function render(rows) {
+    if (!rows.length) { out.innerHTML = '<p class="empty">没有匹配结果，换个关键词试试。</p>'; return; }
+    out.innerHTML = rows.map(function (r) {
+      var d = '';
+      if (r.danger_type) d = '<span class="badge danger">⚠ ' + esc(r.danger_type.toUpperCase()) + (r.cwe ? ' · ' + esc(r.cwe) : '') + '</span>';
+      return '<article class="hit" data-name="' + esc(r.name) + '" data-lang="' + esc(r.language) + '">'
+        + '<div class="hit-head"><a class="hit-name" href="' + esc(r.source_url) + '" target="_blank" rel="noreferrer">' + esc(r.name) + '</a>'
+        + '<span class="badge">' + esc(r.lang) + '</span>' + d + '</div>'
+        + (r.signature ? '<pre class="hit-sig">' + esc(r.signature) + '</pre>' : '')
+        + (r.title ? '<div class="hit-title">' + esc(r.title) + '</div>' : '')
+        + '</article>';
+    }).join('\\n');
+  }
+  function doSearch() {
+    var v = q.value.trim();
+    if (!v) { out.innerHTML = ''; return; }
+    var url = '/api/search?limit=20&lang=' + encodeURIComponent(lang) + '&q=' + encodeURIComponent(v) + (onlyDanger ? '&danger=sink' : '');
+    fetch(url).then(function (r) { return r.json(); }).then(function (j) { render(j.results || []); }).catch(function () { out.innerHTML = '<p class="empty">搜索失败</p>'; });
+  }
+  q.addEventListener('input', function () { clearTimeout(timer); timer = setTimeout(doSearch, 250); });
+  q.addEventListener('keydown', function (e) { if (e.key === 'Enter') { clearTimeout(timer); doSearch(); } });
+  tabs.addEventListener('click', function (e) {
+    if (e.target.tagName !== 'BUTTON') return;
+    tabs.querySelectorAll('button').forEach(function (b) { b.classList.remove('active'); });
+    e.target.classList.add('active');
+    lang = e.target.dataset.lang;
+    doSearch();
   });
-</script>`),
-);
+  od.addEventListener('change', function () { onlyDanger = od.checked; doSearch(); });
+  q.focus();
+})();
+`;
+fs.writeFileSync(path.join(DIST, 'index.html'), SHELL('搜索', INDEX_BODY, { hasCode: false }));
 
-// MCP 说明页（渲染 docs-site/docs/mcp.md）
+// MCP 说明页
 const mcpMd = path.join(ROOT, 'docs-site', 'docs', 'mcp.md');
 if (fs.existsSync(mcpMd)) {
   const text = fs.readFileSync(mcpMd, 'utf8');
@@ -201,26 +298,51 @@ if (fs.existsSync(mcpMd)) {
   fs.writeFileSync(path.join(DIST, 'mcp.html'), SHELL('MCP 接入', md.render(body), { hasCode: true }));
 }
 
-// 样式
+// 样式（全新）
 fs.writeFileSync(
   path.join(DIST, 'style.css'),
-  `:root{color-scheme:light dark;--fg:#213547;--bg:#fff;--muted:#6b7280;--bd:#e2e8f0;--danger:#b91c1c;--brand:#2563eb}
-@media (prefers-color-scheme:dark){:root{--fg:#dbe2ea;--bg:#0f172a;--muted:#94a3b8;--bd:#1e293b}}
-*{box-sizing:border-box}body{margin:0;font:15px/1.65 -apple-system,'Segoe UI','Microsoft YaHei',sans-serif;color:var(--fg);background:var(--bg)}
-.topbar{display:flex;justify-content:space-between;align-items:center;padding:.7rem 1.2rem;border-bottom:1px solid var(--bd)}
-.brand{font-weight:700;color:var(--brand);text-decoration:none}nav a{color:var(--fg)}
-main{max-width:60rem;margin:0 auto;padding:1.2rem}
-.meta{margin:.4rem 0 1rem}.badge{display:inline-block;background:var(--bd);border-radius:6px;padding:.1rem .5rem;font-size:12px;margin-right:.4rem}
-.badge.danger{background:#fee2e2;color:var(--danger);font-weight:600}
-@media (prefers-color-scheme:dark){.badge.danger{background:#450a0a}}
-.signature{background:var(--bd);padding:.7rem .9rem;border-radius:8px;overflow:auto}
-pre{overflow:auto}code{font-family:Consolas,'Cascadia Code',monospace;font-size:.92em}
-pre code.hljs{display:block;padding:.8rem 1rem;border-radius:8px}
+  `:root{color-scheme:light dark;--fg:#1a2233;--bg:#f6f7fb;--card:#fff;--muted:#64748b;--bd:#e2e8f0;--danger:#b91c1c;--brand:#4f46e5;--brand2:#7c3aed;--code-bg:#0f172a}
+@media (prefers-color-scheme:dark){:root{--fg:#d7dee8;--bg:#0b1020;--card:#111a2e;--muted:#8fa0b5;--bd:#1e2a44;--brand:#818cf8;--brand2:#a78bfa;--code-bg:#05080f}}
+*{box-sizing:border-box}body{margin:0;font:15px/1.7 -apple-system,'Segoe UI','Microsoft YaHei',sans-serif;color:var(--fg);background:var(--bg)}
+.topbar{display:flex;justify-content:space-between;align-items:center;padding:.65rem 1.3rem;background:var(--card);border-bottom:1px solid var(--bd);position:sticky;top:0;z-index:9}
+.brand{font-weight:800;color:var(--brand);text-decoration:none;font-size:15px}nav{font-size:13.5px}nav a{color:var(--muted);text-decoration:none}nav a:hover{color:var(--brand)}
+main{max-width:56rem;margin:0 auto;padding:1.5rem 1.2rem 3rem}
+.hero{text-align:center;padding:1.2rem 0 .4rem}
+.hero h1{margin:.2rem 0;font-size:26px}.sub{color:var(--muted);font-size:13.5px;margin:.2rem 0 1rem}
+.searchbar input{width:100%;padding:.85rem 1.1rem;font-size:16px;border-radius:12px;border:1.5px solid var(--bd);background:var(--card);color:var(--fg);outline:none;transition:border .15s}
+.searchbar input:focus{border-color:var(--brand);box-shadow:0 0 0 3px rgba(79,70,229,.15)}
+.tabs{margin:.9rem 0 .4rem;display:flex;gap:.4rem;justify-content:center}
+.tabs button{padding:.32rem 1.05rem;border-radius:999px;border:1px solid var(--bd);background:var(--card);color:var(--fg);cursor:pointer;font-size:13.5px}
+.tabs button.active{background:var(--brand);border-color:var(--brand);color:#fff}
+.onlydanger{display:block;font-size:13px;color:var(--muted);margin:.3rem 0 0}
+.results{margin-top:1.2rem}
+.hit{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:.85rem 1.05rem;margin:.65rem 0;cursor:pointer;transition:border .12s}
+.hit:hover{border-color:var(--brand)}
+.hit-head{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap}
+.hit-name{font-family:Consolas,monospace;font-weight:700;font-size:15px;color:var(--fg);text-decoration:none}
+.hit-name:hover{color:var(--brand)}
+.badge{display:inline-block;background:var(--bd);border-radius:6px;padding:.08rem .5rem;font-size:11.5px;color:var(--muted)}
+.badge.danger{background:#fee2e2;color:var(--danger);font-weight:700}
+@media (prefers-color-scheme:dark){.badge.danger{background:#3b0d0d;color:#fca5a5}}
+.hit-sig,.signature{background:var(--code-bg);color:#e2e8f0;padding:.55rem .8rem;border-radius:8px;overflow:auto;font-size:12.5px;margin:.5rem 0 .2rem}
+.hit-title{color:var(--muted);font-size:13.5px;margin-top:.35rem}
+.manuals h2,.links{margin-top:2rem}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:.8rem}
+.card{display:block;background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:.9rem 1rem;text-decoration:none;color:var(--fg);transition:border .12s,transform .12s}
+.card:hover{border-color:var(--brand);transform:translateY(-2px)}
+.card-title{font-weight:700}.card-desc{color:var(--muted);font-size:13px;margin-top:.25rem}
+.links{font-size:13.5px}
+.empty{color:var(--muted);text-align:center;padding:2rem}
 .dirlist{columns:2;gap:2rem}li{break-inside:avoid}a{color:var(--brand);text-decoration:none}a:hover{text-decoration:underline}
-.official{font-size:13px}th,td{border:1px solid var(--bd);padding:.3rem .6rem}table{border-collapse:collapse}
-blockquote{border-left:3px solid var(--bd);margin:0;padding:.2rem 1rem;color:var(--muted)}`,
+.official{font-size:12.5px;margin-left:.4rem}
+table{border-collapse:collapse}th,td{border:1px solid var(--bd);padding:.3rem .6rem}
+blockquote{border-left:3px solid var(--bd);margin:.5rem 0;padding:.2rem 1rem;color:var(--muted)}
+code{font-family:Consolas,'Cascadia Code',monospace;font-size:.9em;background:var(--bd);border-radius:4px;padding:.05rem .3rem}
+pre code{background:none;padding:0;border-radius:0}
+pre:not(.hit-sig):not(.signature){background:var(--code-bg);color:#e2e8f0;border-radius:10px;padding:.9rem 1rem;overflow:auto}
+.detail{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:1rem 1.2rem;margin:.8rem 0;overflow:auto}
+.detail h1,.detail h2,.detail h3{font-size:1.05em}`,
 );
 
 const pageCount = [...pagesByDir.values()].reduce((a, b) => a + b.length, 0);
-const dangerCount = [...dangerByLang.values()].reduce((a, b) => a + b.length, 0);
-console.log(`站点生成完成: ${pageCount} 个条目页（危险标注 ${dangerCount}）→ ${DIST}`);
+console.log(`站点生成完成: ${pageCount} 个条目页（危险标注 ${[...dangerByLang.values()].reduce((a, b) => a + b.length, 0)}）→ ${DIST}`);
