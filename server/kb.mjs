@@ -6,7 +6,7 @@ import { bigram, dangerList } from '../pipeline/index.mjs';
 
 import { isSea } from 'node:sea';
 const HERE = typeof __filename === 'string' ? path.dirname(__filename) : path.dirname(fileURLToPath(import.meta.url));
-const ROOT = isSea() ? path.dirname(process.execPath) : path.resolve(HERE, '..');
+const ROOT = process.env.CSL_ROOT || (isSea() ? path.dirname(process.execPath) : path.resolve(HERE, '..'));
 let _db = null;
 export function openKb() {
   if (!_db) _db = new DatabaseSync(path.join(ROOT, 'knowledge.db'), { readOnly: true });

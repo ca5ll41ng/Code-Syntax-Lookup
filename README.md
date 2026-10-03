@@ -134,6 +134,30 @@ npm run build:exe   # 自动下载官方 node.exe 基座 + esbuild 打包 + SEA 
 
 语义检索依赖 `node_modules` 里的 transformers.js（onnxruntime），模型缓存在 `.models/`。
 
+## 一键运行（Windows exe）
+
+\
+> code-syntax-lookup@0.1.0 build:exe
+> node pipeline/build_exe.mjs
+
+$ npx esbuild server/app.mjs --bundle --platform=node --format=cjs --target=node24 --outfile=app.cjs --external:@huggingface/transformers --legal-comments=none
+$ node --experimental-sea-config sea-config.json
+$ npx postject "D:codezcodeproject函数语法查询CodeSyntaxLookup.exe" NODE_SEA_BLOB sea-prep.blob --sentinel-fuse NODE_SEA_FUSE_fce680ab2cc467b6e072b8b5df1996b2
+[36mStart injection of NODE_SEA_BLOB in D:codezcodeproject函数语法查询CodeSyntaxLookup.exe...[0m
+[32m💉 Injection done![0m
+
+打包完成: D:codezcodeproject函数语法查询CodeSyntaxLookup.exe（88.7 MB）
+使用：放入项目根目录双击运行；--mcp 参数切换 MCP 模式。
+产出 Code-Syntax-Lookup 已启动: http://127.0.0.1:8421
+关闭此窗口即可停止服务。（88.7MB，内嵌 Node 24 运行时）。**放入项目根目录**后双击：
+
+- 自动启动本地站点（http://127.0.0.1:8421）并打开浏览器，含检索 API（/api/search /api/entry /api/ask /api/stats）
+- ：作为 MCP 服务器运行（ZCode/Claude 配置里 command 直接指向这个 exe）
+- ：重新向量化（需 node_modules）
+- ：自定义端口 / 不自动开浏览器
+
+语义检索依赖  里的 transformers.js（onnxruntime），首次语义查询会从  加载本地模型。
+
 ## 语料更新（M6）
 
 ```bash

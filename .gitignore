@@ -38,3 +38,7 @@ sea-prep.blob
 CodeSyntaxLookup.exe
 build/
 embed-zh.log
+
+dist/
+release-data/
+release-payload.json

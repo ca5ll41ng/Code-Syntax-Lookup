@@ -29,7 +29,42 @@
     "markdown-it": "^15.0.2"
   },
   "devDependencies": {
+    "electron": "^33.4.11",
+    "electron-builder": "^25.1.8",
     "esbuild": "^0.28.2",
     "postject": "^1.0.0-alpha.6"
+  },
+  "main": "electron/main.mjs",
+  "build": {
+    "appId": "com.ca5ll41ng.codesyntaxlookup",
+    "productName": "CodeSyntaxLookup",
+    "asar": false,
+    "files": [
+      "electron/**",
+      "server/**",
+      "pipeline/index.mjs",
+      "package.json"
+    ],
+    "extraResources": [
+      {
+        "from": "release-data",
+        "to": "data"
+      }
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ]
+    },
+    "nsis": {
+      "oneClick": true,
+      "perMachine": false,
+      "deleteAppDataOnUninstall": false
+    }
   }
 }
