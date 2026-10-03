@@ -51,6 +51,10 @@ const HL_HEAD = (hasCode) => (hasCode
   : '');
 
 const NAV = `<header class="topbar">
+  <span class="navbtns">
+    <button class="navbtn" onclick="history.back()" title="后退 (Alt+←)">←</button>
+    <button class="navbtn" onclick="history.forward()" title="前进 (Alt+→)">→</button>
+  </span>
   <a class="brand" href="/">⌘ CodeSyntaxLookup</a>
   <nav>
     <a href="/">搜索</a> · <a href="/manual/php/">PHP 手册</a> · <a href="/manual/python/">Python 文档</a> · <a href="/manual/java-corpus/">Java</a> · <a href="/mcp.html">MCP</a>
@@ -305,6 +309,7 @@ fs.writeFileSync(
 @media (prefers-color-scheme:dark){:root{--fg:#d7dee8;--bg:#0b1020;--card:#111a2e;--muted:#8fa0b5;--bd:#1e2a44;--brand:#818cf8;--brand2:#a78bfa;--code-bg:#05080f}}
 *{box-sizing:border-box}body{margin:0;font:15px/1.7 -apple-system,'Segoe UI','Microsoft YaHei',sans-serif;color:var(--fg);background:var(--bg)}
 .topbar{display:flex;justify-content:space-between;align-items:center;padding:.65rem 1.3rem;background:var(--card);border-bottom:1px solid var(--bd);position:sticky;top:0;z-index:9}
+.navbtns{display:flex;gap:.3rem}.navbtn{width:30px;height:30px;border-radius:8px;border:1px solid var(--bd);background:var(--card);color:var(--fg);cursor:pointer;font-size:15px;line-height:1}.navbtn:hover{border-color:var(--brand)}
 .brand{font-weight:800;color:var(--brand);text-decoration:none;font-size:15px}nav{font-size:13.5px}nav a{color:var(--muted);text-decoration:none}nav a:hover{color:var(--brand)}
 main{max-width:56rem;margin:0 auto;padding:1.5rem 1.2rem 3rem}
 .hero{text-align:center;padding:1.2rem 0 .4rem}

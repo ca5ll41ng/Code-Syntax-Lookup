@@ -1,5 +1,5 @@
 // electron/main.mjs — Electron 主进程：窗口加载内置 API 服务；--mcp 时仅运行 MCP
-import { app, BrowserWindow } from 'electron';
+import { app, BrowserWindow, Menu, shell } from 'electron';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -17,6 +17,23 @@ if (!isPackaged) {
     if (fs.existsSync(path.join(dir, 'knowledge.db')) && fs.existsSync(path.join(dir, 'docs-site', 'dist'))) { ROOT = dir; break; }
   }
   if (!ROOT) ROOT = path.join(process.resourcesPath, 'data');
+}
+
+function buildMenu(win, origin) {
+  const nav = (go) => () => {
+    if (go === 'home') win.loadURL(origin + '/');
+    else if (go === 'back') win.webContents.navigationHistory.goBack();
+    else win.webContents.navigationHistory.goForward();
+  };
+  const menu = Menu.buildFromTemplate([
+    { label: '导航', submenu: [
+      { label: '首页', accelerator: "Alt+H", click: nav('home') },
+      { label: '后退', accelerator: "Alt+Left", click: nav('back') },
+      { label: '前进', accelerator: "Alt+Right", click: nav('forward') },
+      { label: '刷新', accelerator: "F5", click: () => win.webContents.reload() },
+    ] },
+  ]);
+  Menu.setApplicationMenu(menu);
 }
 
 if (process.argv.includes('--mcp')) {
@@ -37,6 +54,14 @@ if (process.argv.includes('--mcp')) {
       autoHideMenuBar: true,
       title: 'Code-Syntax-Lookup — 白盒审计语法知识库',
       webPreferences: { contextIsolation: true },
+    });
+    buildMenu(win, `http://127.0.0.1:${port}`);
+    win.webContents.setWindowOpenHandler(({ url }) => {
+      if (!url.startsWith(`http://127.0.0.1:${port}`)) { shell.openExternal(url); return { action: 'deny' }; }
+      return { action: 'allow' };
+    });
+    win.webContents.on('will-navigate', (e, url) => {
+      if (!url.startsWith(`http://127.0.0.1:${port}`)) { e.preventDefault(); shell.openExternal(url); }
     });
     win.loadURL(`http://127.0.0.1:${port}/`);
     win.on('closed', () => {
