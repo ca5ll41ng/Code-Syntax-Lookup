@@ -1,6 +1,5 @@
 // pipeline/build_site.mjs — 站点生成器
-// 首页 = 搜索优先（调 /api/search）；官方手册整站拉取进 /manual/（PHP 中文 / Python 中文）
-// corpus/**.md 保留为语料详情页；危险函数专页；Pagefind 保留为静态搜索兜底
+// 首页 = 语言入口（无搜索框）；每个语言有专属搜索页（锁定语言）；官方手册整站拉取进 /manual/
 import { execSync } from 'node:child_process';
 import fs from 'node:fs';
 import path from 'node:path';
@@ -57,7 +56,7 @@ const NAV = `<header class="topbar">
   </span>
   <a class="brand" href="/">⌘ CodeSyntaxLookup</a>
   <nav>
-    <a href="/">搜索</a> · <a href="/manual/php/">PHP 手册</a> · <a href="/manual/python/">Python 文档</a> · <a href="/manual/java-corpus/">Java</a> · <a href="/mcp.html">MCP</a>
+    <a href="/">首页</a> · <a href="/search-php.html">PHP</a> · <a href="/search-python.html">Python</a> · <a href="/search-java.html">Java</a> · <a href="/mcp.html">MCP</a>
   </nav>
 </header>`;
 
@@ -89,7 +88,7 @@ function walkMd(dir) {
   return out;
 }
 
-// ---------- 生成 ----------
+// ---------- 语料详情页 ----------
 fs.rmSync(DIST, { recursive: true, force: true });
 fs.mkdirSync(DIST, { recursive: true });
 if (fs.existsSync(path.join(SITE_ASSETS, 'vendor'))) fs.cpSync(SITE_ASSETS, path.join(DIST, 'assets'), { recursive: true });
@@ -178,7 +177,6 @@ if (fs.existsSync(phpTgz)) {
   fs.mkdirSync(dest, { recursive: true });
   try {
     execSync(`tar -xzf php_manual_zh.tar.gz -C "${dest}"`, { cwd: MANUALS_RAW, stdio: 'pipe' });
-    // tar 包内层目录 php-chunked-xhtml 上提
     const inner = fs.readdirSync(dest).find((d) => d === 'php-chunked-xhtml');
     if (inner) {
       const innerDir = path.join(dest, inner);
@@ -196,7 +194,6 @@ if (fs.existsSync(pyZip)) {
   fs.mkdirSync(dest, { recursive: true });
   try {
     execSync(`powershell -NoProfile -Command "Expand-Archive -LiteralPath '${pyZip}' -DestinationPath '${dest}' -Force"`, { stdio: 'pipe' });
-    // zip 内有顶层目录（python-3.x/），把内容上提一层
     const inner = fs.readdirSync(dest).find((d) => d.startsWith('python-'));
     if (inner && fs.statSync(path.join(dest, inner)).isDirectory()) {
       const innerDir = path.join(dest, inner);
@@ -208,8 +205,7 @@ if (fs.existsSync(pyZip)) {
   } catch (e) { console.error('Python 文档解压失败:', e.message); }
 }
 
-if (!manualCards.some((c) => c.href.includes('php'))) manualCards.unshift({ href: '/manual/php/', title: 'PHP 官方手册', desc: '下载 php_manual_zh.tar.gz 后自动解压', badge: '待就绪' });
-manualCards.push({ href: 'https://docs.oracle.com/en/java/javase/21/docs/api/index.html', title: 'Java API（在线）', desc: 'Oracle 官方 Javadoc；Java 无官方中文，离线内容见搜索（英文）', badge: '在线', external: true });
+manualCards.push({ href: 'https://docs.oracle.com/en/java/javase/21/docs/api/index.html', title: 'Java API（在线）', desc: 'Oracle 官方 Javadoc；离线内容用各语言搜索页（英文）', badge: '在线', external: true });
 
 const manualCardHtml = manualCards
   .map((c) => `<a class="card" href="${c.href}"${c.external ? ' target="_blank" rel="noreferrer"' : ''}>
@@ -218,55 +214,18 @@ const manualCardHtml = manualCards
   </a>`)
   .join('\n');
 
-// ---------- 搜索优先首页 ----------
-const INDEX_BODY = `
-<section class="hero">
-  <h1>白盒审计语法知识库</h1>
-  <p class="sub">39,755 条 · PHP / Python / Java · 危险函数标注 · 中文优先 · 离线可用</p>
-  <div class="searchbar">
-    <input id="q" type="search" placeholder="搜索函数、语法、危险用法…（如：文件上传 / eval / Runtime.exec）" autofocus>
-  </div>
-  <div class="tabs" id="tabs">
-    <button data-lang="all" class="active">全部</button>
-    <button data-lang="php">PHP</button>
-    <button data-lang="python">Python</button>
-    <button data-lang="java">Java</button>
-  </div>
-  <label class="onlydanger"><input type="checkbox" id="onlydanger"> 仅看危险函数</label>
-</section>
-<section id="results" class="results"></section>
-<section class="manuals">
-  <h2>官方手册（整站离线）</h2>
-  <div class="cards">
-  ${manualCardHtml}
-  </div>
-</section>
-<section class="links">
-  <a href="/corpus/php/danger.html">⚠ PHP 危险函数</a> ·
-  <a href="/corpus/python/danger.html">⚠ Python 危险函数</a> ·
-  <a href="/corpus/java/danger.html">⚠ Java 危险函数</a> ·
-  <a href="/llms.txt">llms.txt</a> ·
-  <a href="/mcp.html">MCP 接入</a>
-</section>
-<script>
+// ---------- 各语言专属搜索页（锁定语言） ----------
+const SEARCH_JS = `
 (function () {
-  var lang = 'all', onlyDanger = false, timer = null, last = '';
-  var q = document.getElementById('q'), tabs = document.getElementById('tabs'), od = document.getElementById('onlydanger'), out = document.getElementById('results');
-  function badge(d) {
-    var bits = [];
-    if (d.type) bits.push(d.type.toUpperCase());
-    if (d.cwe) bits.push((Array.isArray(d.cwe) ? d.cwe : [d.cwe]).join('/'));
-    if (d.attack) bits.push((Array.isArray(d.attack) ? d.attack : [d.attack]).join('/'));
-    if (d.params) bits.push('污点参数位 ' + (Array.isArray(d.params) ? d.params : [d.params]).join(','));
-    return '<span class="badge danger">⚠ ' + bits.join(' · ') + '</span>';
-  }
+  var onlyDanger = false, timer = null;
+  var q = document.getElementById('q'), od = document.getElementById('onlydanger'), out = document.getElementById('results');
   function esc(s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
   function render(rows) {
     if (!rows.length) { out.innerHTML = '<p class="empty">没有匹配结果，换个关键词试试。</p>'; return; }
     out.innerHTML = rows.map(function (r) {
       var d = '';
       if (r.danger_type) d = '<span class="badge danger">⚠ ' + esc(r.danger_type.toUpperCase()) + (r.cwe ? ' · ' + esc(r.cwe) : '') + '</span>';
-      return '<article class="hit" data-name="' + esc(r.name) + '" data-lang="' + esc(r.language) + '">'
+      return '<article class="hit">'
         + '<div class="hit-head"><a class="hit-name" href="' + esc(r.source_url) + '" target="_blank" rel="noreferrer">' + esc(r.name) + '</a>'
         + '<span class="badge">' + esc(r.lang) + '</span>' + d + '</div>'
         + (r.signature ? '<pre class="hit-sig">' + esc(r.signature) + '</pre>' : '')
@@ -277,23 +236,86 @@ const INDEX_BODY = `
   function doSearch() {
     var v = q.value.trim();
     if (!v) { out.innerHTML = ''; return; }
-    var url = '/api/search?limit=20&lang=' + encodeURIComponent(lang) + '&q=' + encodeURIComponent(v) + (onlyDanger ? '&danger=sink' : '');
-    fetch(url).then(function (r) { return r.json(); }).then(function (j) { render(j.results || []); }).catch(function () { out.innerHTML = '<p class="empty">搜索失败</p>'; });
+    fetch('/api/search?limit=20&lang=LANG&q=' + encodeURIComponent(v) + (onlyDanger ? '&danger=sink' : ''))
+      .then(function (r) { return r.json(); })
+      .then(function (j) { render(j.results || []); })
+      .catch(function () { out.innerHTML = '<p class="empty">搜索失败</p>'; });
   }
   q.addEventListener('input', function () { clearTimeout(timer); timer = setTimeout(doSearch, 250); });
   q.addEventListener('keydown', function (e) { if (e.key === 'Enter') { clearTimeout(timer); doSearch(); } });
-  tabs.addEventListener('click', function (e) {
-    if (e.target.tagName !== 'BUTTON') return;
-    tabs.querySelectorAll('button').forEach(function (b) { b.classList.remove('active'); });
-    e.target.classList.add('active');
-    lang = e.target.dataset.lang;
-    doSearch();
-  });
   od.addEventListener('change', function () { onlyDanger = od.checked; doSearch(); });
   q.focus();
 })();
 `;
-fs.writeFileSync(path.join(DIST, 'index.html'), SHELL('搜索', INDEX_BODY, { hasCode: false }));
+
+function searchPage(lang, label, extras) {
+  const body = `
+<section class="hero">
+  <h1>${esc(label)} 搜索</h1>
+  <p class="sub">函数名 / 关键词均可，支持模糊匹配${lang === 'java' ? '（Java 语料为英文）' : ''}</p>
+  <div class="searchbar">
+    <input id="q" type="search" placeholder="搜索 ${esc(label)} 函数、语法、危险用法…" autofocus>
+  </div>
+  <label class="onlydanger"><input type="checkbox" id="onlydanger"> 仅看危险函数（sink）</label>
+</section>
+<section id="results" class="results"></section>
+<section class="links">
+${extras}
+</section>`;
+  return SHELL(`${label} 搜索`, body, { hasCode: false }).replace(
+    '/*SEARCH_JS*/',
+    `<script>${SEARCH_JS.replace(/LANG/g, lang)}</script>`,
+  );
+}
+
+const LANG_META = {
+  php: { label: 'PHP', extras: '  <a href="/corpus/php/danger.html">⚠ 危险函数专页</a> · <a href="/corpus/php/">语料目录</a> · <a href="/manual/php/">官方中文手册</a>' },
+  python: { label: 'Python', extras: '  <a href="/corpus/python/danger.html">⚠ 危险函数专页</a> · <a href="/corpus/python/">语料目录</a> · <a href="/manual/python/">官方中文文档</a>' },
+  java: { label: 'Java', extras: '  <a href="/corpus/java/danger.html">⚠ 危险函数专页</a> · <a href="/corpus/java/">语料目录</a> · <a href="https://docs.oracle.com/en/java/javase/21/docs/api/index.html" target="_blank" rel="noreferrer">Oracle API（在线）</a>' },
+};
+
+for (const [lang, meta] of Object.entries(LANG_META)) {
+  fs.writeFileSync(path.join(DIST, `search-${lang}.html`), searchPage(lang, meta.label, meta.extras).replace('/*SEARCH_JS*/', `<script>${SEARCH_JS.replace(/LANG/g, lang)}</script>`));
+}
+// 全语言搜索页（导航可达，供跨语言查询）
+fs.writeFileSync(path.join(DIST, 'search.html'), searchPage('all', '全部语言', '  <a href="/mcp.html">MCP 接入</a> · <a href="/llms.txt">llms.txt</a>').replace('/*SEARCH_JS*/', `<script>${SEARCH_JS.replace(/LANG/g, 'all')}</script>`));
+
+// ---------- 首页（语言入口，无搜索框） ----------
+const langCards = [
+  { href: '/search-php.html', title: 'PHP', desc: '11,177 条语料 · 官方中文手册 · 危险函数标注', badge: '中文优先' },
+  { href: '/search-python.html', title: 'Python', desc: '10,184 条语料 · 官方中文文档 · 危险函数标注', badge: '中文优先' },
+  { href: '/search-java.html', title: 'Java', desc: '18,268 条语料（英文）· FindSecBugs 污点标注 · JLS 语法', badge: '英文' },
+];
+const homeCards = langCards
+  .map((c) => `<a class="card big" href="${c.href}">
+    <div class="card-title">${esc(c.title)} <span class="badge">${esc(c.badge)}</span></div>
+    <div class="card-desc">${esc(c.desc)}</div>
+  </a>`)
+  .join('\n');
+
+const dangerLinks = ['php', 'python', 'java']
+  .filter((l) => dangerByLang.has(l))
+  .map((l) => `<a href="/corpus/${l}/danger.html">⚠ ${esc(l)} 危险函数</a>`)
+  .join(' · ');
+
+const HOME_BODY = `
+<section class="hero">
+  <h1>白盒审计语法知识库</h1>
+  <p class="sub">39,755 条 · 危险函数标注 367 条 · 语义向量 · 离线可用</p>
+</section>
+<section class="cards langs">
+${homeCards}
+</section>
+<section class="manuals">
+  <h2>官方手册（整站离线）</h2>
+  <div class="cards">
+  ${manualCardHtml}
+  </div>
+</section>
+<section class="links">
+  <a href="/mcp.html">MCP 接入</a> · <a href="/llms.txt">llms.txt</a>${dangerLinks ? ' · ' + dangerLinks : ''}
+</section>`;
+fs.writeFileSync(path.join(DIST, 'index.html'), SHELL('首页', HOME_BODY, { hasCode: false }));
 
 // MCP 说明页
 const mcpMd = path.join(ROOT, 'docs-site', 'docs', 'mcp.md');
@@ -303,23 +325,20 @@ if (fs.existsSync(mcpMd)) {
   fs.writeFileSync(path.join(DIST, 'mcp.html'), SHELL('MCP 接入', md.render(body), { hasCode: true }));
 }
 
-// 样式（全新）
+// 样式
 fs.writeFileSync(
   path.join(DIST, 'style.css'),
   `:root{color-scheme:light dark;--fg:#1a2233;--bg:#f6f7fb;--card:#fff;--muted:#64748b;--bd:#e2e8f0;--danger:#b91c1c;--brand:#4f46e5;--brand2:#7c3aed;--code-bg:#0f172a}
 @media (prefers-color-scheme:dark){:root{--fg:#d7dee8;--bg:#0b1020;--card:#111a2e;--muted:#8fa0b5;--bd:#1e2a44;--brand:#818cf8;--brand2:#a78bfa;--code-bg:#05080f}}
 *{box-sizing:border-box}body{margin:0;font:15px/1.7 -apple-system,'Segoe UI','Microsoft YaHei',sans-serif;color:var(--fg);background:var(--bg)}
 .topbar{display:flex;justify-content:space-between;align-items:center;padding:.65rem 1.3rem;background:var(--card);border-bottom:1px solid var(--bd);position:sticky;top:0;z-index:9}
-.navbtns{display:flex;gap:.3rem}.navbtn{width:30px;height:30px;border-radius:8px;border:1px solid var(--bd);background:var(--card);color:var(--fg);cursor:pointer;font-size:15px;line-height:1}.navbtn:hover{border-color:var(--brand)}
 .brand{font-weight:800;color:var(--brand);text-decoration:none;font-size:15px}nav{font-size:13.5px}nav a{color:var(--muted);text-decoration:none}nav a:hover{color:var(--brand)}
+.navbtns{display:flex;gap:.3rem}.navbtn{width:30px;height:30px;border-radius:8px;border:1px solid var(--bd);background:var(--card);color:var(--fg);cursor:pointer;font-size:15px;line-height:1}.navbtn:hover{border-color:var(--brand)}
 main{max-width:56rem;margin:0 auto;padding:1.5rem 1.2rem 3rem}
 .hero{text-align:center;padding:1.2rem 0 .4rem}
 .hero h1{margin:.2rem 0;font-size:26px}.sub{color:var(--muted);font-size:13.5px;margin:.2rem 0 1rem}
 .searchbar input{width:100%;padding:.85rem 1.1rem;font-size:16px;border-radius:12px;border:1.5px solid var(--bd);background:var(--card);color:var(--fg);outline:none;transition:border .15s}
 .searchbar input:focus{border-color:var(--brand);box-shadow:0 0 0 3px rgba(79,70,229,.15)}
-.tabs{margin:.9rem 0 .4rem;display:flex;gap:.4rem;justify-content:center}
-.tabs button{padding:.32rem 1.05rem;border-radius:999px;border:1px solid var(--bd);background:var(--card);color:var(--fg);cursor:pointer;font-size:13.5px}
-.tabs button.active{background:var(--brand);border-color:var(--brand);color:#fff}
 .onlydanger{display:block;font-size:13px;color:var(--muted);margin:.3rem 0 0}
 .results{margin-top:1.2rem}
 .hit{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:.85rem 1.05rem;margin:.65rem 0;cursor:pointer;transition:border .12s}
@@ -336,6 +355,7 @@ main{max-width:56rem;margin:0 auto;padding:1.5rem 1.2rem 3rem}
 .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:.8rem}
 .card{display:block;background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:.9rem 1rem;text-decoration:none;color:var(--fg);transition:border .12s,transform .12s}
 .card:hover{border-color:var(--brand);transform:translateY(-2px)}
+.card.big{padding:1.4rem 1.2rem}.card.big .card-title{font-size:19px}
 .card-title{font-weight:700}.card-desc{color:var(--muted);font-size:13px;margin-top:.25rem}
 .links{font-size:13.5px}
 .empty{color:var(--muted);text-align:center;padding:2rem}
