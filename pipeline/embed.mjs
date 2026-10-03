@@ -68,7 +68,6 @@ for (let start = 0; start < targets.length; start += BATCH) {
 }
 db.prepare(`INSERT OR REPLACE INTO meta (key, value) VALUES (?, ?)`).run('embed_model', MODEL);
 db.prepare(`INSERT OR REPLACE INTO meta (key, value) VALUES (?, ?)`).run('embed_at', new Date().toISOString());
-db.exec(`COMMIT`);
 if (targets.length) db.exec('COMMIT');
 console.log(`\n向量化完成: ${done} 条入库`);
 db.close();
