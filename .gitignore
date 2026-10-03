@@ -42,3 +42,6 @@ embed-zh.log
 dist/
 release-data/
 release-payload.json
+
+knowledge.db-shm
+knowledge.db-wal
