@@ -1,6 +1,6 @@
 {
   "name": "code-syntax-lookup",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
   "type": "module",
   "description": "白盒审计用多语言语法与安全知识库（人可搜索，AI 可读取）",
@@ -62,8 +62,13 @@
       ]
     },
     "nsis": {
-      "oneClick": true,
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "allowElevation": true,
       "perMachine": false,
+      "createDesktopShortcut": "always",
+      "createStartMenuShortcut": true,
+      "shortcutName": "CodeSyntaxLookup",
       "deleteAppDataOnUninstall": false
     }
   }
