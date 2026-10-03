@@ -299,21 +299,8 @@ const dangerLinks = ['php', 'python', 'java']
   .join(' · ');
 
 const HOME_BODY = `
-<section class="hero">
-  <h1>白盒审计语法知识库</h1>
-  <p class="sub">39,755 条 · 危险函数标注 367 条 · 语义向量 · 离线可用</p>
-</section>
-<section class="cards langs">
+<section class="cards langs home">
 ${homeCards}
-</section>
-<section class="manuals">
-  <h2>官方手册（整站离线）</h2>
-  <div class="cards">
-  ${manualCardHtml}
-  </div>
-</section>
-<section class="links">
-  <a href="/mcp.html">MCP 接入</a> · <a href="/llms.txt">llms.txt</a>${dangerLinks ? ' · ' + dangerLinks : ''}
 </section>`;
 fs.writeFileSync(path.join(DIST, 'index.html'), SHELL('首页', HOME_BODY, { hasCode: false }));
 
@@ -355,7 +342,7 @@ main{max-width:56rem;margin:0 auto;padding:1.5rem 1.2rem 3rem}
 .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:.8rem}
 .card{display:block;background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:.9rem 1rem;text-decoration:none;color:var(--fg);transition:border .12s,transform .12s}
 .card:hover{border-color:var(--brand);transform:translateY(-2px)}
-.card.big{padding:1.4rem 1.2rem}.card.big .card-title{font-size:19px}
+.card.big{padding:1.6rem 1.4rem;text-align:center}.card.big .card-title{font-size:22px}.home{max-width:44rem;margin:0 auto;min-height:40vh;display:flex;flex-direction:column;justify-content:center}
 .card-title{font-weight:700}.card-desc{color:var(--muted);font-size:13px;margin-top:.25rem}
 .links{font-size:13.5px}
 .empty{color:var(--muted);text-align:center;padding:2rem}
