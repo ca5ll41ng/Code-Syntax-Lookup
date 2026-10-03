@@ -45,3 +45,4 @@ release-payload.json
 
 knowledge.db-shm
 knowledge.db-wal
+*.lnk
