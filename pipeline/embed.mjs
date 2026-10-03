@@ -29,6 +29,7 @@ async function embed(texts, prefix) {
 }
 
 const db = new DatabaseSync(DB_PATH);
+db.exec('PRAGMA journal_mode = WAL;');
 db.exec(`
   CREATE TABLE IF NOT EXISTS doc_vectors (
     doc_id TEXT PRIMARY KEY,
@@ -38,8 +39,13 @@ db.exec(`
   CREATE TABLE IF NOT EXISTS meta (key TEXT PRIMARY KEY, value TEXT);
 `);
 
-const where = EMBED_ALL ? '' : `WHERE (danger IS NOT NULL OR category = 'security' OR language = 'multi')`;
-const rows = db.prepare(`SELECT id, name, title, signature, content FROM docs ${where}`).all();
+const scopeArg = args.find((a) => a.startsWith('--scope='));
+let where = EMBED_ALL ? '' : `WHERE (danger IS NOT NULL OR category = 'security' OR language = 'multi')`;
+if (scopeArg) {
+  const v = scopeArg.split('=')[1];
+  where = `WHERE (lang = '${v}' OR danger IS NOT NULL OR category = 'security' OR language = 'multi')`;
+}
+const rows = db.prepare(`SELECT id, name, title, signature, content FROM docs ${where ? where + ' AND ' : 'WHERE '}id NOT IN (SELECT doc_id FROM doc_vectors)`).all();
 const targets = LIMIT > 0 ? rows.slice(0, LIMIT) : rows;
 console.log(`待向量化: ${targets.length} / ${rows.length} 条（模型 ${MODEL}）`);
 
@@ -47,9 +53,8 @@ const del = db.prepare('DELETE FROM doc_vectors WHERE doc_id = ?');
 const ins = db.prepare('INSERT INTO doc_vectors (doc_id, model, embedding) VALUES (?, ?, ?)');
 const clean = (s) => String(s || '').replace(/```[\s\S]*?```/g, ' ').replace(/[#*`>|]/g, ' ').replace(/\s+/g, ' ').trim();
 
-db.exec('BEGIN');
 let done = 0;
-const BATCH = 16;
+const BATCH = 32;
 for (let start = 0; start < targets.length; start += BATCH) {
   const batch = targets.slice(start, start + BATCH);
   const texts = batch.map((r) => (`${r.name} — ${r.title || ''}\n${r.signature || ''}\n` + clean(r.content)).slice(0, 700));
@@ -63,6 +68,7 @@ for (let start = 0; start < targets.length; start += BATCH) {
 }
 db.prepare(`INSERT OR REPLACE INTO meta (key, value) VALUES (?, ?)`).run('embed_model', MODEL);
 db.prepare(`INSERT OR REPLACE INTO meta (key, value) VALUES (?, ?)`).run('embed_at', new Date().toISOString());
-db.exec('COMMIT');
+db.exec(`COMMIT`);
+if (targets.length) db.exec('COMMIT');
 console.log(`\n向量化完成: ${done} 条入库`);
 db.close();

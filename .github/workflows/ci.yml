@@ -1,0 +1,39 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: 安装依赖
+        run: npm install
+      - name: 语法检查（全部源码）
+        run: |
+          for f in sources/*.mjs pipeline/*.mjs server/*.mjs test/*.mjs; do
+            node --check "$f"
+          done
+      - name: 轻量语料管线（OWASP，不依赖重型源仓库）
+        run: |
+          git clone --depth 1 https://github.com/OWASP/CheatSheetSeries raw/owasp-cheatsheets
+          node sources/owasp_adapter.mjs
+          node pipeline/index.mjs
+          node pipeline/llmstxt.mjs
+      - name: 验证知识库
+        run: node -e "
+          const { DatabaseSync } = require('node:sqlite');
+          const db = new DatabaseSync('knowledge.db', { readOnly: true });
+          const c = db.prepare('SELECT COUNT(*) c FROM docs').get().c;
+          if (c < 127) { console.error('条目数异常: ' + c); process.exit(1); }
+          console.log('知识库条目: ' + c);
+        "
+      - name: MCP 冒烟测试
+        run: node test/mcp_smoke.mjs

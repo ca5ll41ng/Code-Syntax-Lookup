@@ -20,11 +20,16 @@
     "test": "node test/mcp_smoke.mjs",
     "mcp": "node server/mcp_server.mjs",
     "ask": "node server/ask.mjs",
-    "update": "node pipeline/update.mjs"
+    "update": "node pipeline/update.mjs",
+    "build:exe": "node pipeline/build_exe.mjs"
   },
   "dependencies": {
     "@huggingface/transformers": "^4.3.0",
     "fast-xml-parser": "^5.11.2",
     "markdown-it": "^15.0.2"
+  },
+  "devDependencies": {
+    "esbuild": "^0.28.2",
+    "postject": "^1.0.0-alpha.6"
   }
 }

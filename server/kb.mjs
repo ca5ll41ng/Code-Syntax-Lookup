@@ -4,7 +4,9 @@ import { fileURLToPath } from 'node:url';
 import { DatabaseSync } from 'node:sqlite';
 import { bigram, dangerList } from '../pipeline/index.mjs';
 
-const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
+import { isSea } from 'node:sea';
+const HERE = typeof __filename === 'string' ? path.dirname(__filename) : path.dirname(fileURLToPath(import.meta.url));
+const ROOT = isSea() ? path.dirname(process.execPath) : path.resolve(HERE, '..');
 let _db = null;
 export function openKb() {
   if (!_db) _db = new DatabaseSync(path.join(ROOT, 'knowledge.db'), { readOnly: true });

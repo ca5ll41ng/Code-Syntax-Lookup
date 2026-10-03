@@ -5,8 +5,10 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { DatabaseSync } from 'node:sqlite';
+import { isSea } from 'node:sea';
 
-const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
+const HERE = typeof __filename === 'string' ? path.dirname(__filename) : path.dirname(fileURLToPath(import.meta.url));
+const ROOT = isSea() ? path.dirname(process.execPath) : path.resolve(HERE, '..');
 const CORPUS = path.join(ROOT, 'corpus');
 const DB_PATH = path.join(ROOT, 'knowledge.db');
 
@@ -58,7 +60,7 @@ export function dangerList(d) {
 }
 
 // ---------- 建库 ----------
-const IS_MAIN = process.argv[1] && (process.argv[1].endsWith('index.mjs') || import.meta.url === `file://${process.argv[1].replace(/\\/g, '/')}`);
+const IS_MAIN = !isSea() && !!process.argv[1] && process.argv[1].endsWith('index.mjs');
 if (IS_MAIN) {
   fs.rmSync(DB_PATH, { force: true });
   const db = new DatabaseSync(DB_PATH);

@@ -1,5 +1,6 @@
 // pipeline/build_site.mjs — 轻量静态站点生成器
 // corpus/**/*.md → docs-site/dist/**/*.html（零框架，秒级构建），搜索由 Pagefind 索引 dist 提供
+// 页面含 highlight.js 本地高亮；每语言附危险函数专页
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -8,6 +9,7 @@ import MarkdownIt from 'markdown-it';
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const CORPUS = path.join(ROOT, 'corpus');
 const DIST = path.join(ROOT, 'docs-site', 'dist');
+const SITE_ASSETS = path.join(ROOT, 'docs-site', 'assets');
 
 const md = new MarkdownIt({ html: false, linkify: false });
 
@@ -22,7 +24,7 @@ function parseFrontmatter(text) {
   for (const line of m[1].split('\n')) {
     const km = line.match(/^([A-Za-z_]+):\s*(.*)$/);
     if (!km) continue;
-    try { fm[km[1]] = JSON.parse(km[2]); } catch { fm[km[1]] = km[2]; }
+    try { fm[km[1]] = JSON.parse(km[1] === 'danger' ? '[' + km[2].replace(/^\[|\]$/g, '') + ']' : km[2]); } catch { fm[km[1]] = km[2]; }
   }
   return { fm, body: text.slice(m[0].length) };
 }
@@ -39,14 +41,22 @@ function dangerBadges(fm) {
     .join(' ');
 }
 
-const SHELL = (title, body, extraHead = '') => `<!doctype html>
+const HL_HEAD = (hasCode) => (hasCode
+  ? `<link rel="stylesheet" href="/assets/vendor/github.min.css" media="(prefers-color-scheme: light)">
+<link rel="stylesheet" href="/assets/vendor/github-dark.min.css" media="(prefers-color-scheme: dark)">
+<script src="/assets/vendor/highlight.min.js"></script>
+<script>window.addEventListener('DOMContentLoaded',function(){if(window.hljs)document.querySelectorAll('pre code').forEach(function(el){hljs.highlightElement(el)})})</script>`
+  : '');
+
+const SHELL = (title, body, opts = {}) => `<!doctype html>
 <html lang="zh-CN">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>${esc(title)} · Code-Syntax-Lookup</title>
 <link rel="stylesheet" href="/style.css">
-${extraHead}
+${HL_HEAD(opts.hasCode ?? body.includes('<pre'))}
+${opts.extraHead || ''}
 </head>
 <body>
 <header class="topbar">
@@ -73,8 +83,11 @@ function walkMd(dir) {
 // ---------- 生成 ----------
 fs.rmSync(DIST, { recursive: true, force: true });
 fs.mkdirSync(DIST, { recursive: true });
+if (fs.existsSync(path.join(SITE_ASSETS, 'vendor'))) fs.cpSync(SITE_ASSETS, path.join(DIST, 'assets'), { recursive: true });
 
 const pagesByDir = new Map(); // dir(相对) → [{href, label}]
+const dangerByLang = new Map(); // lang → [{name, title, danger, href}]
+
 for (const lang of fs.existsSync(CORPUS) ? fs.readdirSync(CORPUS).filter((d) => fs.statSync(path.join(CORPUS, d)).isDirectory()) : []) {
   const langDir = path.join(CORPUS, lang);
   for (const f of walkMd(langDir)) {
@@ -101,6 +114,11 @@ for (const lang of fs.existsSync(CORPUS) ? fs.readdirSync(CORPUS).filter((d) => 
     const dirKey = path.dirname(path.join('corpus', lang, rel)).replace(/\\/g, '/');
     if (!pagesByDir.has(dirKey)) pagesByDir.set(dirKey, []);
     pagesByDir.get(dirKey).push({ href: '/' + path.join('corpus', lang, rel + '.html').replace(/\\/g, '/'), label: `${fm.name || rel}${fm.title ? ' — ' + fm.title : ''}` });
+
+    if (fm.danger) {
+      if (!dangerByLang.has(lang)) dangerByLang.set(lang, []);
+      dangerByLang.get(lang).push({ name: fm.name, title: fm.title, danger: fm.danger, href: '/' + path.join('corpus', lang, rel + '.html').replace(/\\/g, '/') });
+    }
   }
 }
 
@@ -116,10 +134,20 @@ for (const [dirKey, items] of pagesByDir) {
 
 // 顶层目录索引（语言层）
 for (const lang of fs.existsSync(CORPUS) ? fs.readdirSync(CORPUS).filter((d) => fs.statSync(path.join(CORPUS, d)).isDirectory()) : []) {
-  const subs = [...pagesByDir.keys()].filter((k) => k === `corpus/${lang}` || k.startsWith(`corpus/${lang}/`)).map((k) => ({ href: '/' + k + '/', label: k.replace(`corpus/${lang}`, lang) }));
-  const top = { href: `/corpus/${lang}/`, label: `${lang}（${pagesByDir.get(`corpus/${lang}`)?.length || 0} 条直系条目）` };
-  const lis = [top, ...subs.filter((s) => s.href !== top.href)].map((s) => `<li><a href="${s.href}">${esc(s.label)}</a></li>`).join('\n');
+  const count = (pagesByDir.get(`corpus/${lang}`) || []).length;
+  const dangerHref = dangerByLang.has(lang) ? `<li><a href="/corpus/${lang}/danger.html">⚠ 危险函数专页</a></li>` : '';
+  const subs = [...pagesByDir.keys()].filter((k) => k.startsWith(`corpus/${lang}/`)).map((k) => ({ href: '/' + k + '/', label: k.replace(`corpus/${lang}`, lang) }));
+  const lis = [`<li><a href="/corpus/${lang}/">${lang}（${count} 条直系条目）</a></li>`, dangerHref, ...subs.map((s) => `<li><a href="${s.href}">${esc(s.label)}</a></li>`)].filter(Boolean).join('\n');
   fs.writeFileSync(path.join(DIST, 'corpus', lang, 'index.html'), SHELL(lang, `<h1>${esc(lang)} 知识库</h1><ul class="dirlist">\n${lis}\n</ul>`));
+}
+
+// 危险函数专页（按语言）
+for (const [lang, items] of dangerByLang) {
+  const rows = items
+    .sort((a, b) => a.name.localeCompare(b.name))
+    .map((it) => `<li><a href="${it.href}">${esc(it.name)}</a> ${dangerBadges(it)}</li>`)
+    .join('\n');
+  fs.writeFileSync(path.join(DIST, 'corpus', lang, 'danger.html'), SHELL(`${lang} 危险函数`, `<h1>⚠ ${esc(lang)} 危险函数（${items.length}）</h1><p>来自 progpilot / bandit / FindSecBugs 污点数据，含 CWE 与污点参数位。</p><ul class="dirlist">\n${rows}\n</ul>`));
 }
 
 // llms.txt 同步进站点
@@ -131,15 +159,23 @@ for (const lang of fs.existsSync(CORPUS) ? fs.readdirSync(CORPUS).filter((d) => 
 }
 
 // 首页
+const langLinks = fs.existsSync(CORPUS)
+  ? fs.readdirSync(CORPUS).filter((d) => fs.statSync(path.join(CORPUS, d)).isDirectory())
+      .map((l) => {
+        const dLink = dangerByLang.has(l) ? ` · <a href="/corpus/${l}/danger.html">⚠ 危险函数</a>` : '';
+        return `<li><a href="/corpus/${l}/">${esc(l.toUpperCase())}</a>${dLink}</li>`;
+      })
+      .join('\n')
+  : '';
 fs.writeFileSync(
   path.join(DIST, 'index.html'),
   SHELL('首页', `<h1>白盒审计语法知识库</h1>
-<p>人可搜索 · AI 可读取 · 中文优先。当前覆盖 PHP（Python / Java 按方案 M2/M3 接入）。</p>
+<p>人可搜索 · AI 可读取 · 中文优先 · 离线可用。</p>
 <ul>
-<li><a href="/search.html">全文搜索</a>（支持中文分词、函数名、危险函数过滤提示）</li>
-<li><a href="/corpus/php/">浏览 PHP 语料目录</a></li>
-<li><a href="/mcp.html">MCP 接入说明</a></li>
-<li><a href="/corpus/php/llms.txt">llms.txt 索引</a> / <a href="/corpus/php/llms-full.txt">llms-full.txt 全量</a></li>
+<li><a href="/search.html">全文搜索</a>（中文分词 + 危险函数）</li>
+${langLinks}
+<li><a href="/mcp.html">MCP / RAG 接入说明</a></li>
+<li><a href="/llms.txt">llms.txt 总索引</a></li>
 </ul>`),
 );
 
@@ -162,7 +198,7 @@ const mcpMd = path.join(ROOT, 'docs-site', 'docs', 'mcp.md');
 if (fs.existsSync(mcpMd)) {
   const text = fs.readFileSync(mcpMd, 'utf8');
   const { body } = parseFrontmatter(text);
-  fs.writeFileSync(path.join(DIST, 'mcp.html'), SHELL('MCP 接入', md.render(body)));
+  fs.writeFileSync(path.join(DIST, 'mcp.html'), SHELL('MCP 接入', md.render(body), { hasCode: true }));
 }
 
 // 样式
@@ -179,11 +215,12 @@ main{max-width:60rem;margin:0 auto;padding:1.2rem}
 @media (prefers-color-scheme:dark){.badge.danger{background:#450a0a}}
 .signature{background:var(--bd);padding:.7rem .9rem;border-radius:8px;overflow:auto}
 pre{overflow:auto}code{font-family:Consolas,'Cascadia Code',monospace;font-size:.92em}
-pre code{display:block;padding:.8rem 1rem}
+pre code.hljs{display:block;padding:.8rem 1rem;border-radius:8px}
 .dirlist{columns:2;gap:2rem}li{break-inside:avoid}a{color:var(--brand);text-decoration:none}a:hover{text-decoration:underline}
 .official{font-size:13px}th,td{border:1px solid var(--bd);padding:.3rem .6rem}table{border-collapse:collapse}
 blockquote{border-left:3px solid var(--bd);margin:0;padding:.2rem 1rem;color:var(--muted)}`,
 );
 
 const pageCount = [...pagesByDir.values()].reduce((a, b) => a + b.length, 0);
-console.log(`站点生成完成: ${pageCount} 个条目页 → ${DIST}`);
+const dangerCount = [...dangerByLang.values()].reduce((a, b) => a + b.length, 0);
+console.log(`站点生成完成: ${pageCount} 个条目页（危险标注 ${dangerCount}）→ ${DIST}`);

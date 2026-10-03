@@ -117,47 +117,52 @@ async function handleTool(name, args) {
   }
 }
 
-const rl = readline.createInterface({ input: process.stdin, terminal: false });
-const send = (msg) => process.stdout.write(JSON.stringify(msg) + '\n');
+export function startMcp() {
+  const rl = readline.createInterface({ input: process.stdin, terminal: false });
+  const send = (msg) => process.stdout.write(JSON.stringify(msg) + '\n');
 
-rl.on('line', async (line) => {
-  const trimmed = line.trim();
-  if (!trimmed) return;
-  let msg;
-  try { msg = JSON.parse(trimmed); } catch { return; }
-  const { id, method, params } = msg;
-  const isNotification = id === undefined || id === null;
-  if (isNotification) return; // notifications/initialized 等通知无需应答
-  const reply = (result, error) => send({ jsonrpc: '2.0', id, ...(error ? { error } : { result }) });
-  try {
-    switch (method) {
-      case 'initialize':
-        reply({
-          protocolVersion: params?.protocolVersion || '2025-06-18',
-          capabilities: { tools: {} },
-          serverInfo: SERVER_INFO,
-        });
-        break;
-      case 'ping':
-        reply({});
-        break;
-      case 'tools/list':
-        reply({ tools: TOOL_DEFS });
-        break;
-      case 'tools/call': {
-        const { name, arguments: args } = params || {};
-        try {
-          const text = await handleTool(name, args || {});
-          reply({ content: [{ type: 'text', text: String(text) }], isError: false });
-        } catch (e) {
-          reply({ content: [{ type: 'text', text: '工具执行失败: ' + e.message }], isError: true });
+  rl.on('line', async (line) => {
+    const trimmed = line.trim();
+    if (!trimmed) return;
+    let msg;
+    try { msg = JSON.parse(trimmed); } catch { return; }
+    const { id, method, params } = msg;
+    const isNotification = id === undefined || id === null;
+    if (isNotification) return; // notifications/initialized 等通知无需应答
+    const reply = (result, error) => send({ jsonrpc: '2.0', id, ...(error ? { error } : { result }) });
+    try {
+      switch (method) {
+        case 'initialize':
+          reply({
+            protocolVersion: params?.protocolVersion || '2025-06-18',
+            capabilities: { tools: {} },
+            serverInfo: SERVER_INFO,
+          });
+          break;
+        case 'ping':
+          reply({});
+          break;
+        case 'tools/list':
+          reply({ tools: TOOL_DEFS });
+          break;
+        case 'tools/call': {
+          const { name, arguments: args } = params || {};
+          try {
+            const text = await handleTool(name, args || {});
+            reply({ content: [{ type: 'text', text: String(text) }], isError: false });
+          } catch (e) {
+            reply({ content: [{ type: 'text', text: '工具执行失败: ' + e.message }], isError: true });
+          }
+          break;
         }
-        break;
+        default:
+          reply(undefined, { code: -32601, message: 'Method not found: ' + method });
       }
-      default:
-        reply(undefined, { code: -32601, message: 'Method not found: ' + method });
+    } catch (e) {
+      reply(undefined, { code: -32603, message: 'Internal error: ' + e.message });
     }
-  } catch (e) {
-    reply(undefined, { code: -32603, message: 'Internal error: ' + e.message });
-  }
-});
+  });
+}
+
+// 作为独立脚本运行时自动启动（被 app.mjs 打包/导入时不重复启动）
+if (process.argv[1] && process.argv[1].endsWith('mcp_server.mjs')) startMcp();

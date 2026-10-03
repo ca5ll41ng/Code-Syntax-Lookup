@@ -119,6 +119,21 @@ npm run ask -- "怎么防止反序列化漏洞" python
 OLLAMA_MODEL=qwen2.5:14b OLLAMA_URL=http://127.0.0.1:11434 node server/ask.mjs "命令注入有哪些 sink" java
 ```
 
+## 一键运行（Windows exe）
+
+```bash
+npm run build:exe   # 自动下载官方 node.exe 基座 + esbuild 打包 + SEA 注入
+```
+
+产出 `CodeSyntaxLookup.exe`（88.7MB，内嵌 Node 24 运行时）。**放入项目根目录**后双击：
+
+- 自动启动本地站点（http://127.0.0.1:8421）并打开浏览器，含检索 API（/api/search /api/entry /api/ask /api/stats）
+- `CodeSyntaxLookup.exe --mcp`：作为 MCP 服务器运行（ZCode/Claude 配置里 command 直接指向这个 exe）
+- `CodeSyntaxLookup.exe --embed`：重新向量化（需 node_modules）
+- `--port=8421 --no-open`：自定义端口 / 不自动开浏览器
+
+语义检索依赖 `node_modules` 里的 transformers.js（onnxruntime），模型缓存在 `.models/`。
+
 ## 语料更新（M6）
 
 ```bash
