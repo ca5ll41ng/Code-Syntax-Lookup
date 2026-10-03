@@ -51,7 +51,6 @@ if (process.argv.includes('--mcp')) {
     const win = new BrowserWindow({
       width: 1400,
       height: 920,
-      autoHideMenuBar: true,
       title: 'Code-Syntax-Lookup — 白盒审计语法知识库',
       webPreferences: { contextIsolation: true },
     });
@@ -63,6 +62,29 @@ if (process.argv.includes('--mcp')) {
     win.webContents.on('will-navigate', (e, url) => {
       if (!url.startsWith(`http://127.0.0.1:${port}`)) { e.preventDefault(); shell.openExternal(url); }
     });
+    const injectNav = () => {
+      const url = win.webContents.getURL() || '';
+      if (!url.includes('/manual/')) return; // 自有页面已有顶栏
+      win.webContents.executeJavaScript(`
+        (function () {
+          if (document.getElementById('csl-nav')) return;
+          var d = document.createElement('div');
+          d.id = 'csl-nav';
+          d.style.cssText = 'position:fixed;bottom:18px;right:18px;z-index:2147483647;display:flex;gap:8px;font:13px/1 system-ui,sans-serif';
+          var mk = function (txt, act, bg) {
+            var b = document.createElement('button');
+            b.textContent = txt;
+            b.style.cssText = 'padding:9px 14px;border:none;border-radius:999px;cursor:pointer;color:#fff;font-weight:700;box-shadow:0 2px 10px rgba(0,0,0,.35);background:' + bg;
+            b.onclick = act;
+            d.appendChild(b);
+          };
+          mk('⌂ 主页', function () { location.href = '/'; }, '#4f46e5');
+          mk('← 后退', function () { history.back(); }, '#334155');
+          document.body.appendChild(d);
+        })();
+      `);
+    };
+    win.webContents.on('did-finish-load', injectNav);
     win.loadURL(`http://127.0.0.1:${port}/`);
     win.on('closed', () => {
       server.close();

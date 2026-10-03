@@ -227,7 +227,8 @@ const INDEX_BODY = `
     <input id="q" type="search" placeholder="搜索函数、语法、危险用法…（如：文件上传 / eval / Runtime.exec）" autofocus>
   </div>
   <div class="tabs" id="tabs">
-    <button data-lang="php" class="active">PHP</button>
+    <button data-lang="all" class="active">全部</button>
+    <button data-lang="php">PHP</button>
     <button data-lang="python">Python</button>
     <button data-lang="java">Java</button>
   </div>
@@ -249,7 +250,7 @@ const INDEX_BODY = `
 </section>
 <script>
 (function () {
-  var lang = 'php', onlyDanger = false, timer = null, last = '';
+  var lang = 'all', onlyDanger = false, timer = null, last = '';
   var q = document.getElementById('q'), tabs = document.getElementById('tabs'), od = document.getElementById('onlydanger'), out = document.getElementById('results');
   function badge(d) {
     var bits = [];

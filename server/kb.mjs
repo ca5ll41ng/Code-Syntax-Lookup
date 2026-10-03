@@ -78,8 +78,8 @@ function vectorSearchSync(qv, language, limit) {
 export async function searchSyntax({ language = 'php', query = '', category, danger, lang, limit = 10 } = {}) {
   const db = openKb();
   const limitN = Math.min(Math.max(1, limit | 0 || 10), 50);
-  const conds = ["(d.language = ? OR d.language = 'multi')"];
-  const args = [language];
+  const conds = [language && language !== 'all' ? "(d.language = ? OR d.language = 'multi')" : '1=1'];
+  const args = [language && language !== 'all' ? language : null].filter((x) => x !== null);
   if (category) { conds.push('d.category = ?'); args.push(category); }
   if (danger) { conds.push('d.danger_type = ?'); args.push(danger); }
   if (lang && lang !== 'all') { conds.push('d.lang = ?'); args.push(lang); }
@@ -95,6 +95,13 @@ export async function searchSyntax({ language = 'php', query = '', category, dan
       `SELECT id, name, title, signature, category, danger_type, cwe, source_url, lang
        FROM docs d WHERE ${where} AND aliases LIKE ? LIMIT ?`).all(...args, '%"'+query.trim().toLowerCase()+'"%', limitN);
     for (const r of aliases) if (!hits.has(r.id)) hits.set(r.id, { ...r, score: 90 });
+    if (query.trim().length >= 3) {
+      const likeRows = db.prepare(
+        `SELECT id, name, title, signature, category, danger_type, cwe, source_url, lang
+         FROM docs d WHERE ${where} AND lower(d.name) LIKE '%' || lower(?) || '%' AND lower(d.name) != lower(?)
+         ORDER BY length(name) LIMIT ?`).all(...args, query.trim(), query.trim(), limitN);
+      for (const r of likeRows) if (!hits.has(r.id)) hits.set(r.id, { ...r, score: 80 });
+    }
   }
 
   if (query) {
