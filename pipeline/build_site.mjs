@@ -282,12 +282,12 @@ fs.writeFileSync(path.join(DIST, 'search.html'), searchPage('all', '全部语言
 
 // ---------- 首页（语言入口，无搜索框） ----------
 const langCards = [
-  { href: '/search-php.html', title: 'PHP', desc: '11,177 条语料 · 官方中文手册 · 危险函数标注', badge: '中文优先' },
-  { href: '/search-python.html', title: 'Python', desc: '10,184 条语料 · 官方中文文档 · 危险函数标注', badge: '中文优先' },
-  { href: '/search-java.html', title: 'Java', desc: '18,268 条语料（英文）· FindSecBugs 污点标注 · JLS 语法', badge: '英文' },
+  { href: '/manual/php/', title: 'PHP 官方手册', desc: '简体中文 · php.net 官方离线整站', badge: '点击进入' },
+  { href: '/manual/python/', title: 'Python 官方文档', desc: '简体中文 · docs.python.org 官方离线整站', badge: '点击进入' },
+  { href: 'https://docs.oracle.com/en/java/javase/21/docs/api/index.html', title: 'Java API', desc: 'Oracle 官方 Javadoc（在线，无官方中文离线包）', badge: '在线', external: true },
 ];
 const homeCards = langCards
-  .map((c) => `<a class="card big" href="${c.href}">
+  .map((c) => `<a class="card big" href="${c.href}"${c.external ? ' target="_blank" rel="noreferrer"' : ''}>
     <div class="card-title">${esc(c.title)} <span class="badge">${esc(c.badge)}</span></div>
     <div class="card-desc">${esc(c.desc)}</div>
   </a>`)
