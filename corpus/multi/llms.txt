@@ -1,0 +1,136 @@
+# Code-Syntax-Lookup — PHP
+
+> PHP 语法与安全知识库（中文优先，英文回退）。共 127 条。
+> 语料: php/doc-en & php/doc-zh (CC BY 3.0)；危险标注: designsecurity/progpilot (MIT)。
+> 每条含 frontmatter（name/signature/danger/CWE/source_url）。
+
+
+## Security (安全章节)
+
+- [Abuse Case — Abuse Case](owasp/Abuse_Case_Cheat_Sheet.md): 
+- [Access Control — Access Control](owasp/Access_Control_Cheat_Sheet.md): 
+- [AI Agent Security — AI Agent Security](owasp/AI_Agent_Security_Cheat_Sheet.md): 
+- [AI-Powered Advertising Systems Security — AI-Powered Advertising Systems Security](owasp/AI-Powered_Advertising_Systems_Security_Cheat_Sheet.md): 
+- [AML Sanctions AI Agent Payments — AML Sanctions AI Agent Payments](owasp/AML_Sanctions_AI_Agent_Payments_Cheat_Sheet.md): 
+- [Attack Surface Analysis — Attack Surface Analysis](owasp/Attack_Surface_Analysis_Cheat_Sheet.md): 
+- [Authentication — Authentication](owasp/Authentication_Cheat_Sheet.md): 
+- [Authentication Patterns — Authentication Patterns](owasp/Authentication_Patterns_Cheat_Sheet.md): 
+- [Authorization — Authorization](owasp/Authorization_Cheat_Sheet.md): 
+- [Authorization Regression Testing — Authorization Regression Testing](owasp/Authorization_Regression_Testing_Cheat_Sheet.md): 
+- [Authorization Testing Automation — Authorization Testing Automation](owasp/Authorization_Testing_Automation_Cheat_Sheet.md): 
+- [Automotive Security — Automotive Security](owasp/Automotive_Security_Cheat_Sheet.md): 
+- [Bean Validation — Bean Validation](owasp/Bean_Validation_Cheat_Sheet.md): 
+- [Bot Management and Anti-Automation — Bot Management and Anti-Automation](owasp/Bot_Management_and_Anti-Automation_Cheat_Sheet.md): 
+- [Browser Extension Vulnerabilities — Browser Extension Vulnerabilities](owasp/Browser_Extension_Vulnerabilities_Cheat_Sheet.md): 
+- [Business Logic Security — Business Logic Security](owasp/Business_Logic_Security_Cheat_Sheet.md): 
+- [C-Based Toolchain Hardening — C-Based Toolchain Hardening](owasp/C-Based_Toolchain_Hardening_Cheat_Sheet.md): 
+- [Choosing and Using Security Questions — Choosing and Using Security Questions](owasp/Choosing_and_Using_Security_Questions_Cheat_Sheet.md): 
+- [CI CD Security — CI CD Security](owasp/CI_CD_Security_Cheat_Sheet.md): 
+- [Clickjacking Defense — Clickjacking Defense](owasp/Clickjacking_Defense_Cheat_Sheet.md): 
+- [Content Security Policy — Content Security Policy](owasp/Content_Security_Policy_Cheat_Sheet.md): 
+- [Cookie Theft Mitigation — Cookie Theft Mitigation](owasp/Cookie_Theft_Mitigation_Cheat_Sheet.md): 
+- [Credential Stuffing Prevention — Credential Stuffing Prevention](owasp/Credential_Stuffing_Prevention_Cheat_Sheet.md): 
+- [Cross Site Scripting Prevention — Cross Site Scripting Prevention](owasp/Cross_Site_Scripting_Prevention_Cheat_Sheet.md): 
+- [Cross-Site Request Forgery Prevention — Cross-Site Request Forgery Prevention](owasp/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.md): 
+- [Cryptographic Storage — Cryptographic Storage](owasp/Cryptographic_Storage_Cheat_Sheet.md): 
+- [Database Security — Database Security](owasp/Database_Security_Cheat_Sheet.md): 
+- [Denial of Service — Denial of Service](owasp/Denial_of_Service_Cheat_Sheet.md): 
+- [Dependency Graph SBOM — Dependency Graph SBOM](owasp/Dependency_Graph_SBOM_Cheat_Sheet.md): 
+- [Deserialization — Deserialization](owasp/Deserialization_Cheat_Sheet.md): 
+- [Django REST Framework — Django REST Framework](owasp/Django_REST_Framework_Cheat_Sheet.md): 
+- [Django Security — Django Security](owasp/Django_Security_Cheat_Sheet.md): 
+- [Docker Security — Docker Security](owasp/Docker_Security_Cheat_Sheet.md): 
+- [DOM based XSS Prevention — DOM based XSS Prevention](owasp/DOM_based_XSS_Prevention_Cheat_Sheet.md): 
+- [DOM Clobbering Prevention — DOM Clobbering Prevention](owasp/DOM_Clobbering_Prevention_Cheat_Sheet.md): 
+- [DotNet Security — DotNet Security](owasp/DotNet_Security_Cheat_Sheet.md): 
+- [Drone Security — Drone Security](owasp/Drone_Security_Cheat_Sheet.md): 
+- [Email Validation and Verification — Email Validation and Verification](owasp/Email_Validation_and_Verification_Cheat_Sheet.md): 
+- [Error Handling — Error Handling](owasp/Error_Handling_Cheat_Sheet.md): 
+- [File Upload — File Upload](owasp/File_Upload_Cheat_Sheet.md): 
+- [Forgot Password — Forgot Password](owasp/Forgot_Password_Cheat_Sheet.md): 
+- [GitHub Actions Security — GitHub Actions Security](owasp/GitHub_Actions_Security_Cheat_Sheet.md): 
+- [GraphQL — GraphQL](owasp/GraphQL_Cheat_Sheet.md): 
+- [gRPC Security — gRPC Security](owasp/gRPC_Security_Cheat_Sheet.md): 
+- [HTML5 Security — HTML5 Security](owasp/HTML5_Security_Cheat_Sheet.md): 
+- [HTTP Headers — HTTP Headers](owasp/HTTP_Headers_Cheat_Sheet.md): 
+- [HTTP Strict Transport Security — HTTP Strict Transport Security](owasp/HTTP_Strict_Transport_Security_Cheat_Sheet.md): 
+- [Infrastructure as Code Security — Infrastructure as Code Security](owasp/Infrastructure_as_Code_Security_Cheat_Sheet.md): 
+- [Injection Prevention — Injection Prevention](owasp/Injection_Prevention_Cheat_Sheet.md): 
+- [Injection Prevention in Java — Injection Prevention in Java](owasp/Injection_Prevention_in_Java_Cheat_Sheet.md): 
+- [Input Validation — Input Validation](owasp/Input_Validation_Cheat_Sheet.md): 
+- [Insecure Direct Object Reference Prevention — Insecure Direct Object Reference Prevention](owasp/Insecure_Direct_Object_Reference_Prevention_Cheat_Sheet.md): 
+- [JAAS — JAAS](owasp/JAAS_Cheat_Sheet.md): 
+- [Java Security — Java Security](owasp/Java_Security_Cheat_Sheet.md): 
+- [JavaScript and TypeScript Security — JavaScript and TypeScript Security](owasp/JavaScript_and_TypeScript_Security_Cheat_Sheet.md): 
+- [JSON Web Token — JSON Web Token](owasp/JSON_Web_Token_Cheat_Sheet.md): 
+- [Key Management — Key Management](owasp/Key_Management_Cheat_Sheet.md): 
+- [Kubernetes Security — Kubernetes Security](owasp/Kubernetes_Security_Cheat_Sheet.md): 
+- [Laravel — Laravel](owasp/Laravel_Cheat_Sheet.md): 
+- [LDAP Injection Prevention — LDAP Injection Prevention](owasp/LDAP_Injection_Prevention_Cheat_Sheet.md): 
+- [Legacy Application Management — Legacy Application Management](owasp/Legacy_Application_Management_Cheat_Sheet.md): 
+- [LLM Prompt Injection Prevention — LLM Prompt Injection Prevention](owasp/LLM_Prompt_Injection_Prevention_Cheat_Sheet.md): 
+- [Logging — Logging](owasp/Logging_Cheat_Sheet.md): 
+- [Logging Vocabulary — Logging Vocabulary](owasp/Logging_Vocabulary_Cheat_Sheet.md): 
+- [Mass Assignment — Mass Assignment](owasp/Mass_Assignment_Cheat_Sheet.md): 
+- [MCP Security — MCP Security](owasp/MCP_Security_Cheat_Sheet.md): 
+- [Microservices based Security Arch Doc — Microservices based Security Arch Doc](owasp/Microservices_based_Security_Arch_Doc_Cheat_Sheet.md): 
+- [Microservices Security — Microservices Security](owasp/Microservices_Security_Cheat_Sheet.md): 
+- [Mobile Application Security — Mobile Application Security](owasp/Mobile_Application_Security_Cheat_Sheet.md): 
+- [Multi Tenant Security — Multi Tenant Security](owasp/Multi_Tenant_Security_Cheat_Sheet.md): 
+- [Multifactor Authentication — Multifactor Authentication](owasp/Multifactor_Authentication_Cheat_Sheet.md): 
+- [Network Segmentation — Network Segmentation](owasp/Network_Segmentation_Cheat_Sheet.md): 
+- [Nextjs Security — Nextjs Security](owasp/Nextjs_Security_Cheat_Sheet.md): 
+- [NodeJS Docker — NodeJS Docker](owasp/NodeJS_Docker_Cheat_Sheet.md): 
+- [Nodejs Security — Nodejs Security](owasp/Nodejs_Security_Cheat_Sheet.md): 
+- [NoSQL Security — NoSQL Security](owasp/NoSQL_Security_Cheat_Sheet.md): 
+- [NPM Security — NPM Security](owasp/NPM_Security_Cheat_Sheet.md): 
+- [OAuth2 — OAuth2](owasp/OAuth2_Cheat_Sheet.md): 
+- [OS Command Injection Defense — OS Command Injection Defense](owasp/OS_Command_Injection_Defense_Cheat_Sheet.md): 
+- [Passkey Security — Passkey Security](owasp/Passkey_Security_Cheat_Sheet.md): 
+- [Password Storage — Password Storage](owasp/Password_Storage_Cheat_Sheet.md): 
+- [PHP Configuration — PHP Configuration](owasp/PHP_Configuration_Cheat_Sheet.md): 
+- [Pinning — Pinning](owasp/Pinning_Cheat_Sheet.md): 
+- [Prototype Pollution Prevention — Prototype Pollution Prevention](owasp/Prototype_Pollution_Prevention_Cheat_Sheet.md): 
+- [Query Parameterization — Query Parameterization](owasp/Query_Parameterization_Cheat_Sheet.md): 
+- [RAG Security — RAG Security](owasp/RAG_Security_Cheat_Sheet.md): 
+- [REST Assessment — REST Assessment](owasp/REST_Assessment_Cheat_Sheet.md): 
+- [REST Security — REST Security](owasp/REST_Security_Cheat_Sheet.md): 
+- [Ruby on Rails — Ruby on Rails](owasp/Ruby_on_Rails_Cheat_Sheet.md): 
+- [SAML Security — SAML Security](owasp/SAML_Security_Cheat_Sheet.md): 
+- [Secrets Management — Secrets Management](owasp/Secrets_Management_Cheat_Sheet.md): 
+- [Secure AI Model Ops — Secure AI Model Ops](owasp/Secure_AI_Model_Ops_Cheat_Sheet.md): 
+- [Secure Cloud Architecture — Secure Cloud Architecture](owasp/Secure_Cloud_Architecture_Cheat_Sheet.md): 
+- [Secure Code Review — Secure Code Review](owasp/Secure_Code_Review_Cheat_Sheet.md): 
+- [Secure Coding with AI — Secure Coding with AI](owasp/Secure_Coding_with_AI_Cheat_Sheet.md): 
+- [Secure Product Design — Secure Product Design](owasp/Secure_Product_Design_Cheat_Sheet.md): 
+- [Security Terminology — Security Terminology](owasp/Security_Terminology_Cheat_Sheet.md): 
+- [Server Side Request Forgery Prevention — Server Side Request Forgery Prevention](owasp/Server_Side_Request_Forgery_Prevention_Cheat_Sheet.md): 
+- [Serverless FaaS Security — Serverless FaaS Security](owasp/Serverless_FaaS_Security_Cheat_Sheet.md): 
+- [Session Management — Session Management](owasp/Session_Management_Cheat_Sheet.md): 
+- [Software Supply Chain Security — Software Supply Chain Security](owasp/Software_Supply_Chain_Security_Cheat_Sheet.md): 
+- [SQL Injection Prevention — SQL Injection Prevention](owasp/SQL_Injection_Prevention_Cheat_Sheet.md): 
+- [Subdomain Takeover Prevention — Subdomain Takeover Prevention](owasp/Subdomain_Takeover_Prevention_Cheat_Sheet.md): 
+- [Symfony — Symfony](owasp/Symfony_Cheat_Sheet.md): 
+- [Third Party Javascript Management — Third Party Javascript Management](owasp/Third_Party_Javascript_Management_Cheat_Sheet.md): 
+- [Third Party Payment Gateway Integration — Third Party Payment Gateway Integration](owasp/Third_Party_Payment_Gateway_Integration_Cheat_Sheet.md): 
+- [Threat Modeling — Threat Modeling](owasp/Threat_Modeling_Cheat_Sheet.md): 
+- [TLS Cipher String — TLS Cipher String](owasp/TLS_Cipher_String_Cheat_Sheet.md): 
+- [Transaction Authorization — Transaction Authorization](owasp/Transaction_Authorization_Cheat_Sheet.md): 
+- [Transport Layer Protection — Transport Layer Protection](owasp/Transport_Layer_Protection_Cheat_Sheet.md): 
+- [Transport Layer Security — Transport Layer Security](owasp/Transport_Layer_Security_Cheat_Sheet.md): 
+- [Unvalidated Redirects and Forwards — Unvalidated Redirects and Forwards](owasp/Unvalidated_Redirects_and_Forwards_Cheat_Sheet.md): 
+- [User Privacy Protection — User Privacy Protection](owasp/User_Privacy_Protection_Cheat_Sheet.md): 
+- [Virtual Patching — Virtual Patching](owasp/Virtual_Patching_Cheat_Sheet.md): 
+- [Vulnerability Disclosure — Vulnerability Disclosure](owasp/Vulnerability_Disclosure_Cheat_Sheet.md): 
+- [Vulnerable Dependency Management — Vulnerable Dependency Management](owasp/Vulnerable_Dependency_Management_Cheat_Sheet.md): 
+- [Web Cache Security — Web Cache Security](owasp/Web_Cache_Security_Cheat_Sheet.md): 
+- [Web Frontend Security — Web Frontend Security](owasp/Web_Frontend_Security_Cheat_Sheet.md): 
+- [Web Service Security — Web Service Security](owasp/Web_Service_Security_Cheat_Sheet.md): 
+- [Webhook Security — Webhook Security](owasp/Webhook_Security_Cheat_Sheet.md): 
+- [WebSocket Security — WebSocket Security](owasp/WebSocket_Security_Cheat_Sheet.md): 
+- [XML External Entity Prevention — XML External Entity Prevention](owasp/XML_External_Entity_Prevention_Cheat_Sheet.md): 
+- [XML Security — XML Security](owasp/XML_Security_Cheat_Sheet.md): 
+- [XPath Injection Prevention — XPath Injection Prevention](owasp/XPath_Injection_Prevention_Cheat_Sheet.md): 
+- [XS Leaks — XS Leaks](owasp/XS_Leaks_Cheat_Sheet.md): 
+- [XSS Filter Evasion — XSS Filter Evasion](owasp/XSS_Filter_Evasion_Cheat_Sheet.md): 
+- [Zero Trust Architecture — Zero Trust Architecture](owasp/Zero_Trust_Architecture_Cheat_Sheet.md): 

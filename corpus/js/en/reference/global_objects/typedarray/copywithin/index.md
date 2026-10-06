@@ -1,0 +1,77 @@
+---
+id: "js-en-function-web-javascript-reference-global_objects-typedarray-copywithin"
+language: "js"
+lang: "en"
+category: "function"
+name: "TypedArray.prototype.copyWithin"
+title: "TypedArray.prototype.copyWithin()"
+directive: "javascript-instance-method"
+module: "reference\\global_objects\\typedarray\\copywithin\\index.md"
+source_url: "https://developer.mozilla.org/en-us/docs/Web/JavaScript/Reference/Global_Objects/TypedArray/copyWithin"
+license: "CC-BY-SA-2.5"
+updated: "2026-10-06"
+---
+
+# TypedArray.prototype.copyWithin()
+
+The **`copyWithin()`** method of `TypedArray` instances shallow copies part of this typed array to another location in the same typed array and returns this typed array without modifying its length. This method has the same algorithm as `Array.prototype.copyWithin()`.
+
+`JavaScript Demo: TypedArray.prototype.copyWithin()`
+
+```js interactive-example
+const uint8 = new Uint8Array([1, 2, 3, 4, 5, 6, 7, 8]);
+
+// Insert position, start position, end position
+uint8.copyWithin(3, 1, 3);
+
+console.log(uint8);
+// Expected output: Uint8Array [1, 2, 3, 2, 3, 6, 7, 8]
+```
+
+## Syntax
+
+```js-nolint
+copyWithin(target, start)
+copyWithin(target, start, end)
+```
+
+### Parameters
+
+- `target`
+  - : Zero-based index at which to copy the sequence to, [converted to an integer](/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number#integer_conversion). This corresponds to where the element at `start` will be copied to, and all elements between `start` and `end` are copied to succeeding indices.
+- `start`
+  - : Zero-based index at which to start copying elements from, [converted to an integer](/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number#integer_conversion).
+- `end` 
+  - : Zero-based index at which to end copying elements from, [converted to an integer](/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number#integer_conversion). `copyWithin()` copies up to but not including `end`.
+
+### Return value
+
+The modified typed array.
+
+## Description
+
+See `Array.prototype.copyWithin()` for more details. This method is not generic and can only be called on typed array instances.
+
+## Examples
+
+### Using copyWithin()
+
+```js
+const buffer = new ArrayBuffer(8);
+const uint8 = new Uint8Array(buffer);
+uint8.set([1, 2, 3]);
+console.log(uint8); // Uint8Array [ 1, 2, 3, 0, 0, 0, 0, 0 ]
+uint8.copyWithin(3, 0, 3);
+console.log(uint8); // Uint8Array [ 1, 2, 3, 1, 2, 3, 0, 0 ]
+```
+
+## Specifications
+
+## Browser compatibility
+
+## See also
+
+- [Polyfill of `TypedArray.prototype.copyWithin` in `core-js`](https://github.com/zloirock/core-js#ecmascript-typed-arrays)
+- [JavaScript typed arrays](/en-US/docs/Web/JavaScript/Guide/Typed_arrays) guide
+- `TypedArray`
+- `Array.prototype.copyWithin()`

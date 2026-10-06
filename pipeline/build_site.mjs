@@ -56,7 +56,7 @@ const NAV = `<header class="topbar">
   </span>
   <a class="brand" href="/">⌘ CodeSyntaxLookup</a>
   <nav>
-    <a href="/">首页</a> · <a href="/search-php.html">PHP</a> · <a href="/search-python.html">Python</a> · <a href="/search-java.html">Java</a> · <a href="/mcp.html">MCP</a>
+    <a href="/">首页</a> · <a href="/search-php.html">PHP</a> · <a href="/search-python.html">Python</a> · <a href="/search-java.html">Java</a> · <a href="/search-js.html">JS</a> · <a href="/mcp.html">MCP</a>
   </nav>
 </header>`;
 
@@ -272,8 +272,8 @@ const LANG_META = {
   php: { label: 'PHP', extras: '  <a href="/corpus/php/danger.html">⚠ 危险函数专页</a> · <a href="/corpus/php/">语料目录</a> · <a href="/manual/php/">官方中文手册</a>' },
   python: { label: 'Python', extras: '  <a href="/corpus/python/danger.html">⚠ 危险函数专页</a> · <a href="/corpus/python/">语料目录</a> · <a href="/manual/python/">官方中文文档</a>' },
   java: { label: 'Java', extras: '  <a href="/corpus/java/danger.html">⚠ 危险函数专页</a> · <a href="/corpus/java/">语料目录</a> · <a href="https://docs.oracle.com/en/java/javase/21/docs/api/index.html" target="_blank" rel="noreferrer">Oracle API（在线）</a>' },
+  js: { label: 'JavaScript', extras: '  <a href="/corpus/js/danger.html">⚠ 危险函数专页</a> · <a href="/corpus/js/">语料目录</a> · <a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript" target="_blank" rel="noreferrer">MDN JavaScript（在线）</a>' },
 };
-
 for (const [lang, meta] of Object.entries(LANG_META)) {
   fs.writeFileSync(path.join(DIST, `search-${lang}.html`), searchPage(lang, meta.label, meta.extras).replace('/*SEARCH_JS*/', `<script>${SEARCH_JS.replace(/LANG/g, lang)}</script>`));
 }
@@ -284,6 +284,7 @@ fs.writeFileSync(path.join(DIST, 'search.html'), searchPage('all', '全部语言
 const langCards = [
   { href: '/manual/php/', title: 'PHP 官方手册', desc: '简体中文 · php.net 官方离线整站', badge: '点击进入' },
   { href: '/manual/python/', title: 'Python 官方文档', desc: '简体中文 · docs.python.org 官方离线整站', badge: '点击进入' },
+  { href: '/search-js.html', title: 'JavaScript / Node.js', desc: '2,354 条语料 · MDN 参考（中英）· Node.js API · 危险函数标注', badge: 'MDN 中文' },
   { href: 'https://docs.oracle.com/en/java/javase/21/docs/api/index.html', title: 'Java API', desc: 'Oracle 官方 Javadoc（在线，无官方中文离线包）', badge: '在线', external: true },
 ];
 const homeCards = langCards

@@ -1,0 +1,80 @@
+---
+id: "js-en-function-web-javascript-reference-global_objects-weakmap-getorinsert"
+language: "js"
+lang: "en"
+category: "function"
+name: "WeakMap.prototype.getOrInsert"
+title: "WeakMap.prototype.getOrInsert()"
+directive: "javascript-instance-method"
+module: "reference\\global_objects\\weakmap\\getorinsert\\index.md"
+source_url: "https://developer.mozilla.org/en-us/docs/Web/JavaScript/Reference/Global_Objects/WeakMap/getOrInsert"
+license: "CC-BY-SA-2.5"
+updated: "2026-10-06"
+---
+
+# WeakMap.prototype.getOrInsert()
+
+The **`getOrInsert()`** method of `WeakMap` instances returns the value corresponding to the specified key in this `WeakMap`. If the key is not present, it inserts a new entry with the key and a given default value, and returns the inserted value.
+
+If the computation of the default value is expensive, consider using `WeakMap.prototype.getOrInsertComputed()` instead, which takes a callback to compute the default value only if it's actually needed.
+
+`JavaScript Demo: WeakMap.prototype.getOrInsert()`
+
+```js interactive-example
+const map = new WeakMap(window, "foo");
+console.log(map.getOrInsert(window, "default"));
+// Expected output: "foo"
+
+console.log(map.getOrInsert({}, "default"));
+// Expected output: "default"
+```
+
+## Syntax
+
+```js-nolint
+getOrInsert(key, defaultValue)
+```
+
+### Parameters
+
+- `key`
+  - : The key of the value to return from the `WeakMap` object. Must be either an object or a [non-registered symbol](/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol#shared_symbols_in_the_global_symbol_registry). Object keys are compared by [reference](/en-US/docs/Glossary/Object_reference), not by value.
+- `defaultValue`
+  - : The value to insert and return if the key is not already present in the `WeakMap` object.
+
+### Return value
+
+The value associated with the specified key in the `WeakMap` object. If the key can't be found, `defaultValue` is inserted and returned.
+
+### Exceptions
+
+- `TypeError`
+  - : Thrown if `key` is not an object or a [non-registered symbol](/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol#shared_symbols_in_the_global_symbol_registry).
+
+## Examples
+
+### Using getOrInsert()
+
+```js
+const wm = new WeakMap();
+const obj = {};
+
+console.log(wm.get(obj)); // undefined
+console.log(wm.getOrInsert(obj, "default")); // "default"
+console.log(wm.get(obj)); // "default"
+console.log(wm.getOrInsert(obj, "another default")); // "default"
+```
+
+## Specifications
+
+## Browser compatibility
+
+## See also
+
+- [Polyfill of `WeakMap.prototype.getOrInsert` in `core-js`](https://github.com/zloirock/core-js#map-upsert)
+- [es-shims polyfill of `WeakMap.prototype.getOrInsert`](https://www.npmjs.com/package/weakmap.prototype.getorinsert)
+- `WeakMap`
+- `WeakMap.prototype.get()`
+- `WeakMap.prototype.set()`
+- `WeakMap.prototype.has()`
+- `WeakMap.prototype.getOrInsertComputed()`

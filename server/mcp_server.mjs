@@ -13,7 +13,7 @@ const TOOL_DEFS = [
     inputSchema: {
       type: 'object',
       properties: {
-        language: { type: 'string', description: '语言', enum: ['php', 'python', 'java'], default: 'php' },
+        language: { type: 'string', description: '语言', enum: ['php', 'python', 'java', 'js'], default: 'php' },
         query: { type: 'string', description: '函数名或中文/英文关键词' },
         category: { type: 'string', description: '条目类型过滤', enum: ['function', 'syntax', 'security', 'guide'] },
         danger: { type: 'string', description: '危险类型过滤', enum: ['sink', 'source', 'sanitizer', 'validator'] },
@@ -29,7 +29,7 @@ const TOOL_DEFS = [
     inputSchema: {
       type: 'object',
       properties: {
-        language: { type: 'string', enum: ['php', 'python', 'java'], default: 'php' },
+        language: { type: 'string', enum: ['php', 'python', 'java', 'js'], default: 'php' },
         name: { type: 'string', description: '函数/类/方法名，如 system、mysqli::query、move_uploaded_file' },
       },
       required: ['name'],
@@ -41,7 +41,7 @@ const TOOL_DEFS = [
     inputSchema: {
       type: 'object',
       properties: {
-        language: { type: 'string', enum: ['php', 'python', 'java'], default: 'php' },
+        language: { type: 'string', enum: ['php', 'python', 'java', 'js'], default: 'php' },
         type: { type: 'string', enum: ['sink', 'source', 'sanitizer', 'validator'], description: '按污点类型过滤' },
         cwe: { type: 'string', description: '按 CWE 过滤，如 CWE-78' },
         limit: { type: 'number', default: 50 },
@@ -54,7 +54,7 @@ const TOOL_DEFS = [
     inputSchema: {
       type: 'object',
       properties: {
-        language: { type: 'string', enum: ['php', 'python', 'java'], default: 'php' },
+        language: { type: 'string', enum: ['php', 'python', 'java', 'js'], default: 'php' },
         question: { type: 'string', description: '审计问题，中英文皆可' },
       },
       required: ['question'],

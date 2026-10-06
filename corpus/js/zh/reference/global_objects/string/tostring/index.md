@@ -1,0 +1,72 @@
+---
+id: "js-zh-syntax-web-javascript-reference-global_objects-string-tostring"
+language: "js"
+lang: "zh"
+category: "syntax"
+name: "String.prototype.toString"
+title: "String.prototype.toString()"
+module: "reference\\global_objects\\string\\tostring\\index.md"
+source_url: "https://developer.mozilla.org/zh-cn/docs/Web/JavaScript/Reference/Global_Objects/String/toString"
+license: "CC-BY-SA-2.5"
+updated: "2026-10-06"
+---
+
+# String.prototype.toString()
+
+`String` 的 **`toString()`** 方法返回该字符串的值。
+
+`JavaScript Demo: String.toString()`
+
+```js interactive-example
+const stringObj = new String("foo");
+
+console.log(stringObj);
+// Expected output: String { "foo" }
+
+console.log(stringObj.toString());
+// Expected output: "foo"
+```
+
+## 语法
+
+```js-nolint
+toString()
+```
+
+### 返回值
+
+表示指定字符串值的字符串。
+
+## 描述
+
+`String` 对象重写了 `Object` 的 `toString` 方法；它不会继承 `Object.prototype.toString()`。对于 `String` 值，`toString` 方法返回字符串本身（如果它是原始值）或 `String` 对象封装的字符串。它的实现与 `String.prototype.valueOf()` 完全相同。
+
+`toString()` 方法要求其 `this` 值为 `String` 原始值或封装对象。对于其他 `this` 值，它会抛出 `TypeError` 而不尝试将其转换为字符串值。
+
+由于 `String` 没有 [`[Symbol.toPrimitive]()`](/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Symbol/toPrimitive) 方法，当一个 `String` *对象*在期望字符串的上下文中使用时（比如在[模板字面量](/zh-CN/docs/Web/JavaScript/Reference/Template_literals)中），JavaScript 会自动调用 `toString()` 方法。然而，`String` *原始值*不会使用 `toString()` 方法来进行[字符串强制转换](/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/String#字符串强制转换)——因为它们已经是字符串，所以不会进行转换。
+
+```js
+String.prototype.toString = () => "已经被重写了";
+console.log(`${"foo"}`); // "foo"
+console.log(`${new String("foo")}`); // "已经被重写了"
+```
+
+## 示例
+
+### 使用 toString()
+
+以下示例输出一个 `String` 对象的字符串值：
+
+```js
+const x = new String("Hello world");
+
+console.log(x.toString()); // "Hello world"
+```
+
+## 规范
+
+## 浏览器兼容性
+
+## 参见
+
+- `String.prototype.valueOf()`

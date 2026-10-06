@@ -1,0 +1,90 @@
+---
+id: "js-en-function-web-javascript-reference-global_objects-internalerror"
+language: "js"
+lang: "en"
+category: "function"
+name: "InternalError"
+title: "InternalError"
+directive: "javascript-class"
+module: "reference\\global_objects\\internalerror\\index.md"
+source_url: "https://developer.mozilla.org/en-us/docs/Web/JavaScript/Reference/Global_Objects/InternalError"
+license: "CC-BY-SA-2.5"
+updated: "2026-10-06"
+---
+
+# InternalError
+
+The **`InternalError`** object indicates an error that occurred internally in the JavaScript engine.
+
+Example cases are mostly when something is too large, e.g.:
+
+- "too many switch cases",
+- "too many parentheses in regular expression",
+- "array initializer too large",
+- "too much recursion".
+
+`InternalError` is a subclass of `Error`.
+
+## Constructor
+
+- `InternalError/InternalError` 
+  - : Creates a new `InternalError` object.
+
+## Instance properties
+
+_Also inherits instance properties from its parent `Error`_.
+
+These properties are defined on `InternalError.prototype` and shared by all `InternalError` instances.
+
+- `Object/constructor`
+  - : The constructor function that created the instance object. For `InternalError` instances, the initial value is the `InternalError/InternalError` constructor.
+- `Error/name`
+  - : Represents the name for the type of error. For `InternalError.prototype.name`, the initial value is `"InternalError"`.
+
+## Instance methods
+
+_Inherits instance methods from its parent `Error`_.
+
+## Examples
+
+### Too much recursion
+
+This recursive function runs 10 times, as per the exit condition.
+
+```js
+function loop(x) {
+  // "x >= 10" is the exit condition
+  if (x >= 10) return;
+
+  // do stuff
+  loop(x + 1); // the recursive call
+}
+loop(0);
+```
+
+Setting this condition to an extremely high value, may not work:
+
+```js example-bad
+function loop(x) {
+  if (x >= 1000000000000) return;
+
+  // do stuff
+  loop(x + 1);
+}
+loop(0);
+
+// InternalError: too much recursion
+```
+
+For more information, see [InternalError: too much recursion.](/en-US/docs/Web/JavaScript/Reference/Errors/Too_much_recursion)
+
+## Specifications
+
+Not part of any standard.
+
+## Browser compatibility
+
+## See also
+
+- `Error`
+- [InternalError: too much recursion](/en-US/docs/Web/JavaScript/Reference/Errors/Too_much_recursion)

@@ -1,0 +1,81 @@
+---
+id: "js-en-function-web-javascript-reference-global_objects-intl-durationformat"
+language: "js"
+lang: "en"
+category: "function"
+name: "Intl.DurationFormat"
+title: "Intl.DurationFormat"
+directive: "javascript-class"
+module: "reference\\global_objects\\intl\\durationformat\\index.md"
+source_url: "https://developer.mozilla.org/en-us/docs/Web/JavaScript/Reference/Global_Objects/Intl/DurationFormat"
+license: "CC-BY-SA-2.5"
+updated: "2026-10-06"
+---
+
+# Intl.DurationFormat
+
+The **`Intl.DurationFormat`** object enables language-sensitive duration formatting.
+
+## Constructor
+
+- `Intl/DurationFormat/DurationFormat`
+  - : Creates a new `Intl.DurationFormat` object.
+
+## Static methods
+
+- {{jsxref("Intl/DurationFormat/supportedLocalesOf", "Intl.DurationFormat.supportedLocalesOf()")}}
+  - : Returns an array containing those of the provided locales that are supported without having to fall back to the runtime's default locale.
+
+## Instance properties
+
+These properties are defined on `Intl.DurationFormat.prototype` and shared by all `Intl.DurationFormat` instances.
+
+- `Object/constructor`
+  - : The constructor function that created the instance object. For `Intl.DurationFormat` instances, the initial value is the `Intl/DurationFormat/DurationFormat` constructor.
+- `Intl.DurationFormat.prototype[Symbol.toStringTag]`
+  - : The initial value of the [`[Symbol.toStringTag]`](/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol/toStringTag) property is the string `"Intl.DurationFormat"`. This property is used in `Object.prototype.toString()`.
+
+## Instance methods
+
+- `Intl/DurationFormat/format`
+  - : Getter function that formats a duration according to the locale and formatting options of this `DurationFormat` object.
+- {{jsxref("Intl/DurationFormat/formatToParts", "Intl.DurationFormat.prototype.formatToParts()")}}
+  - : Returns an `Array` of objects representing the formatted duration in parts.
+- {{jsxref("Intl/DurationFormat/resolvedOptions", "Intl.DurationFormat.prototype.resolvedOptions()")}}
+  - : Returns a new object with properties reflecting the locale and formatting options computed during initialization of the object.
+
+## Examples
+
+### Using Intl.DurationFormat
+
+The examples below show how to use the `Intl.DurationFormat` object to format a duration object with various locales and styles.
+
+```js
+const duration = {
+  hours: 1,
+  minutes: 46,
+  seconds: 40,
+};
+
+// With style set to "long" and locale "fr-FR"
+new Intl.DurationFormat("fr-FR", { style: "long" }).format(duration);
+// "1 heure, 46 minutes et 40 secondes"
+
+// With style set to "short" and locale "en"
+new Intl.DurationFormat("en", { style: "short" }).format(duration);
+// "1 hr, 46 min and 40 sec"
+
+// With style set to "narrow" and locale "pt"
+new Intl.DurationFormat("pt", { style: "narrow" }).format(duration);
+// "1 h 46 min 40 s"
+```
+
+## Specifications
+
+## Browser compatibility
+
+## See also
+
+- [Polyfill of `Intl.DurationFormat` in FormatJS](https://formatjs.github.io/docs/polyfills/intl-durationformat/)
+- `Intl`
+- {{jsxref("Temporal/Duration/toLocaleString", "Temporal.Duration.prototype.toLocaleString()")}}

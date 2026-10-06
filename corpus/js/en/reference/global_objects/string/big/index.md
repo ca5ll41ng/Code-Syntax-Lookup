@@ -1,0 +1,72 @@
+---
+id: "js-en-function-web-javascript-reference-global_objects-string-big"
+language: "js"
+lang: "en"
+category: "function"
+name: "String.prototype.big"
+title: "String.prototype.big()"
+directive: "javascript-instance-method"
+module: "reference\\global_objects\\string\\big\\index.md"
+source_url: "https://developer.mozilla.org/en-us/docs/Web/JavaScript/Reference/Global_Objects/String/big"
+license: "CC-BY-SA-2.5"
+updated: "2026-10-06"
+---
+
+# String.prototype.big()
+
+The **`big()`** method of `String` values creates a string that embeds this string in a `big` element (`<big>str</big>`), which causes this string to be displayed in a big font.
+
+> [!NOTE]
+> All [HTML wrapper methods](/en-US/docs/Web/JavaScript/Reference/Global_Objects/String#html_wrapper_methods) are deprecated and only standardized for compatibility purposes. For the case of `big()`, the `<big>` element itself has been removed from the HTML specification and shouldn't be used anymore. Web developers should use [CSS](/en-US/docs/Web/CSS) properties instead.
+
+## Syntax
+
+```js-nolint
+big()
+```
+
+### Parameters
+
+None.
+
+### Return value
+
+A string beginning with a `<big>` start tag, then the text `str`, and then a `</big>` end tag.
+
+## Examples
+
+### Using big()
+
+The code below creates an HTML string and then replaces the document's body with it:
+
+```js
+const contentString = "Hello, world";
+
+document.body.innerHTML = contentString.big();
+```
+
+This will create the following HTML:
+
+```html
+<big>Hello, world</big>
+```
+
+> [!WARNING]
+> This markup is invalid, because `big` is no longer a valid element.
+
+Instead of using `big()` and creating HTML text directly, you should use CSS to manipulate fonts. For example, you can manipulate `font-size` through the `HTMLElement/style` attribute:
+
+```js
+document.getElementById("yourElemId").style.fontSize = "2em";
+```
+
+## Specifications
+
+## Browser compatibility
+
+## See also
+
+- [Polyfill of `String.prototype.big` in `core-js`](https://github.com/zloirock/core-js#ecmascript-string-and-regexp)
+- [es-shims polyfill of `String.prototype.big`](https://www.npmjs.com/package/es-string-html-methods)
+- [HTML wrapper methods](/en-US/docs/Web/JavaScript/Reference/Global_Objects/String#html_wrapper_methods)
+- `big`

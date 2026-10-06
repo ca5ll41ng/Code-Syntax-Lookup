@@ -1,0 +1,60 @@
+---
+id: "js-zh-syntax-web-javascript-reference-operators-assignment"
+language: "js"
+lang: "zh"
+category: "syntax"
+name: "赋值（=）"
+title: "赋值（=）"
+module: "reference\\operators\\assignment\\index.md"
+source_url: "https://developer.mozilla.org/zh-cn/docs/Web/JavaScript/Reference/Operators/Assignment"
+license: "CC-BY-SA-2.5"
+updated: "2026-10-06"
+---
+
+# 赋值（=）
+
+简单赋值运算符（`=`）用于给变量赋值。赋值表达式本身的值为要赋值的值。为了将一个值赋给多个变量，可以链式使用赋值运算符。
+
+`JavaScript Demo: Expressions - Assignment`
+
+```js interactive-example
+let x = 2;
+const y = 3;
+
+console.log(x);
+// Expected output: 2
+
+console.log((x = y + 1)); // 3 + 1
+// Expected output: 4
+
+console.log((x = x * y)); // 4 * 3
+// Expected output: 12
+```
+
+## 语法
+
+```js-nolint
+x = y
+```
+
+## 示例
+
+### 简单赋值和链式赋值
+
+```js
+// 假设已经存在以下变量
+//  x = 5
+//  y = 10
+//  z = 25
+
+x = y; // x 为 10
+x = y = z; // x, y 都为 25
+```
+
+## 规范
+
+## 浏览器兼容性
+
+## 参见
+
+- [JS 指南中的赋值运算符](/zh-CN/docs/Web/JavaScript/Guide/Expressions_and_operators#赋值运算符)

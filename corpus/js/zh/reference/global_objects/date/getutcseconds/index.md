@@ -1,0 +1,59 @@
+---
+id: "js-zh-syntax-web-javascript-reference-global_objects-date-getutcseconds"
+language: "js"
+lang: "zh"
+category: "syntax"
+name: "Date.prototype.getUTCSeconds"
+title: "Date.prototype.getUTCSeconds()"
+module: "reference\\global_objects\\date\\getutcseconds\\index.md"
+source_url: "https://developer.mozilla.org/zh-cn/docs/Web/JavaScript/Reference/Global_Objects/Date/getUTCSeconds"
+license: "CC-BY-SA-2.5"
+updated: "2026-10-06"
+---
+
+# Date.prototype.getUTCSeconds()
+
+**`getUTCSeconds()`** 方法以世界时为标准，返回一个指定的日期对象的秒数。
+
+`JavaScript Demo: Date.getUTCSeconds()`
+
+```js interactive-example
+const moonLanding = new Date("July 20, 1969, 20:18:04 UTC");
+
+console.log(moonLanding.getUTCSeconds());
+// Expected output: 4
+```
+
+## 语法
+
+```js-nolint
+dateObj.getUTCSeconds()
+```
+
+### 参数
+
+无。
+
+### 返回值
+
+`getUTCSeconds()` 返回一个 0 到 59 的整数。
+
+## 示例
+
+### 示例：使用 `getUTCSeconds()` 方法
+
+下例将当前时间的秒数部分赋值给变量 `seconds`。
+
+```js
+var today = new Date();
+var seconds = today.getUTCSeconds();
+```
+
+## 规范
+
+## 浏览器兼容性
+
+## 参见
+
+- `Date.prototype.getSeconds()`
+- `Date.prototype.setUTCSeconds()`

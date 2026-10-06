@@ -1,0 +1,87 @@
+---
+id: "js-zh-syntax-web-javascript-reference-global_objects-arraybuffer-transfertofixedlength"
+language: "js"
+lang: "zh"
+category: "syntax"
+name: "ArrayBuffer.prototype.transferToFixedLength"
+title: "ArrayBuffer.prototype.transferToFixedLength()"
+module: "reference\\global_objects\\arraybuffer\\transfertofixedlength\\index.md"
+source_url: "https://developer.mozilla.org/zh-cn/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer/transferToFixedLength"
+license: "CC-BY-SA-2.5"
+updated: "2026-10-06"
+---
+
+# ArrayBuffer.prototype.transferToFixedLength()
+
+`ArrayBuffer` 实例的 **`transferToFixedLength()`** 方法创建一个不可调整大小的新 `ArrayBuffer` 对象，该对象与此缓冲区具有相同的字节内容，然后将此缓冲区分离。
+
+## 语法
+
+```js-nolint
+transferToFixedLength()
+transferToFixedLength(newByteLength)
+```
+
+### 参数
+
+- `newByteLength`
+  - : 新的 `ArrayBuffer` 的 `ArrayBuffer/byteLength`。默认为此 `ArrayBuffer` 的 `byteLength`。
+    - 如果 `newByteLength` 小于此 `ArrayBuffer` 的 `byteLength`，则“溢出的”字节将被丢弃。
+    - 如果 `newByteLength` 大于此 `ArrayBuffer` 的 `maxByteLength`，则多余的字节用零填充。
+
+### 返回值
+
+一个新的 `ArrayBuffer` 对象。它的内容被初始化为此 `ArrayBuffer` 的内容，如果有多余的字节，则用零填充。新的 `ArrayBuffer` 总是不可调整大小的。原始 `ArrayBuffer` 被分离。
+
+### 异常
+
+- `TypeError`
+  - : 如果此 `ArrayBuffer` 已经分离，则抛出该错误。
+
+## 描述
+
+和 `ArrayBuffer/transfer` 不同，`transferToFixedLength()` 总是创建一个不可调整大小的 `ArrayBuffer`。这意味着 `newByteLength` 可以比 `maxByteLength` 大，即使此 `ArrayBuffer` 是可调整大小的。有关更多信息，请参阅[传输 ArrayBuffer](/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer#传输_arraybuffer)。
+
+## 示例
+
+### 将可调整大小的 ArrayBuffer 转换为固定长度
+
+```js
+const buffer = new ArrayBuffer(8, { maxByteLength: 16 });
+const view = new Uint8Array(buffer);
+view[1] = 2;
+view[7] = 4;
+
+const buffer2 = buffer.transferToFixedLength();
+console.log(buffer2.byteLength); // 8
+console.log(buffer2.resizable); // false
+const view2 = new Uint8Array(buffer2);
+console.log(view2[1]); // 2
+console.log(view2[7]); // 4
+```
+
+通过使用 `transferToFixedLength`，`newByteLength` 可以大于原来的 `ArrayBuffer` 的 `maxByteLength`。
+
+```js
+const buffer = new ArrayBuffer(8, { maxByteLength: 16 });
+const view = new Uint8Array(buffer);
+view[1] = 2;
+view[7] = 4;
+
+const buffer2 = buffer.transferToFixedLength(20);
+console.log(buffer2.byteLength); // 20
+console.log(buffer2.resizable); // false
+const view2 = new Uint8Array(buffer2);
+console.log(view2[1]); // 2
+console.log(view2[7]); // 4
+```
+
+## 规范
+
+## 浏览器兼容性
+
+## 参见
+
+- `ArrayBuffer`
+- `ArrayBuffer.prototype.detached`
+- `ArrayBuffer.prototype.transfer()`

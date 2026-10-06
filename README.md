@@ -5,7 +5,7 @@
 - **人**：轻量静态站点 + Pagefind 搜索（中文分词，纯静态可离线部署）
 - **AI**：MCP 服务器（`search_syntax` / `get_entry` / `list_dangerous` / `kb_stats`）+ [llms.txt](llms.txt) 标准导出 + SQLite 双索引（FTS5 全文，向量层预留）
 
-当前状态：**PHP + Python + Java 三语言全链路已打通**。
+当前状态：**PHP + Python + Java + JS 四语言全链路已打通**。
 
 ## 语料
 
@@ -18,7 +18,7 @@
 | Java API（javadoc 提取，审计核心模块白名单）+ JLS 语法（ANTLR 移植） | [openjdk/jdk](https://github.com/openjdk/jdk) src/ + [antlr/grammars-v4](https://github.com/antlr/grammars-v4) java/ | GPLv2+CE / MIT |
 | Java 污点 sink（按漏洞类型×框架细分 + 参数位 + CWE） | [find-sec-bugs/find-sec-bugs](https://github.com/find-sec-bugs/find-sec-bugs) | LGPL-3.0 |
 
-规模：**39,628 条**（PHP 11,177 · Python 10,184 · Java 18,268），367 条带危险标注。Java 无官方中文，条目 lang=en，中文提问靠多语言 embedding 跨语言检索（M4）。
+规模：**42,109 条**（PHP 11,177 · Python 10,184 · Java 18,268 · JS 2,354），389 条带危险标注。语义向量覆盖危险/安全/中文/JS 子集（6,803 条），全量可用 `npm run embed -- --all`。
 
 ## 快速开始
 

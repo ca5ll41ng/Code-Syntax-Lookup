@@ -16,13 +16,14 @@
     "llmstxt": "node pipeline/llmstxt.mjs",
     "site:build": "node pipeline/build_site.mjs && cd docs-site && npx pagefind --site dist",
     "site:preview": "cd docs-site && npx pagefind --site dist --serve",
-    "build": "npm run adapter:php && npm run adapter:python && npm run adapter:java && npm run adapter:owasp && npm run enrich && npm run index && npm run embed && npm run llmstxt && npm run site:build",
+    "build": "npm run adapter:php && npm run adapter:python && npm run adapter:java && npm run adapter:js && npm run adapter:owasp && npm run enrich && npm run index && npm run embed && npm run llmstxt && npm run site:build",
     "test": "node test/mcp_smoke.mjs",
     "mcp": "node server/mcp_server.mjs",
     "ask": "node server/ask.mjs",
     "update": "node pipeline/update.mjs",
     "build:exe": "node pipeline/build_exe.mjs",
-    "app": "electron ."
+    "app": "electron .",
+    "adapter:js": "node sources/js_adapter.mjs"
   },
   "dependencies": {
     "@huggingface/transformers": "^4.3.0",

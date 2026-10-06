@@ -43,7 +43,7 @@ const scopeArg = args.find((a) => a.startsWith('--scope='));
 let where = EMBED_ALL ? '' : `WHERE (danger IS NOT NULL OR category = 'security' OR language = 'multi')`;
 if (scopeArg) {
   const v = scopeArg.split('=')[1];
-  where = `WHERE (lang = '${v}' OR danger IS NOT NULL OR category = 'security' OR language = 'multi')`;
+  where = `WHERE (lang = '${v}' OR language = '${v}' OR danger IS NOT NULL OR category = 'security' OR language = 'multi')`;
 }
 const rows = db.prepare(`SELECT id, name, title, signature, content FROM docs ${where ? where + ' AND ' : 'WHERE '}id NOT IN (SELECT doc_id FROM doc_vectors)`).all();
 const targets = LIMIT > 0 ? rows.slice(0, LIMIT) : rows;

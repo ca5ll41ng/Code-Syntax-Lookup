@@ -1,0 +1,250 @@
+---
+id: "js-zh-syntax-web-javascript-reference-global_objects-array-findlast"
+language: "js"
+lang: "zh"
+category: "syntax"
+name: "Array.prototype.findLast"
+title: "Array.prototype.findLast()"
+module: "reference\\global_objects\\array\\findlast\\index.md"
+source_url: "https://developer.mozilla.org/zh-cn/docs/Web/JavaScript/Reference/Global_Objects/Array/findLast"
+license: "CC-BY-SA-2.5"
+updated: "2026-10-06"
+---
+
+# Array.prototype.findLast()
+
+**`findLast()`** 方法反向迭代数组，并返回满足提供的测试函数的第一个元素的值。如果没有找到对应元素，则返回 `undefined`。
+
+如果你需要查找：
+
+- *第一个*匹配的元素，请使用 `Array/find`。
+- 数组中最后一个匹配元素的*索引*，请使用 `Array/findLastIndex`。
+- _某个值的索引_，请使用 `Array/indexOf`。（它类似于 `Array/findIndex`，但是会检查每个元素是否与值相等，而不是使用一个测试函数。）
+- 某个值是否*存在*该数组中，请使用 `Array/includes`。同样地，它会检查每个元素是否与该值相等，而不是使用一个测试函数。
+- 是否有任意一个元素满足给定的测试函数，请使用 `Array/some`。
+
+`JavaScript 演示：Array.prototype.findLast()`
+
+```js interactive-example
+const array = [5, 12, 50, 130, 44];
+
+const found = array.findLast((element) => element > 45);
+
+console.log(found);
+// 期望输出：130
+```
+
+## 语法
+
+```js-nolint
+findLast(callbackFn)
+findLast(callbackFn, thisArg)
+```
+
+### 参数
+
+- `callbackFn`
+  - : 数组中测试元素的函数。回调应该返回一个[真值](/zh-CN/docs/Glossary/Truthy)，表示已找到匹配的元素，否则返回一个[假值](/zh-CN/docs/Glossary/Falsy)。函数在被调用时会传递以下参数：
+    - `element`
+      - : 当前遍历到的元素。
+    - `index`
+      - : 当前遍历到的元素的索引（位置）。
+    - `array`
+      - : 调用 `findLast()` 的数组本身。
+- `thisArg` 
+  - : 执行 `callbackFn` 时，用作 `this` 的值。详见[迭代方法](/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Array#迭代方法)。
+
+### 返回值
+
+数组中满足提供的测试函数索引最高的元素；如果没有元素匹配，返回 `undefined`。
+
+## 描述
+
+`findLast()` 是一个[迭代方法](/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Array#迭代方法)。该方法对数组每一个元素按降序（索引从大到小）执行 `callbackFn` 函数，直到 `callbackFn` 返回一个[真值](/zh-CN/docs/Glossary/Truthy)。然后 `findLast()` 返回该元素的值并停止遍历数组。如果 `callbackFn` 没有返回一个真值，则 `findLast()` 返回 `undefined`。
+
+`callbackFn` 会被数组中的*每个*元素调用，而不仅仅是那些被赋值的元素。对于[稀疏数组](/zh-CN/docs/Web/JavaScript/Guide/Indexed_collections#稀疏数组)来说，空槽行为和 `undefined` 相同。
+
+`findLast()` 方法是[通用的](/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Array#通用数组方法)。它只期望 `this` 值具有 `length` 属性和整数键的属性。
+
+## 示例
+
+### 查找与元素属性匹配的数组中的最后一个对象
+
+此示例展示了如何根据数组元素的属性创建测试。
+
+```js
+const inventory = [
+  { name: "apples", quantity: 2 },
+  { name: "bananas", quantity: 0 },
+  { name: "fish", quantity: 1 },
+  { name: "cherries", quantity: 5 },
+];
+
+// 库存低时返回 true
+function isNotEnough(item) {
+  return item.quantity < 2;
+}
+
+console.log(inventory.findLast(isNotEnough));
+// { name: "fish", quantity: 1 }
+```
+
+#### 使用箭头函数和解构
+
+前面的示例可以使用箭头函数和[对象解构](/zh-CN/docs/Web/JavaScript/Reference/Operators/Destructuring#解构对象)重写如下：
+
+```js
+const inventory = [
+  { name: "apples", quantity: 2 },
+  { name: "bananas", quantity: 0 },
+  { name: "fish", quantity: 1 },
+  { name: "cherries", quantity: 5 },
+];
+
+const result = inventory.findLast(({ quantity }) => quantity < 2);
+
+console.log(result);
+// { name: "fish", quantity: 1 }
+```
+
+### 查找数组中的最后一个素数
+
+以下示例查找数组中的最后一个素数元素（如果没有素数，则返回 `undefined`）：
+
+```js
+function isPrime(n) {
+  if (n < 2) {
+    return false;
+  }
+  if (n % 2 === 0) {
+    return n === 2;
+  }
+  for (let factor = 3; factor * factor <= n; factor += 2) {
+    if (n % factor === 0) {
+      return false;
+    }
+  }
+  return true;
+}
+
+console.log([4, 6, 8, 12].findLast(isPrime)); // undefined，没有找到
+console.log([4, 5, 7, 8, 9, 11, 12].findLast(isPrime)); // 11
+```
+
+> [!NOTE]
+> `isPrime()` 实现仅供演示。在实际应用中，为了避免重复计算，会使用大量记忆化的算法，例如[埃拉托斯特尼筛法](https://zh.wikipedia.org/wiki/埃拉托斯特尼筛法)。
+
+### 查找最近完成的任务
+
+此示例演示了在处理按时间排序的数据时 `findLast()` 的一个实际应用场景。它从已按 `timestamp` 排序的列表中查找最近完成的任务。
+
+```js
+const tasks = [
+  { name: "搭建项目", completed: true, timestamp: 1609459200000 },
+  { name: "编写测试", completed: false, timestamp: 1609545600000 },
+  { name: "修复 bug #42", completed: true, timestamp: 1609632000000 },
+  { name: "部署到预发环境", completed: true, timestamp: 1609718400000 },
+  { name: "审查 PR", completed: false, timestamp: 1609804800000 },
+];
+
+const lastCompletedTask = tasks.findLast((task) => task.completed);
+
+console.log(lastCompletedTask.name); // 部署到预发环境
+```
+
+这比对倒序数据使用 `find()` 更高效，因为它避免了创建新数组。
+
+### 使用回调函数的第三个参数
+
+如果你需要访问数组中的另一个元素，`array` 参数会非常有用，尤其是在没有现有的变量引用该数组时。以下示例首先使用 `filter()` 提取正数，然后使用 `findLast()` 查找小于其相邻元素的最后一个元素。
+
+```js
+const numbers = [3, -1, 1, 4, 1, 5, 9, 2, 6];
+const lastTrough = numbers
+  .filter((num) => num > 0)
+  .findLast((num, idx, arr) => {
+    // 如果没有 arr 参数，就无法轻松访问中间数组，除非将其保存到变量中。
+    if (idx > 0 && num >= arr[idx - 1]) return false;
+    if (idx < arr.length - 1 && num >= arr[idx + 1]) return false;
+    return true;
+  });
+console.log(lastTrough); // 2
+```
+
+### 在稀疏数组上使用 findLast()
+
+稀疏数组中的空槽*被*访问，并被视为 `undefined`。
+
+```js
+// 声明一个在索引 2、3 和 4 处没有元素的数组
+const array = [0, 1, , , , 5, 6];
+
+// 显示所有的索引（不只包括那些被赋值的）
+array.findLast((value, index) => {
+  console.log(`访问索引 ${index}，值为 ${value}`);
+  return false;
+});
+// 访问索引 6，值为 6
+// 访问索引 5，值为 5
+// 访问索引 4，值为 undefined
+// 访问索引 3，值为 undefined
+// 访问索引 2，值为 undefined
+// 访问索引 1，值为 1
+// 访问索引 0，值为 0
+
+// 显示所有的索引（包括已被删除的）
+array.findLast((value, index) => {
+  // 在第一次迭代时删除值为 5 的元素
+  if (index === 6) {
+    console.log(`删除值为 array[5]，其值为 ${array[5]}`);
+    delete array[5];
+  }
+  // 元素 5 在被删除后，仍会被访问
+  console.log(`访问索引 ${index}，值为 ${value}`);
+  return false;
+});
+// 删除值为 array[5]，其值为 5
+// 访问索引 6，值为 6
+// 访问索引 5，值为 undefined
+// 访问索引 4，值为 undefined
+// 访问索引 3，值为 undefined
+// 访问索引 2，值为 undefined
+// 访问索引 1，值为 1
+// 访问索引 0，值为 0
+```
+
+### 在非数组对象上调用 findLast()
+
+`findLast()` 方法读取 `this` 的 `length` 属性，然后访问每个键为小于 `length` 的非负整数的属性。
+
+```js
+const arrayLike = {
+  length: 3,
+  0: 2,
+  1: 7.3,
+  2: 4,
+  3: 3, // 被 findLast() 忽略，因为 length 是 3
+};
+console.log(
+  Array.prototype.findLast.call(arrayLike, (x) => Number.isInteger(x)),
+); // 4
+```
+
+## 规范
+
+## 浏览器兼容性
+
+## 参见
+
+- [`core-js` 中 `Array.prototype.findLast` 的 polyfill](https://github.com/zloirock/core-js#array-find-from-last)
+- [`Array.prototype.findLast` 的 es-shims polyfill](https://www.npmjs.com/package/array.prototype.findlast)
+- [索引集合](/zh-CN/docs/Web/JavaScript/Guide/Indexed_collections)指南
+- `Array`
+- `Array.prototype.find()`
+- `Array.prototype.findIndex()`
+- `Array.prototype.findLastIndex()`
+- `Array.prototype.includes()`
+- `Array.prototype.filter()`
+- `Array.prototype.every()`
+- `Array.prototype.some()`
+- `TypedArray.prototype.findLast()`

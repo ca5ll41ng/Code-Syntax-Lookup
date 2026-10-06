@@ -1,0 +1,447 @@
+---
+id: "js-en-function-node-path"
+language: "js"
+lang: "en"
+category: "function"
+name: "node:path"
+title: "Path"
+directive: "module"
+module: "node"
+source_url: "https://nodejs.org/docs/latest/api/path.html"
+license: "CC-BY-4.0"
+updated: "2026-10-06"
+---
+
+# Path
+
+<h1>Path</h1>
+<blockquote>
+<p>Stability: 2 - Stable</p>
+</blockquote>
+<p>The <code>node:path</code> module provides utilities for working with file and directory
+paths. It can be accessed using:</p>
+<pre><code class="language-cjs">const path = require('node:path');
+</code></pre>
+<pre><code class="language-mjs">import path from 'node:path';
+</code></pre>
+<h2>Windows vs. POSIX</h2>
+<p>The default operation of the <code>node:path</code> module varies based on the operating
+system on which a Node.js application is running. Specifically, when running on
+a Windows operating system, the <code>node:path</code> module will assume that
+Windows-style paths are being used.</p>
+<p>So using <code>path.basename()</code> might yield different results on POSIX and Windows:</p>
+<p>On POSIX:</p>
+<pre><code class="language-js">path.basename('C:\\temp\\myfile.html');
+// Returns: 'C:\\temp\\myfile.html'
+</code></pre>
+<p>On Windows:</p>
+<pre><code class="language-js">path.basename('C:\\temp\\myfile.html');
+// Returns: 'myfile.html'
+</code></pre>
+<p>To achieve consistent results when working with Windows file paths on any
+operating system, use <a href="#pathwin32"><code>path.win32</code></a>:</p>
+<p>On POSIX and Windows:</p>
+<pre><code class="language-js">path.win32.basename('C:\\temp\\myfile.html');
+// Returns: 'myfile.html'
+</code></pre>
+<p>To achieve consistent results when working with POSIX file paths on any
+operating system, use <a href="#pathposix"><code>path.posix</code></a>:</p>
+<p>On POSIX and Windows:</p>
+<pre><code class="language-js">path.posix.basename('/tmp/myfile.html');
+// Returns: 'myfile.html'
+</code></pre>
+<p>On Windows Node.js follows the concept of per-drive working directory.
+This behavior can be observed when using a drive path without a backslash. For
+example, <code>path.resolve('C:\\')</code> can potentially return a different result than
+<code>path.resolve('C:')</code>. For more information, see
+<a href="https://docs.microsoft.com/en-us/windows/desktop/FileIO/naming-a-file#fully-qualified-vs-relative-paths">this MSDN page</a>.</p>
+<h2><code>path.basename(path[, suffix])</code></h2>
+<ul>
+<li><code>path</code> {string}</li>
+<li><code>suffix</code> {string} An optional suffix to remove</li>
+<li>Returns: {string}</li>
+</ul>
+<p>The <code>path.basename()</code> method returns the last portion of a <code>path</code>, similar to
+the Unix <code>basename</code> command. Trailing <a href="#pathsep">directory separators</a> are
+ignored.</p>
+<pre><code class="language-js">path.basename('/foo/bar/baz/asdf/quux.html');
+// Returns: 'quux.html'
+
+path.basename('/foo/bar/baz/asdf/quux.html', '.html');
+// Returns: 'quux'
+</code></pre>
+<p>Although Windows usually treats file names, including file extensions, in a
+case-insensitive manner, this function does not. For example, <code>C:\\foo.html</code> and
+<code>C:\\foo.HTML</code> refer to the same file, but <code>basename</code> treats the extension as a
+case-sensitive string:</p>
+<pre><code class="language-js">path.win32.basename('C:\\foo.html', '.html');
+// Returns: 'foo'
+
+path.win32.basename('C:\\foo.HTML', '.html');
+// Returns: 'foo.HTML'
+</code></pre>
+<p>A <a href="errors.md#class-typeerror"><code>TypeError</code></a> is thrown if <code>path</code> is not a string or if <code>suffix</code> is given
+and is not a string.</p>
+<h2><code>path.delimiter</code></h2>
+<ul>
+<li>Type: {string}</li>
+</ul>
+<p>Provides the platform-specific path delimiter:</p>
+<ul>
+<li><code>;</code> for Windows</li>
+<li><code>:</code> for POSIX</li>
+</ul>
+<p>For example, on POSIX:</p>
+<pre><code class="language-js">console.log(process.env.PATH);
+// Prints: '/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin'
+
+process.env.PATH.split(path.delimiter);
+// Returns: ['/usr/bin', '/bin', '/usr/sbin', '/sbin', '/usr/local/bin']
+</code></pre>
+<p>On Windows:</p>
+<pre><code class="language-js">console.log(process.env.PATH);
+// Prints: 'C:\Windows\system32;C:\Windows;C:\Program Files\node\'
+
+process.env.PATH.split(path.delimiter);
+// Returns ['C:\\Windows\\system32', 'C:\\Windows', 'C:\\Program Files\\node\\']
+</code></pre>
+<h2><code>path.dirname(path)</code></h2>
+<ul>
+<li><code>path</code> {string}</li>
+<li>Returns: {string}</li>
+</ul>
+<p>The <code>path.dirname()</code> method returns the directory name of a <code>path</code>, similar to
+the Unix <code>dirname</code> command. Trailing directory separators are ignored, see
+<a href="#pathsep"><code>path.sep</code></a>.</p>
+<pre><code class="language-js">path.dirname('/foo/bar/baz/asdf/quux');
+// Returns: '/foo/bar/baz/asdf'
+</code></pre>
+<p>A <a href="errors.md#class-typeerror"><code>TypeError</code></a> is thrown if <code>path</code> is not a string.</p>
+<h2><code>path.extname(path)</code></h2>
+<ul>
+<li><code>path</code> {string}</li>
+<li>Returns: {string}</li>
+</ul>
+<p>The <code>path.extname()</code> method returns the extension of the <code>path</code>, from the last
+occurrence of the <code>.</code> (period) character to end of string in the last portion of
+the <code>path</code>. If there is no <code>.</code> in the last portion of the <code>path</code>, or if
+there are no <code>.</code> characters other than the first character of
+the basename of <code>path</code> (see <code>path.basename()</code>) , an empty string is returned.</p>
+<pre><code class="language-js">path.extname('index.html');
+// Returns: '.html'
+
+path.extname('index.coffee.md');
+// Returns: '.md'
+
+path.extname('index.');
+// Returns: '.'
+
+path.extname('index');
+// Returns: ''
+
+path.extname('.index');
+// Returns: ''
+
+path.extname('.index.md');
+// Returns: '.md'
+</code></pre>
+<p>A <a href="errors.md#class-typeerror"><code>TypeError</code></a> is thrown if <code>path</code> is not a string.</p>
+<h2><code>path.format(pathObject)</code></h2>
+<ul>
+<li><code>pathObject</code> {Object} Any JavaScript object having the following properties:
+<ul>
+<li><code>dir</code> {string}</li>
+<li><code>root</code> {string}</li>
+<li><code>base</code> {string}</li>
+<li><code>name</code> {string}</li>
+<li><code>ext</code> {string}</li>
+</ul>
+</li>
+<li>Returns: {string}</li>
+</ul>
+<p>The <code>path.format()</code> method returns a path string from an object. This is the
+opposite of <a href="#pathparsepath"><code>path.parse()</code></a>.</p>
+<p>When providing properties to the <code>pathObject</code> remember that there are
+combinations where one property has priority over another:</p>
+<ul>
+<li><code>pathObject.root</code> is ignored if <code>pathObject.dir</code> is provided</li>
+<li><code>pathObject.ext</code> and <code>pathObject.name</code> are ignored if <code>pathObject.base</code> exists</li>
+</ul>
+<p>For example, on POSIX:</p>
+<pre><code class="language-js">// If `dir`, `root` and `base` are provided,
+// `${dir}${path.sep}${base}`
+// will be returned. `root` is ignored.
+path.format({
+  root: '/ignored',
+  dir: '/home/user/dir',
+  base: 'file.txt',
+});
+// Returns: '/home/user/dir/file.txt'
+
+// `root` will be used if `dir` is not specified.
+// If only `root` is provided or `dir` is equal to `root` then the
+// platform separator will not be included. `ext` will be ignored.
+path.format({
+  root: '/',
+  base: 'file.txt',
+  ext: 'ignored',
+});
+// Returns: '/file.txt'
+
+// `name` + `ext` will be used if `base` is not specified.
+path.format({
+  root: '/',
+  name: 'file',
+  ext: '.txt',
+});
+// Returns: '/file.txt'
+
+// The dot will be added if it is not specified in `ext`.
+path.format({
+  root: '/',
+  name: 'file',
+  ext: 'txt',
+});
+// Returns: '/file.txt'
+</code></pre>
+<p>On Windows:</p>
+<pre><code class="language-js">path.format({
+  dir: 'C:\\path\\dir',
+  base: 'file.txt',
+});
+// Returns: 'C:\\path\\dir\\file.txt'
+</code></pre>
+<h2><code>path.matchesGlob(path, pattern)</code></h2>
+<ul>
+<li><code>path</code> {string} The path to glob-match against.</li>
+<li><code>pattern</code> {string} The glob to check the path against.</li>
+<li>Returns: {boolean} Whether or not the <code>path</code> matched the <code>pattern</code>.</li>
+</ul>
+<p>The <code>path.matchesGlob()</code> method determines if <code>path</code> matches the <code>pattern</code>.
+See <a href="fs.md#glob-patterns">Glob patterns</a> for the syntax <code>pattern</code> accepts.</p>
+<p>For example:</p>
+<pre><code class="language-js">path.matchesGlob('/foo/bar', '/foo/*'); // true
+path.matchesGlob('/foo/bar*', 'foo/bird'); // false
+</code></pre>
+<p>A <a href="errors.md#class-typeerror"><code>TypeError</code></a> is thrown if <code>path</code> or <code>pattern</code> are not strings.</p>
+<h2><code>path.isAbsolute(path)</code></h2>
+<ul>
+<li><code>path</code> {string}</li>
+<li>Returns: {boolean}</li>
+</ul>
+<p>The <code>path.isAbsolute()</code> method determines if the literal <code>path</code> is absolute.
+Therefore, it’s not safe for mitigating path traversals.</p>
+<p>If the given <code>path</code> is a zero-length string, <code>false</code> will be returned.</p>
+<p>For example, on POSIX:</p>
+<pre><code class="language-js">path.isAbsolute('/foo/bar');   // true
+path.isAbsolute('/baz/..');    // true
+path.isAbsolute('/baz/../..'); // true
+path.isAbsolute('qux/');       // false
+path.isAbsolute('.');          // false
+</code></pre>
+<p>On Windows:</p>
+<pre><code class="language-js">path.isAbsolute('//server');    // true
+path.isAbsolute('\\\\server');  // true
+path.isAbsolute('C:/foo/..');   // true
+path.isAbsolute('C:\\foo\\..'); // true
+path.isAbsolute('bar\\baz');    // false
+path.isAbsolute('bar/baz');     // false
+path.isAbsolute('.');           // false
+</code></pre>
+<p>A <a href="errors.md#class-typeerror"><code>TypeError</code></a> is thrown if <code>path</code> is not a string.</p>
+<h2><code>path.join([...paths])</code></h2>
+<ul>
+<li><code>...paths</code> {string} A sequence of path segments</li>
+<li>Returns: {string}</li>
+</ul>
+<p>The <code>path.join()</code> method joins all given <code>path</code> segments together using the
+platform-specific separator as a delimiter, then normalizes the resulting path.</p>
+<p>Zero-length <code>path</code> segments are ignored. If the joined path string is a
+zero-length string then <code>'.'</code> will be returned, representing the current
+working directory.</p>
+<pre><code class="language-js">path.join('/foo', 'bar', 'baz/asdf', 'quux', '..');
+// Returns: '/foo/bar/baz/asdf'
+
+path.join('foo', {}, 'bar');
+// Throws 'TypeError: Path must be a string. Received {}'
+</code></pre>
+<p>A <a href="errors.md#class-typeerror"><code>TypeError</code></a> is thrown if any of the path segments is not a string.</p>
+<h2><code>path.normalize(path)</code></h2>
+<ul>
+<li><code>path</code> {string}</li>
+<li>Returns: {string}</li>
+</ul>
+<p>The <code>path.normalize()</code> method normalizes the given <code>path</code>, resolving <code>'..'</code> and
+<code>'.'</code> segments.</p>
+<p>When multiple, sequential path segment separation characters are found (e.g.
+<code>/</code> on POSIX and either <code>\</code> or <code>/</code> on Windows), they are replaced by a single
+instance of the platform-specific path segment separator (<code>/</code> on POSIX and
+<code>\</code> on Windows). Trailing separators are preserved.</p>
+<p>If the <code>path</code> is a zero-length string, <code>'.'</code> is returned, representing the
+current working directory.</p>
+<p>On POSIX, the types of normalization applied by this function do not strictly
+adhere to the POSIX specification. For example, this function will replace two
+leading forward slashes with a single slash as if it was a regular absolute
+path, whereas a few POSIX systems assign special meaning to paths beginning with
+exactly two forward slashes. Similarly, other substitutions performed by this
+function, such as removing <code>..</code> segments, may change how the underlying system
+resolves the path.</p>
+<p>For example, on POSIX:</p>
+<pre><code class="language-js">path.normalize('/foo/bar//baz/asdf/quux/..');
+// Returns: '/foo/bar/baz/asdf'
+</code></pre>
+<p>On Windows:</p>
+<pre><code class="language-js">path.normalize('C:\\temp\\\\foo\\bar\\..\\');
+// Returns: 'C:\\temp\\foo\\'
+</code></pre>
+<p>Since Windows recognizes multiple path separators, both separators will be
+replaced by instances of the Windows preferred separator (<code>\</code>):</p>
+<pre><code class="language-js">path.win32.normalize('C:////temp\\\\/\\/\\/foo/bar');
+// Returns: 'C:\\temp\\foo\\bar'
+</code></pre>
+<p>A <a href="errors.md#class-typeerror"><code>TypeError</code></a> is thrown if <code>path</code> is not a string.</p>
+<h2><code>path.parse(path)</code></h2>
+<ul>
+<li><code>path</code> {string}</li>
+<li>Returns: {Object}</li>
+</ul>
+<p>The <code>path.parse()</code> method returns an object whose properties represent
+significant elements of the <code>path</code>. Trailing directory separators are ignored,
+see <a href="#pathsep"><code>path.sep</code></a>.</p>
+<p>The returned object will have the following properties:</p>
+<ul>
+<li><code>dir</code> {string}</li>
+<li><code>root</code> {string}</li>
+<li><code>base</code> {string}</li>
+<li><code>name</code> {string}</li>
+<li><code>ext</code> {string}</li>
+</ul>
+<p>For example, on POSIX:</p>
+<pre><code class="language-js">path.parse('/home/user/dir/file.txt');
+// Returns:
+// { root: '/',
+//   dir: '/home/user/dir',
+//   base: 'file.txt',
+//   ext: '.txt',
+//   name: 'file' }
+</code></pre>
+<pre><code class="language-text">┌─────────────────────┬────────────┐
+│          dir        │    base    │
+├──────┬              ├──────┬─────┤
+│ root │              │ name │ ext │
+&quot;  /    home/user/dir / file  .txt &quot;
+└──────┴──────────────┴──────┴─────┘
+(All spaces in the &quot;&quot; line should be ignored. They are purely for formatting.)
+</code></pre>
+<p>On Windows:</p>
+<pre><code class="language-js">path.parse('C:\\path\\dir\\file.txt');
+// Returns:
+// { root: 'C:\\',
+//   dir: 'C:\\path\\dir',
+//   base: 'file.txt',
+//   ext: '.txt',
+//   name: 'file' }
+</code></pre>
+<pre><code class="language-text">┌─────────────────────┬────────────┐
+│          dir        │    base    │
+├──────┬              ├──────┬─────┤
+│ root │              │ name │ ext │
+&quot; C:\      path\dir   \ file  .txt &quot;
+└──────┴──────────────┴──────┴─────┘
+(All spaces in the &quot;&quot; line should be ignored. They are purely for formatting.)
+</code></pre>
+<p>A <a href="errors.md#class-typeerror"><code>TypeError</code></a> is thrown if <code>path</code> is not a string.</p>
+<h2><code>path.posix</code></h2>
+<ul>
+<li>Type: {Object}</li>
+</ul>
+<p>The <code>path.posix</code> property provides access to POSIX specific implementations
+of the <code>path</code> methods.</p>
+<p>The API is accessible via <code>require('node:path').posix</code> or <code>require('node:path/posix')</code>.</p>
+<h2><code>path.relative(from, to)</code></h2>
+<ul>
+<li><code>from</code> {string}</li>
+<li><code>to</code> {string}</li>
+<li>Returns: {string}</li>
+</ul>
+<p>The <code>path.relative()</code> method returns the relative path from <code>from</code> to <code>to</code> based
+on the current working directory. If <code>from</code> and <code>to</code> each resolve to the same
+path (after calling <code>path.resolve()</code> on each), a zero-length string is returned.</p>
+<p>If a zero-length string is passed as <code>from</code> or <code>to</code>, the current working
+directory will be used instead of the zero-length strings.</p>
+<p>For example, on POSIX:</p>
+<pre><code class="language-js">path.relative('/data/orandea/test/aaa', '/data/orandea/impl/bbb');
+// Returns: '../../impl/bbb'
+</code></pre>
+<p>On Windows:</p>
+<pre><code class="language-js">path.relative('C:\\orandea\\test\\aaa', 'C:\\orandea\\impl\\bbb');
+// Returns: '..\\..\\impl\\bbb'
+</code></pre>
+<p>A <a href="errors.md#class-typeerror"><code>TypeError</code></a> is thrown if either <code>from</code> or <code>to</code> is not a string.</p>
+<h2><code>path.resolve([...paths])</code></h2>
+<ul>
+<li><code>...paths</code> {string} A sequence of paths or path segments</li>
+<li>Returns: {string}</li>
+</ul>
+<p>The <code>path.resolve()</code> method resolves a sequence of paths or path segments into
+an absolute path.</p>
+<p>The given sequence of paths is processed from right to left, with each
+subsequent <code>path</code> prepended until an absolute path is constructed.
+For instance, given the sequence of path segments: <code>/foo</code>, <code>/bar</code>, <code>baz</code>,
+calling <code>path.resolve('/foo', '/bar', 'baz')</code> would return <code>/bar/baz</code>
+because <code>'baz'</code> is not an absolute path but <code>'/bar' + '/' + 'baz'</code> is.</p>
+<p>If, after processing all given <code>path</code> segments, an absolute path has not yet
+been generated, the current working directory is used.</p>
+<p>The resulting path is normalized and trailing slashes are removed unless the
+path is resolved to the root directory.</p>
+<p>Zero-length <code>path</code> segments are ignored.</p>
+<p>If no <code>path</code> segments are passed, <code>path.resolve()</code> will return the absolute path
+of the current working directory.</p>
+<pre><code class="language-js">path.resolve('/foo/bar', './baz');
+// Returns: '/foo/bar/baz'
+
+path.resolve('/foo/bar', '/tmp/file/');
+// Returns: '/tmp/file'
+
+path.resolve('wwwroot', 'static_files/png/', '../gif/image.gif');
+// If the current working directory is /home/myself/node,
+// this returns '/home/myself/node/wwwroot/static_files/gif/image.gif'
+</code></pre>
+<p>A <a href="errors.md#class-typeerror"><code>TypeError</code></a> is thrown if any of the arguments is not a string.</p>
+<h2><code>path.sep</code></h2>
+<ul>
+<li>Type: {string}</li>
+</ul>
+<p>Provides the platform-specific path segment separator:</p>
+<ul>
+<li><code>\</code> on Windows</li>
+<li><code>/</code> on POSIX</li>
+</ul>
+<p>For example, on POSIX:</p>
+<pre><code class="language-js">'foo/bar/baz'.split(path.sep);
+// Returns: ['foo', 'bar', 'baz']
+</code></pre>
+<p>On Windows:</p>
+<pre><code class="language-js">'foo\\bar\\baz'.split(path.sep);
+// Returns: ['foo', 'bar', 'baz']
+</code></pre>
+<p>On Windows, both the forward slash (<code>/</code>) and backward slash (<code>\</code>) are accepted
+as path segment separators; however, the <code>path</code> methods only add backward
+slashes (<code>\</code>).</p>
+<h2><code>path.toNamespacedPath(path)</code></h2>
+<ul>
+<li><code>path</code> {string}</li>
+<li>Returns: {string}</li>
+</ul>
+<p>On Windows systems only, returns an equivalent <a href="https://docs.microsoft.com/en-us/windows/desktop/FileIO/naming-a-file#namespaces">namespace-prefixed path</a> for
+the given <code>path</code>. If <code>path</code> is not a string, <code>path</code> will be returned without
+modifications.</p>
+<p>This method is meaningful only on Windows systems. On POSIX systems, the
+method is non-operational and always returns <code>path</code> without modifications.</p>
+<h2><code>path.win32</code></h2>
+<ul>
+<li>Type: {Object}</li>
+</ul>
+<p>The <code>path.win32</code> property provides access to Windows-specific implementations
+of the <code>path</code> methods.</p>
+<p>The API is accessible via <code>require('node:path').win32</code> or <code>require('node:path/win32')</code>.</p>
